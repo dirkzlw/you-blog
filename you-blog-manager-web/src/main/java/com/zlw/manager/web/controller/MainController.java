@@ -24,8 +24,8 @@ public class MainController {
     public String toIndex(HttpServletRequest request){
 
         //判断是否登录，未登录则重定向至登录
-        Admin admin = (Admin) request.getSession().getAttribute("admin");
-        if(null == admin){
+        String username = (String) request.getSession().getAttribute("username");
+        if(null == username){
             return "redirect:/to/login";
         }
 

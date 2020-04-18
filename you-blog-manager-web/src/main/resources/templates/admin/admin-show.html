@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8">
         <title>
@@ -28,7 +29,7 @@
                 <tbody>
                   <tr>
                     <th  width="80">用户名：</th>
-                    <td>admin</td>
+                    <td th:text="${session.username}"></td>
                       <td>
                           <a style="text-decoration:none" href="javascript:;" title="修改用户名" onclick="editUsername()">
                               <i class="layui-icon layui-icon-edit">修改</i>
@@ -37,10 +38,10 @@
                   </tr>
                   <tr>
                     <th>密码：</th>
-                    <td>111111111111</td>
+                    <td>******</td>
                       <td>
                           <a style="text-decoration:none" href="javascript:;" title="修改密码">
-                              <i class="layui-icon layui-icon-edit">修改</i>
+                              <i class="layui-icon layui-icon-edit" onclick="resetPassword()">修改</i>
                           </a>
                       </td>
                   </tr>
@@ -60,7 +61,7 @@
             });
             //修改密码
             function resetPassword() {
-                parent.layer.open({
+                layer.open({
                     type: 1,
                     title: '修改密码',
                     area: ['300px', '180px'],
@@ -70,7 +71,7 @@
                         '新密码：&nbsp;&nbsp;&nbsp;<input type="password" id="newPassword" placeholder="请输入新密码"><br>' +
                         '确认密码：<input type="password" id="reNewPassword" placeholder="请再次输入新密码">' +
                         '</div>',
-                    yes: function (index, layero) {
+                    yes: function () {
                         //'确定'后回调
                         var oldPassword = $("#oldPassword").val();// 获取输入的退回原因
                         var newPassword = $("#newPassword").val();// 获取输入的退回原因
@@ -84,7 +85,7 @@
                         } else {
                             $.ajax({
                                 type: "POST",
-                                url: "/password/reset",
+                                url: "/admin/password/reset",
                                 data: {'oldPassword': oldPassword,'newPassword':newPassword},
                                 dataType: "text",
                                 success: function (json) {
@@ -97,9 +98,6 @@
                                         return true;
                                     } else if (json == "pwd_error") {
                                         layer.msg('原密码输入错误!', {icon: 5, time: 1000});
-                                        return
-                                    } else if (json == "no_reset") {
-                                        layer.msg('密码未修改!', {icon: 5, time: 1000});
                                         return
                                     } else {
                                         layer.msg('修改失败，请检查!', {icon: 5, time: 1000});
@@ -133,7 +131,6 @@
                             layer.msg('用户名不能为空!', {icon: 5, time: 1000});
                             return
                         } else {
-                            layer.msg('用户名不能为空!', {icon: 6, time: 1000});
                             $.ajax({
                                 type: "POST",
                                 url: "/admin/username/reset",
@@ -143,7 +140,7 @@
                                     if (json == "success") {
                                         layer.msg('用户名修改成功!', {icon: 6, time: 1000});
                                         //延迟1秒刷新界面
-                                        window.setTimeout(function (args) {
+                                        window.setTimeout(function () {
                                             self.location.reload()
                                         }, 1000);
                                         return true;

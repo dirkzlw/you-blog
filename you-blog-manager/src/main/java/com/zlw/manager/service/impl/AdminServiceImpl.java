@@ -21,6 +21,7 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 管理员登录
+     *
      * @param admin
      * @return
      */
@@ -28,12 +29,57 @@ public class AdminServiceImpl implements AdminService {
     public String login(Admin admin) {
 
         Admin one = adminRepository.findByUsername(admin.getUsername());
-        if(null == one){
+        if (null == one) {
             return "username_error";
-        }else if(!admin.getPassword().equals(encryptor.decrypt(one.getPassword()))){
+        } else if (!admin.getPassword().equals(encryptor.decrypt(one.getPassword()))) {
             return "password_error";
         }
 
         return "success";
     }
+
+    /**
+     * 修改管理员账户
+     *
+     * @param newUsername
+     * @return
+     */
+    @Override
+    public String resetUsername(String username, String newUsername) {
+
+        Admin one = adminRepository.findByUsername(username);
+        if (null == one) {
+            return "fail";
+        } else {
+            one.setUsername(newUsername);
+            adminRepository.save(one);
+        }
+
+        return "success";
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param username
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
+    @Override
+    public String resetPassword(String username, String oldPassword, String newPassword) {
+
+        Admin one = adminRepository.findByUsername(username);
+        if (null == one) {
+            return "fail";
+        } else if (!oldPassword.equals(encryptor.decrypt(one.getPassword()))) {
+            return "pwd_error";
+        }else {
+            one.setPassword(encryptor.encrypt(newPassword));
+            adminRepository.save(one);
+        }
+
+        return "success";
+    }
+
 }

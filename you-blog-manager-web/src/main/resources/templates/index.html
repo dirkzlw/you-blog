@@ -39,14 +39,14 @@
         <li class="layui-nav-item" id="time" style="margin-right: 50px;font-size: 20px;color: #2fb9d4;font-family: 'yjsz'"></li>
         <li class="layui-nav-item"><img src="/images/logo.png" class="layui-circle" style="border: 2px solid #A9B7B7;" width="35px" alt=""></li>
         <li class="layui-nav-item">
-          <a href="javascript:;" th:if="${session.admin} ne null" th:text="${session.admin.username}"></a>
+          <a href="javascript:;" th:text="${session.username}"></a>
           <dl class="layui-nav-child">
             <!-- 二级菜单 -->
             <dd><a href="javascript:;" onclick="member_show('个人信息','/admin-show','10001','360','280')">个人信息</a></dd>
-            <dd><a href="">切换帐号</a></dd>
-            <dd><a href="javascript:;" onclick="logout()">退出</a></dd>
+            <dd><a href="/logout">退出</a></dd>
           </dl>
         </li>
+        <li class="layui-nav-item x-index"><a href="#"></a></li>
       </ul>
     </div>
   </div>
@@ -196,27 +196,6 @@
         //以上模块根据需要引入
 
     });
-
-    function logout() {
-
-        $.ajax({
-            type:"post",
-            url:"",
-            data:{e:1},
-            dataType:"json",
-            success:function (data) {
-                if(data.status==1){
-                    layer.msg(data.info,{icon:1,time:1000});
-                    setTimeout("window.location.href='{:url('Login/login')}'",2000);return false;
-                    return false;
-                }else{
-                    layer.msg(data.info,{icon:5,time:2000});return false;
-                }
-            }
-
-        })
-        return false;
-    }
 
     function member_show(title,url,id,w,h){
       x_admin_show(title,url,w,h);
