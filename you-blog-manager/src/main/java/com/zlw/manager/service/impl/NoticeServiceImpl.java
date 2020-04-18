@@ -37,4 +37,39 @@ public class NoticeServiceImpl implements NoticeService {
     public List<Notice> findAllNotice() {
         return noticeRepository.findAll();
     }
+
+    /**
+     * 根据Id删除公告
+     * @param noticeId
+     * @return
+     */
+    @Override
+    public String delNoticeById(Integer noticeId) {
+
+        noticeRepository.deleteById(noticeId);
+
+        return "success";
+    }
+
+    /**
+     * 根据id获取公告
+     * @param noticeId
+     * @return
+     */
+    @Override
+    public Notice findNoticeById(Integer noticeId) {
+
+        return noticeRepository.findByNoticeId(noticeId);
+    }
+
+    /**
+     * 保存公告
+     * @param notice
+     * @return
+     */
+    @Override
+    public String saveNotice(Notice notice) {
+        noticeRepository.save(notice);
+        return "success";
+    }
 }

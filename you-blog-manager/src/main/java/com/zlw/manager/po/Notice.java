@@ -20,7 +20,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Notice implements Serializable {
+public class Notice implements Serializable{
 
     //公告ID
     @Id

@@ -11,4 +11,10 @@ public interface NoticeService {
     String addNotice(String info);
 
     List<Notice> findAllNotice();
+
+    String delNoticeById(Integer noticeId);
+
+    Notice findNoticeById(Integer noticeId);
+
+    String saveNotice(Notice notice);
 }

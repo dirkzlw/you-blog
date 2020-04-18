@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>
+        编辑公告
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/css/x-admin.css" media="all">
+</head>
+
+<body>
+<div class="x-body">
+    <div class="layui-form-item">
+        <label for="info" class="layui-form-label">
+            <span class="x-red">*</span>公告
+        </label>
+        <div class="layui-input-inline">
+            <input style="width: 300px" type="text" th:value="${notice.info}" id="info" placeholder="请输入公告内容" lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <input type="hidden" id="noticeId" th:value="${notice.noticeId}">
+        <button class="layui-btn" lay-filter="add" onclick="submitNotice()">
+            保存
+        </button>
+    </div>
+</div>
+<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/js/x-layui.js" charset="utf-8"></script>
+<script src="/js/jquery.min.js" charset="utf-8"></script>
+<script>
+    layui.use(['layer'], function () {
+        $ = layui.jquery;
+        var layer = layui.layer;
+    });
+
+    //提交公告
+    function submitNotice() {
+        var noticeId = $("#noticeId").val();
+        var info = $("#info").val().trim();
+        if (info == "") {
+            layer.msg('公告内容不能为空!', {icon: 5, time: 1000});
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/notice/edit",
+                data: {'noticeId': noticeId, 'info': info},
+                dataType: "text",
+                success: function (json) {
+                    if (json == "success") {
+                        layer.alert("编辑公告成功", {icon: 6}, function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            //刷新notice-list.html页面
+                            window.open("/notice-list", "_parent")
+                        });
+                        return;
+                    }
+                    if (json == "fail") {
+                        layer.msg('编辑失败，请检查网络!', {icon: 5, time: 1000});
+                        return
+                    }
+                },
+                error: function () {
+                    layer.msg('编辑失败，请检查网络!', {icon: 5, time: 1000});
+                    return;
+                }
+            });
+        }
+    }
+
+</script>
+
+</body>
+
+</html>

@@ -8,4 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date 2020-04-18 14:20
  */
 public interface NoticeRepository extends JpaRepository<Notice,Integer> {
+
+    Notice findByNoticeId(Integer noticeId);
+
 }

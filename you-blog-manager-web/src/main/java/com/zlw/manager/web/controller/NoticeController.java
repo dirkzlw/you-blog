@@ -57,4 +57,48 @@ public class NoticeController {
         }
     }
 
+    /**
+     * 删除公告
+     * @param noticeId
+     * @return
+     */
+    @PostMapping("/notice/del")
+    @ResponseBody
+    private String delNotice(Integer noticeId){
+        if(null == noticeId){
+            return "fail";
+        }else {
+            return noticeService.delNoticeById(noticeId);
+        }
+    }
+
+    /**
+     * 获取编辑公告页面
+     * @param noticeId
+     * @param model
+     * @return
+     */
+    @GetMapping("/notice-edit")
+    public String toNoticeEdit(Integer noticeId,Model model){
+        Notice notice = noticeService.findNoticeById(noticeId);
+        model.addAttribute("notice", notice);
+        return "notice/notice-edit";
+    }
+
+    /**
+     * 保存编辑后的公告
+     * @param notice
+     * @return
+     */
+    @PostMapping("/notice/edit")
+    @ResponseBody
+    public String editNotice(Notice notice){
+        if (null == notice.getNoticeId() || null == notice.getInfo()){
+            return "fail";
+        }else {
+            return noticeService.saveNotice(notice);
+        }
+    }
+
+
 }
