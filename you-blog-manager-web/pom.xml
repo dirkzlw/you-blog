@@ -46,6 +46,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--引入fastdfs的工具jar包-->
+        <dependency>
+            <groupId>fastdfs</groupId>
+            <artifactId>fastdfs</artifactId>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/fastdfs-client-java-1.27-SNAPSHOT.jar</systemPath>
+        </dependency>
 
     </dependencies>
 

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>
+            添加关注
+        </title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
+        <link rel="stylesheet" href="/css/x-admin.css" media="all">
+    </head>
+    
+    <body>
+        <div class="x-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>二维码
+                </label>
+                <div class="layui-input-inline">
+                    <div class="site-demo-upbar">
+                        <div class=" layui-upload-button" style="border:#FFFFFF ;">
+                            <button type="button" class="layui-btn" id="test1">
+                                <i class="layui-icon">&#xe67c;</i>上传图片
+                            </button>
+                            <input class="layui-upload" type="file" accept=".jpg,.jpeg,.bmp,.gif,.png" id="attentionImg" name="attentionImg" onchange="upload()">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item imgs">
+                <label  class="layui-form-label">示图
+                </label>
+                <img src="/images/logo.png" id="imgShow" style="width: 300px;height: 250px;"/>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <button  class="layui-btn" lay-filter="add" onclick="addAttention()">
+                    保存
+                </button>
+            </div>
+        </div>
+        <script src="/lib/layui/layui.js" charset="utf-8"></script>
+        <script src="/js/x-layui.js" charset="utf-8"></script>
+        <script src="/js/jquery.min.js" charset="utf-8"></script>
+        <script>
+            layui.use(['layer'], function(){
+                $ = layui.jquery;
+                var layer = layui.layer;
+            });
+
+            //展示样图
+            function upload() {
+                $("#imgShow").attr("src", URL.createObjectURL(document.getElementById("attentionImg").files[0]));
+            }
+
+            //添加关注
+            function addAttention() {
+                var attentionImg = document.getElementById("attentionImg").files[0];
+                if(typeof(attentionImg) == "undefined"){
+                    layer.msg('请选择关注配图!', {icon: 5, time: 1000});
+                    return;
+                }else {
+                    var formData = new FormData();
+                    formData.append("attentionImg", attentionImg)
+                    $.ajax({
+                        type: "POST",
+                        url: "/attention/add",
+                        data: formData,
+                        dataType: "text",
+                        processData: false,
+                        contentType: false,
+                        success: function (json) {
+                            if (json == "success") {
+                                layer.alert("添加关注成功", {icon: 6}, function () {
+                                    // 获得frame索引
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    //关闭当前frame
+                                    parent.layer.close(index);
+                                    //刷新device-list.html页面
+                                    window.open("/attention-list", "_parent")
+                                });
+                                return;
+                            } else {
+                                layer.msg('添加失败，请检查网络!', {icon: 5, time: 1000});
+                                return;
+                            }
+                        },
+                        error: function () {
+                            layer.msg('添加失败，请检查网络!', {icon: 5, time: 1000});
+                            return;
+                        }
+                    });
+                }
+            }
+
+        </script>
+        
+    </body>
+
+</html>

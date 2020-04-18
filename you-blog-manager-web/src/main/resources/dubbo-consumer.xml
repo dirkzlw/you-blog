@@ -13,4 +13,5 @@
     <!--引入服务-->
     <dubbo:reference interface="com.zlw.manager.service.NoticeService" id="noticeService"/>
     <dubbo:reference interface="com.zlw.manager.service.AdminService" id="adminService"/>
+    <dubbo:reference interface="com.zlw.manager.service.AttentionService" id="attentionService"/>
 </beans>
