@@ -66,10 +66,67 @@ public class AttentionController {
             if(null ==imgUrl || "".equals(imgUrl)){
                 return "fail";
             }
-            attentionService.addAttention(imgUrl);
+            attentionService.saveAttention(new Attention(imgUrl));
 
             return "success";
         }
     }
 
+    /**
+     * 删除关注
+     * @param attentionId
+     * @return
+     */
+    @PostMapping("/attention/del")
+    @ResponseBody
+    public String delAttention(Integer attentionId){
+
+        if(null == attentionId){
+            return "fail";
+        }else {
+            return attentionService.delAttenionById(attentionId);
+        }
+
+    }
+
+    /**
+     * 获取修改关注页面
+     * @param attentionId
+     * @return
+     */
+    @GetMapping("/attention-edit")
+    public String toAttentionEdit(Integer attentionId,Model model) {
+
+        Attention attention = attentionService.findAttentionById(attentionId);
+        model.addAttribute("attention", attention);
+
+        return "attention/attention-edit";
+
+    }
+
+    /**
+     * 修改关注
+     * @param attentionId
+     * @param attentionImg
+     * @return
+     */
+    @PostMapping("/attention/edit")
+    @ResponseBody
+    public String editAttention(Integer attentionId,MultipartFile attentionImg){
+        if(attentionImg == null || attentionId == null){
+            return "fail";
+        }else {
+
+            String imgUrl = FastDFSUtils.uploadFile(FDFS_CLIENT_PAHT, FDFS_ADDRESS, attentionImg);
+            if(null ==imgUrl || "".equals(imgUrl)){
+                return "fail";
+            }
+            Attention attention = new Attention(imgUrl);
+            attention.setAttentionId(attentionId);
+
+            attentionService.saveAttention(attention);
+
+            return "success";
+        }
+    }
 }

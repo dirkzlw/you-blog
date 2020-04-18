@@ -18,16 +18,6 @@ public class AttentionServiceImpl implements AttentionService {
     private AttentionRepository attentionRepository;
 
     /**
-     * 保存关注
-     * @param imgUrl
-     */
-    @Override
-    public void addAttention(String imgUrl) {
-        Attention attention = new Attention(imgUrl);
-        attentionRepository.save(attention);
-    }
-
-    /**
      * 返回关注
      * @return
      */
@@ -37,4 +27,36 @@ public class AttentionServiceImpl implements AttentionService {
         return attentionRepository.findAll();
 
     }
+
+    /**
+     * 根据id删除关注
+     * @param attentionId
+     * @return
+     */
+    @Override
+    public String delAttenionById(Integer attentionId) {
+        attentionRepository.deleteById(attentionId);
+
+        return "success";
+    }
+
+    /**
+     * 根据Id获取关注
+     * @param attentionId
+     * @return
+     */
+    @Override
+    public Attention findAttentionById(Integer attentionId) {
+        return attentionRepository.findByAttentionId(attentionId);
+    }
+
+    /**
+     * 保存关注对象
+     * @param attention
+     */
+    @Override
+    public void saveAttention(Attention attention) {
+        attentionRepository.save(attention);
+    }
+
 }

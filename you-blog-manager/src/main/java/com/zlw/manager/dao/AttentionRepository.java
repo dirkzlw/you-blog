@@ -8,4 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date 2020-04-18 19:58
  */
 public interface AttentionRepository extends JpaRepository<Attention,Integer> {
+
+    Attention findByAttentionId(Integer attentionId);
+
 }

@@ -8,7 +8,12 @@ import java.util.List;
  * @date 2020-04-18 19:58
  */
 public interface AttentionService {
-    void addAttention(String imgUrl);
 
     List<Attention> getAllAttention();
+
+    String delAttenionById(Integer attentionId);
+
+    Attention findAttentionById(Integer attentionId);
+
+    void saveAttention(Attention attention);
 }
