@@ -9,8 +9,4 @@ import org.springframework.stereotype.Service;
  */
 @Service(value = "noticeService")
 public class NoticeServiceImpl implements NoticeService {
-    @Override
-    public void test() {
-        System.out.println("Dubbo测试");
-    }
 }

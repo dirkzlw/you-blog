@@ -12,4 +12,5 @@
     <dubbo:registry address="zookeeper://39.107.249.220:2181" protocol="zookeeper"/>
     <!--引入服务-->
     <dubbo:reference interface="com.zlw.manager.service.NoticeService" id="noticeService"/>
+    <dubbo:reference interface="com.zlw.manager.service.AdminService" id="adminService"/>
 </beans>

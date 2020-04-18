@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>系统登录</title>
+  <link rel="stylesheet" href="/css/login.css">
+  <script type="text/javascript" src="/js/jquery.min.js"></script>
+  <script src="/lib/layui/layui.js" charset="utf-8"></script>
+</head>
+<body class="login-bg" onkeydown="keyLogin()">
+
+    <div class="login" style="margin-top: 150px">
+        <div class="message">友博网后台管理系统</div>
+        <div id="darkbannerwrap"></div>   
+        <input name="username" placeholder="用户名" id="username" type="text" lay-verify="required" class="layui-input" >
+        <hr class="hr15">
+        <input name="password" lay-verify="required" id="password" placeholder="密码"  type="password" class="layui-input">
+        <hr class="hr15">
+        <input value="登录" lay-submit lay-filter="login" id="keyBtn" style="width:100%;" type="submit" onclick="login()">
+        <hr class="hr20" >
+    </div>
+    <script type="text/javascript">
+        function keyLogin() {
+            if (event.keyCode == 13) { //回车键的键值为13
+                var toClick = document.getElementById("keyBtn");
+                toClick.click();  //调用登录按钮的登录事件
+            }
+        }
+    </script>
+    <script>
+        //添加弹出层
+        layui.use(['layer'], function () {
+            $ = layui.jquery;//jquery
+            layer = layui.layer;//弹出层
+
+        });
+
+        //登录
+        function login () {
+            var username = $("#username").val().trim();
+            var password = $("#password").val().trim();
+
+            if(username == "" || password == "") {
+                layer.msg('请完善信息!',{icon: 5,time:1000});
+                return false;
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/login",
+                    data: {'username': username, 'password': password},
+                    dataType: "text",
+                    success: function (json) {
+                        if (json == "success") {
+                            window.open("/", "_self");
+                            return;
+                        }else if (json =="username_error") {
+                            layer.msg('用户名错误!',{icon: 5,time:1000});
+                            return
+                        }else if (json =="password_error") {
+                            layer.msg('密码错误!',{icon: 5,time:1000});
+                            return
+                        }
+                    },
+                    error: function () {
+                        layer.msg('登录失败，请检查网络!',{icon: 5,time:1000});
+                        return;
+                    }
+                });
+            }
+        }
+
+    </script>
+
+</body>
+</html>
