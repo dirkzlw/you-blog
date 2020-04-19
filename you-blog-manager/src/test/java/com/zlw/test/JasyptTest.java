@@ -1,6 +1,7 @@
 package com.zlw.test;
 
 import com.zlw.manager.ManagerApplication;
+import com.zlw.manager.service.UserService;
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,11 +19,12 @@ public class JasyptTest {
 
     @Autowired
     private StringEncryptor encryptor;
+    @Autowired
+    private UserService userService;
 
     @Test
     public void testJasypt(){
-        System.out.println(encryptor.encrypt("root"));
-        System.out.println(encryptor.encrypt("aliroot"));
+        System.out.println(encryptor.encrypt("123456"));
     }
 
 }

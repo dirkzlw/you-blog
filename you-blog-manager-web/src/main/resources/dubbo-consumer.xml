@@ -16,5 +16,6 @@
     <dubbo:reference interface="com.zlw.manager.service.AttentionService" id="attentionService"/>
     <dubbo:reference interface="com.zlw.manager.service.StaffService" id="staffService"/>
     <dubbo:reference interface="com.zlw.manager.service.TagService" id="tagService"/>
+    <dubbo:reference interface="com.zlw.manager.service.UserService" id="userService"/>
 
 </beans>

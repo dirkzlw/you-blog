@@ -2,15 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>you-blog-parent</artifactId>
-        <groupId>com.zlw.parent</groupId>
-        <version>0.1</version>
-        <relativePath>../you-blog-parent/pom.xml</relativePath>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zlw.common</groupId>
     <artifactId>you-blog-common</artifactId>
+    <version>0.1</version>
+
+    <!-- 获取中文名字的拼音 -->
+    <dependencies>
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+    </dependencies>
 
 </project>

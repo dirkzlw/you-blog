@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        添加用户
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/css/x-admin.css" media="all">
+</head>
+
+<body>
+<div class="x-body">
+    <div class="layui-form-item">
+        <label for="staffNo" class="layui-form-label">
+            <span class="x-red">*</span>工号
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="staffNo" name="staffNo" required="" lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            <span class="x-red">*</span>请输入未分配账户的工号
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="email" class="layui-form-label">
+            <span class="x-red">*</span>邮箱
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="email" name="email" required="" lay-verify="email"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            <span class="x-red">*</span>用户忘记密码时找回密码
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <button class="layui-btn" lay-filter="add" onclick="addUser()">
+            保存
+        </button>
+    </div>
+</div>
+<script src="/lib/layui/layui.js" charset="utf-8">
+</script>
+<script src="/js/x-layui.js" charset="utf-8">
+</script>
+<script>
+    layui.use(['form', 'layer'], function () {
+        $ = layui.jquery;
+        var layer = layui.layer;
+    });
+
+    //添加用户
+    function addUser() {
+        var staffNo = $("#staffNo").val().trim();
+        var email = $("#email").val().trim();
+        if (staffNo == "" || email == "") {
+            layer.msg('请完善不能为空!', {icon: 5, time: 1000});
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/user/add",
+                data: {'staffNo': staffNo, 'email': email},
+                dataType: "text",
+                success: function (json) {
+                    if (json == "success") {
+                        layer.alert("添加用户成功", {icon: 6}, function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            //刷新device-list.html页面
+                            window.open("/user-list", "_parent")
+                        });
+                        return;
+                    }else if (json == "no_staff") {
+                        layer.msg('此工号不存在!', {icon: 5, time: 1000});
+                        return
+                    }else if (json == "exist_user") {
+                        layer.msg('此工号已分配!', {icon: 5, time: 1000});
+                        return
+                    }else if (json == "exist_email") {
+                        layer.msg('邮箱已存在!', {icon: 5, time: 1000});
+                        return
+                    }else if (json == "fail") {
+                        layer.msg('添加失败，请检查网络!', {icon: 5, time: 1000});
+                        return
+                    }
+                },
+                error: function () {
+                    layer.msg('添加失败，请检查网络!', {icon: 5, time: 1000});
+                    return;
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+
+</html>

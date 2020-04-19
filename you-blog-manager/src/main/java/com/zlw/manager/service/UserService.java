@@ -1,0 +1,19 @@
+package com.zlw.manager.service;
+
+import com.zlw.manager.po.Staff;
+import com.zlw.manager.po.User;
+
+/**
+ * @author Dirk
+ * @date 2020-04-19 16:30
+ */
+public interface UserService {
+
+    void saveUser(User user);
+
+    User findUserByUsername(String username);
+
+    User findUserByEmail(String email);
+
+    void addUser(Staff staff, String email);
+}

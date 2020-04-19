@@ -70,6 +70,12 @@
             <artifactId>jasypt-spring-boot-starter</artifactId>
             <version>1.18</version>
         </dependency>
+        <!--引入common工具模块-->
+        <dependency>
+            <groupId>com.zlw.common</groupId>
+            <artifactId>you-blog-common</artifactId>
+            <version>0.1</version>
+        </dependency>
     </dependencies>
 
 </project>
