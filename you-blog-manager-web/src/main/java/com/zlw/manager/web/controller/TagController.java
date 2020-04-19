@@ -58,4 +58,49 @@ public class TagController {
         }
     }
 
+    /**
+     * 删除标签
+     * @param tagId
+     * @return
+     */
+    @PostMapping("/tag/del")
+    @ResponseBody
+    public String delTag(Integer tagId) {
+        if (null == tagId) {
+            return "fail";
+        }else {
+            tagService.deeTagById(tagId);
+            return "success";
+        }
+    }
+
+    /**
+     * 获取编辑标签页面
+     * @param tagId
+     * @param model
+     * @return
+     */
+    @GetMapping("/tag-edit")
+    public String toTagEdit(Integer tagId,Model model) {
+        Tag tag = tagService.findTagById(tagId);
+        model.addAttribute("tag", tag);
+        return "tag/tag-edit";
+    }
+
+    /**
+     * 保存编辑的标签
+     * @param tag
+     * @return
+     */
+    @PostMapping("/tag/edit")
+    @ResponseBody
+    public String editTag(Tag tag) {
+        if (tag.getTagId() == null || tag.getType() == null) {
+            return "fail";
+        }else {
+            tagService.saveTag(tag);
+            return "success";
+        }
+    }
+
 }

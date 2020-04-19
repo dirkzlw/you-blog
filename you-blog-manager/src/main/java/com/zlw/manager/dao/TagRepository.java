@@ -8,4 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date 2020-04-19 10:52
  */
 public interface TagRepository extends JpaRepository<Tag,Integer> {
+
+    Tag findByTagId(Integer tagId);
+
 }

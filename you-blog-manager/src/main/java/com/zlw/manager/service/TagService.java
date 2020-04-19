@@ -12,4 +12,8 @@ public interface TagService {
     void saveTag(Tag tag);
 
     List<Tag> findAllTag();
+
+    void deeTagById(Integer tagId);
+
+    Tag findTagById(Integer tageId);
 }

@@ -34,4 +34,23 @@ public class TagServiceImpl implements TagService {
     public List<Tag> findAllTag() {
         return tagRepository.findAll();
     }
+
+    /**
+     * 根据id删除标签
+     * @param tagId
+     */
+    @Override
+    public void deeTagById(Integer tagId) {
+        tagRepository.deleteById(tagId);
+    }
+
+    /**
+     * 根据id查询标签
+     * @param tageId
+     * @return
+     */
+    @Override
+    public Tag findTagById(Integer tageId) {
+        return tagRepository.findByTagId(tageId);
+    }
 }
