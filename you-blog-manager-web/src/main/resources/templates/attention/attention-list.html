@@ -62,9 +62,11 @@
 <script src="/lib/layui/layui.js" charset="utf-8"></script>
 <script src="/js/x-layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['layer'], function(){
+    layui.use(['element','layer'], function(){
         $ = layui.jquery;//jquery
-        var layer = layui.layer;//弹出层
+        lement = layui.element();//面包导航
+        layer = layui.layer;//弹出层
+
     });
 
     /*关注-添加*/
