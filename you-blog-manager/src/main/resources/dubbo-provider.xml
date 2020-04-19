@@ -16,4 +16,5 @@
     <dubbo:service interface="com.zlw.manager.service.NoticeService" ref="noticeService" timeout="10000"/>
     <dubbo:service interface="com.zlw.manager.service.AdminService" ref="adminService" timeout="10000"/>
     <dubbo:service interface="com.zlw.manager.service.AttentionService" ref="attentionService" timeout="10000"/>
+    <dubbo:service interface="com.zlw.manager.service.StaffService" ref="staffService" timeout="10000"/>
 </beans>
