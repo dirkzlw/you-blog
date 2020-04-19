@@ -1,10 +1,12 @@
 package com.zlw.manager.service.impl;
 
 import com.zlw.common.utils.StringUtils;
+import com.zlw.common.vo.Page;
 import com.zlw.manager.dao.UserRepository;
 import com.zlw.manager.po.Staff;
 import com.zlw.manager.po.User;
 import com.zlw.manager.service.UserService;
+import java.util.List;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +27,8 @@ public class UserServiceImpl implements UserService {
     private String USER_INIT_PASSWORD;
     @Value("${user.init.headImgUrl}")
     private String USER_INIT_HEADIMGURL;
+    @Value("${page.size}")
+    private Integer PAGE_SIZE;
 
     /**
      * 保存用户
@@ -72,6 +76,24 @@ public class UserServiceImpl implements UserService {
         User user = new User(username, password, email, USER_INIT_HEADIMGURL, staff);
         userRepository.save(user);
 
+    }
+
+    /**
+     * 分页查询可用用户
+     *
+     * @param page
+     * @param search
+     * @return
+     */
+    @Override
+    public Page<User> findUserByStatusAndSearchAndPage(Integer status, String search, Integer page) {
+
+        List<User> userList = userRepository.findUserByStatusAndSearchAndPage(status, search, page * PAGE_SIZE, PAGE_SIZE);
+        int totalElements = userRepository.countUserByStatusAndSearch(status,search);
+        int totalPages = totalElements / PAGE_SIZE + 1;
+        Page<User> userPage = new Page<>(userList, page, totalPages, totalElements);
+
+        return userPage;
     }
 
 }

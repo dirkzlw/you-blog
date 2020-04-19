@@ -1,12 +1,16 @@
 package com.zlw.manager.web;
 
+import com.zlw.common.vo.Page;
 import com.zlw.manager.po.Staff;
+import com.zlw.manager.po.User;
 import com.zlw.manager.service.StaffService;
 import com.zlw.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -27,7 +31,14 @@ public class UserController {
      * @return
      */
     @GetMapping("/user-list")
-    public String toUserList() {
+    public String toUserList(@RequestParam(required = false, defaultValue = "") String search,
+                             @RequestParam(required = false, defaultValue = "0") Integer page,
+                             Model model) {
+
+        Page<User> userPage = userService.findUserByStatusAndSearchAndPage(1, search, page);
+        model.addAttribute("userPage", userPage);
+        model.addAttribute("search", search);
+
         return "user/user-list";
     }
 
@@ -65,7 +76,7 @@ public class UserController {
                 //判断邮箱是否已存在
                 return "exist_email";
             }
-            userService.addUser(staff,email);
+            userService.addUser(staff, email);
             return "success";
         }
     }

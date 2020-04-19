@@ -20,7 +20,6 @@ import lombok.ToString;
 @Table(name = "t_staff")
 @Getter
 @Setter
-@ToString
 public class Staff implements Serializable {
 
     //员工ID
@@ -47,5 +46,15 @@ public class Staff implements Serializable {
         this.staffNo = staffNo;
         this.realname = realname;
         this.department = department;
+    }
+
+    @Override
+    public String toString() {
+        return "Staff{" +
+                "staffId=" + staffId +
+                ", staffNo='" + staffNo + '\'' +
+                ", realname='" + realname + '\'' +
+                ", department='" + department + '\'' +
+                '}';
     }
 }
