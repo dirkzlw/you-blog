@@ -118,4 +118,14 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    /**
+     * 根据id查询用户
+     * @param userId
+     * @return
+     */
+    @Override
+    public User findUserById(Integer userId) {
+        return userRepository.findByUserId(userId);
+    }
+
 }

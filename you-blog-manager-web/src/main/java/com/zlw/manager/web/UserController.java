@@ -84,6 +84,7 @@ public class UserController {
 
     /**
      * 禁用用户
+     *
      * @param userId
      * @return
      */
@@ -92,7 +93,7 @@ public class UserController {
     public String noUser(Integer userId) {
         if (null == userId) {
             return "fail";
-        }else {
+        } else {
             userService.noUser(userId);
             return "success";
         }
@@ -100,6 +101,7 @@ public class UserController {
 
     /**
      * 启用用户
+     *
      * @param userId
      * @return
      */
@@ -108,8 +110,48 @@ public class UserController {
     public String yesUser(Integer userId) {
         if (null == userId) {
             return "fail";
-        }else {
+        } else {
             userService.yesUser(userId);
+            return "success";
+        }
+    }
+
+    /**
+     * 获取编辑用户界面
+     * @param userId
+     * @param model
+     * @return
+     */
+    @GetMapping("/user-edit")
+    public String toUserEdit(Integer userId, Model model) {
+        User user = userService.findUserById(userId);
+        model.addAttribute("user", user);
+        return "user/user-edit";
+    }
+
+    /**
+     * 编辑用户
+     * @param userId
+     * @param email
+     * @return
+     */
+    @PostMapping("/user/edit")
+    @ResponseBody
+    public String editUser(Integer userId,String email){
+        if (null == userId || null == email) {
+            return "fail";
+        } else {
+            User userByEmail = userService.findUserByEmail(email);
+            if (null != userByEmail && userId != userByEmail.getUserId()){
+                //判断邮箱是否已存在
+                return "exist_email";
+            }else if( null != userByEmail && userId == userByEmail.getUserId()){
+                //没有修改信息
+                return "no_reset";
+            }
+            User user = userService.findUserById(userId);
+            user.setEmail(email);
+            userService.saveUser(user);
             return "success";
         }
     }
