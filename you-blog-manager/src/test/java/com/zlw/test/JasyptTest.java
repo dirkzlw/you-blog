@@ -24,7 +24,7 @@ public class JasyptTest {
 
     @Test
     public void testJasypt(){
-        System.out.println(encryptor.encrypt("123456"));
+        System.out.println(encryptor.encrypt("xxx"));
     }
 
 }

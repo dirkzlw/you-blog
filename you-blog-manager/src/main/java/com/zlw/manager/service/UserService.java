@@ -19,4 +19,8 @@ public interface UserService {
     void addUser(Staff staff, String email);
 
     Page<User> findUserByStatusAndSearchAndPage(Integer status, String search,Integer page);
+
+    void noUser(Integer userId);
+
+    void yesUser(Integer userId);
 }

@@ -96,4 +96,26 @@ public class UserServiceImpl implements UserService {
         return userPage;
     }
 
+    /**
+     * 禁用用户
+     * @param userId
+     */
+    @Override
+    public void noUser(Integer userId) {
+        User user = userRepository.findByUserId(userId);
+        user.setStatus(2);
+        userRepository.save(user);
+    }
+
+    /**
+     * 启用用户
+     * @param userId
+     */
+    @Override
+    public void yesUser(Integer userId) {
+        User user = userRepository.findByUserId(userId);
+        user.setStatus(1);
+        userRepository.save(user);
+    }
+
 }

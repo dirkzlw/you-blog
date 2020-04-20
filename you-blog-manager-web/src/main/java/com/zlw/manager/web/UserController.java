@@ -36,8 +36,6 @@ public class UserController {
                              @RequestParam(required = false, defaultValue = "0") Integer page,
                              Model model) {
 
-        System.out.println("page = " + page);
-
         Page<User> userPage = userService.findUserByStatusAndSearchAndPage(1, search, page);
         model.addAttribute("userPage", userPage);
         model.addAttribute("search", search);
@@ -80,6 +78,38 @@ public class UserController {
                 return "exist_email";
             }
             userService.addUser(staff, email);
+            return "success";
+        }
+    }
+
+    /**
+     * 禁用用户
+     * @param userId
+     * @return
+     */
+    @PostMapping("/user/no")
+    @ResponseBody
+    public String noUser(Integer userId) {
+        if (null == userId) {
+            return "fail";
+        }else {
+            userService.noUser(userId);
+            return "success";
+        }
+    }
+
+    /**
+     * 启用用户
+     * @param userId
+     * @return
+     */
+    @PostMapping("/user/yes")
+    @ResponseBody
+    public String yesUser(Integer userId) {
+        if (null == userId) {
+            return "fail";
+        }else {
+            userService.yesUser(userId);
             return "success";
         }
     }

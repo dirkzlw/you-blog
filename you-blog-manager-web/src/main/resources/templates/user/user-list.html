@@ -30,7 +30,8 @@
         <div class="layui-form-pane">
             <div class="layui-form-item">
                 <div class="layui-input-inline">
-                    <input type="text" name="search" id="search" th:value="${search}" placeholder="工号/姓名/用户名" autocomplete="off"
+                    <input type="text" name="search" id="search" th:value="${search}" placeholder="工号/姓名/用户名"
+                           autocomplete="off"
                            class="layui-input">
                 </div>
                 <div class="layui-input-inline" style="width:80px">
@@ -84,24 +85,21 @@
             <td th:text="${user.username}"></td>
             <td th:text="${user.email}"></td>
             <td class="td-status">
-                            <span th:if="${user.status} eq 1" class="layui-btn layui-btn-normal ">
-                                已启用
-                            </span>
+                <span th:if="${user.status} eq 1" class="layui-btn layui-btn-normal ">
+                    已启用
+                </span>
                 <span th:if="${user.status} eq 2" class="layui-btn layui-btn-danger ">
-                                已禁用
-                            </span>
+                    已禁用
+                </span>
             </td>
             <td class="td-manage">
-                <a style="text-decoration:none" onclick="user_stop(this,'10001')" href="javascript:;" title="停用">
+                <a style="text-decoration:none" th:id="${user.userId}" onclick="user_stop(this)" href="javascript:;"
+                   title="禁用">
                     <i class="layui-icon">&#xe601;</i>
                 </a>
                 <a title="编辑" href="javascript:;" onclick="user_edit('编辑','/user-edit','4','','510')"
                    class="ml-5" style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
-                </a>
-                <a title="删除" href="javascript:;" onclick="user_del(this,'1')"
-                   style="text-decoration:none">
-                    <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>
         </tr>
@@ -146,38 +144,69 @@
 
     });
 
-    //批量删除提交
-    function delAll() {
-        layer.confirm('确认要删除吗？', {icon: 3, title: '提示信息'}, function (index) {
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-        });
-    }
-
     /*添加*/
     function user_add(title, url, w, h) {
         x_admin_show(title, url, w, h);
     }
 
-    /*停用*/
-    function user_stop(obj, id) {
-        layer.confirm('确认要停用吗？', function (index) {
+    /*禁用*/
+    function user_stop(obj) {
+        layer.confirm('确认要禁用吗？', function (index) {
+            var userId = obj.id;
             //发异步把用户状态进行更改
-            $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="user_start(this,id)" href="javascript:;" title="启用"><i class="layui-icon">&#xe62f;</i></a>');
-            $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-disabled layui-btn-mini">已停用</span>');
-            $(obj).remove();
-            layer.msg('已停用!', {icon: 5, time: 1000});
+            $.ajax({
+                type: "POST",
+                url: "/user/no",
+                data: {'userId': userId},
+                dataType: "text",
+                success: function (json) {
+                    if (json == "success") {
+                        $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" id=' + userId + ' href="javascript:;" onClick="user_start(this)" title="启用"><i class="layui-icon">&#xe62f;</i></a>');
+                        $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-danger">已禁用</span>');
+                        $(obj).remove();
+                        layer.msg('已禁用!', {icon: 5, time: 1000});
+                        return;
+                    } else {
+                        layer.msg('禁用失败，请检查网络!', {icon: 5, time: 1000});
+                        return
+                    }
+                },
+                error: function () {
+                    layer.msg('禁用失败，请检查网络!', {icon: 5, time: 1000});
+                    return;
+                }
+            });
+
         });
     }
 
     /*启用*/
-    function user_start(obj, id) {
+    function user_start(obj) {
         layer.confirm('确认要启用吗？', function (index) {
+            var userId = obj.id;
             //发异步把用户状态进行更改
-            $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="user_stop(this,id)" href="javascript:;" title="停用"><i class="layui-icon">&#xe601;</i></a>');
-            $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>');
-            $(obj).remove();
-            layer.msg('已启用!', {icon: 6, time: 1000});
+            $.ajax({
+                type: "POST",
+                url: "/user/yes",
+                data: {'userId': userId},
+                dataType: "text",
+                success: function (json) {
+                    if (json == "success") {
+                        $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" id= ' + userId + ' href="javascript:;" onClick="user_stop(this)" title="禁用"><i class="layui-icon">&#xe601;</i></a>');
+                        $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-normal">已启用</span>');
+                        $(obj).remove();
+                        layer.msg('已启用!', {icon: 6, time: 1000});
+                        return;
+                    } else {
+                        layer.msg('禁用失败，请检查网络!', {icon: 5, time: 1000});
+                        return
+                    }
+                },
+                error: function () {
+                    layer.msg('禁用失败，请检查网络!', {icon: 5, time: 1000});
+                    return;
+                }
+            });
         });
     }
 
@@ -186,14 +215,6 @@
         x_admin_show(title, url, w, h);
     }
 
-    /*删除*/
-    function user_del(obj, id) {
-        layer.confirm('确认要删除吗？', {icon: 3, title: '提示信息'}, function (index) {
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!', {icon: 1, time: 1000});
-        });
-    }
 </script>
 
 </body>
