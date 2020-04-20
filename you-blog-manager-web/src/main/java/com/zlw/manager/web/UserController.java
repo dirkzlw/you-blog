@@ -118,6 +118,7 @@ public class UserController {
 
     /**
      * 获取编辑用户界面
+     *
      * @param userId
      * @param model
      * @return
@@ -131,21 +132,22 @@ public class UserController {
 
     /**
      * 编辑用户
+     *
      * @param userId
      * @param email
      * @return
      */
     @PostMapping("/user/edit")
     @ResponseBody
-    public String editUser(Integer userId,String email){
+    public String editUser(Integer userId, String email) {
         if (null == userId || null == email) {
             return "fail";
         } else {
             User userByEmail = userService.findUserByEmail(email);
-            if (null != userByEmail && userId != userByEmail.getUserId()){
+            if (null != userByEmail && userId != userByEmail.getUserId()) {
                 //判断邮箱是否已存在
                 return "exist_email";
-            }else if( null != userByEmail && userId == userByEmail.getUserId()){
+            } else if (null != userByEmail && userId == userByEmail.getUserId()) {
                 //没有修改信息
                 return "no_reset";
             }
@@ -154,6 +156,23 @@ public class UserController {
             userService.saveUser(user);
             return "success";
         }
+    }
+
+    /**
+     * 获取用户禁用列表页面
+     *
+     * @return
+     */
+    @GetMapping("/user-no-list")
+    public String toUserNoList(@RequestParam(required = false, defaultValue = "") String search,
+                               @RequestParam(required = false, defaultValue = "0") Integer page,
+                               Model model) {
+
+        Page<User> userPage = userService.findUserByStatusAndSearchAndPage(2, search, page);
+        model.addAttribute("userPage", userPage);
+        model.addAttribute("search", search);
+
+        return "user/user-no-list";
     }
 
 }
