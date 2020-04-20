@@ -89,9 +89,9 @@ public class UserServiceImpl implements UserService {
     public Page<User> findUserByStatusAndSearchAndPage(Integer status, String search, Integer page) {
 
         List<User> userList = userRepository.findUserByStatusAndSearchAndPage(status, search, page * PAGE_SIZE, PAGE_SIZE);
-        int totalElements = userRepository.countUserByStatusAndSearch(status,search);
-        int totalPages = totalElements / PAGE_SIZE + 1;
-        Page<User> userPage = new Page<>(userList, page, totalPages, totalElements);
+        int totalElements = userRepository.countUserByStatusAndSearch(status, search);
+        int totalPages = (int) Math.ceil(totalElements * 1.0 / PAGE_SIZE);
+        Page<User> userPage = new Page<>(userList, page, totalPages, totalElements, PAGE_SIZE);
 
         return userPage;
     }

@@ -23,14 +23,17 @@ public class Page<T> implements Serializable {
     public Integer totalPages;
     //页面共多少数据
     private Integer totalElements;
+    //一页显示多少数据
+    private Integer pageSize;
 
     public Page() {
     }
 
-    public Page(List<T> content, Integer page, Integer totalPages, Integer totalElements) {
+    public Page(List<T> content, Integer page, Integer totalPages, Integer totalElements, Integer pageSize) {
         this.content = content;
         this.page = page;
         this.totalPages = totalPages;
         this.totalElements = totalElements;
+        this.pageSize = pageSize;
     }
 }

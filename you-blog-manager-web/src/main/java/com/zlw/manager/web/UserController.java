@@ -5,6 +5,7 @@ import com.zlw.manager.po.Staff;
 import com.zlw.manager.po.User;
 import com.zlw.manager.service.StaffService;
 import com.zlw.manager.service.UserService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,8 @@ public class UserController {
     public String toUserList(@RequestParam(required = false, defaultValue = "") String search,
                              @RequestParam(required = false, defaultValue = "0") Integer page,
                              Model model) {
+
+        System.out.println("page = " + page);
 
         Page<User> userPage = userService.findUserByStatusAndSearchAndPage(1, search, page);
         model.addAttribute("userPage", userPage);
