@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress SpringFacetInspection -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 服务提供方应用名，用于计算依赖关系 -->
+    <dubbo:application name="you-blog-manager-web"/>
+    <!-- 定义 zookeeper 注册中心地址及协议 -->
+    <dubbo:registry address="zookeeper://39.107.249.220:2181" protocol="zookeeper"/>
+    <!--引入服务-->
+    <!--<dubbo:reference interface="com.zlw.manager.service.NoticeService" id="noticeService"/>-->
+    <!--<dubbo:reference interface="com.zlw.manager.service.AdminService" id="adminService"/>-->
+    <!--<dubbo:reference interface="com.zlw.manager.service.AttentionService" id="attentionService"/>-->
+    <!--<dubbo:reference interface="com.zlw.manager.service.StaffService" id="staffService"/>-->
+    <!--<dubbo:reference interface="com.zlw.manager.service.TagService" id="tagService"/>-->
+    <!--<dubbo:reference interface="com.zlw.manager.service.UserService" id="userService"/>-->
+
+</beans>
