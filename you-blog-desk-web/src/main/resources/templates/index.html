@@ -16,53 +16,8 @@
     <title>个人博客</title>
 </head>
 <body>
-<!--导航栏-->
-<nav class="navbar navbar-expand-lg navbar-light nav-color-nav  navbar-lk text-dark">
-    <div class="container">
-        <a class="navbar-brand xiyuan" href="#"><img src="blog/images/logo1.png" alt=""></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nabmune" aria-controls="nabmune" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="nabmune">
-            <ul class="navbar-nav nav-color ">
-                <li class="nav-item active ">
-                    <a class="nav-link" href="/">首页 <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">说说</a>
-                </li>
-                <li class="nav-item dropdown ">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        分类
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">php</a>
-                        <a class="dropdown-item" href="#">js</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">jq</a>
-                    </div>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">相册</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">生活</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">心得</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">关于</a>
-                </li>
-            </ul>
-            <!--搜索-->
-            <!--<form class="form-inline my-2 my-lg-0">-->
-                <!--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
-                <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
-            <!--</form>-->
-        </div>
-    </div>
-</nav>
+<!--头部-->
+<div th:replace="~{fragments/header :: header}"></div>
 
 <!--内容-->
 <div class="container mt-3">
@@ -115,7 +70,7 @@
                     <ul class="list-unstyled art-list">
                         <li class="media wow bounceInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
                             <div class="art-img">
-                                <img class="mr-3" src="blog/images/8.jpg"  alt="Generic placeholder image">
+                                <img class="mr-3" src="blog/images/eg.png"  alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1"><a href="./article.html">js前端实现模糊查询</a></h5>
@@ -131,7 +86,7 @@
                         </li>
                         <li class="media wow bounceInRight" data-wow-duration="1s" data-wow-delay="0.5s">
                             <div class="art-img">
-                                <img class="mr-3" src="blog/images/7.jpg"  alt="Generic placeholder image">
+                                <img class="mr-3" src="blog/images/eg.png"  alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1"><a href="./article.html">js前端实现模糊查询</a></h5>
@@ -147,7 +102,7 @@
                         </li>
                         <li class="media wow bounceInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
                             <div class="art-img">
-                                <img class="mr-3" src="blog/images/8.jpg"  alt="Generic placeholder image">
+                                <img class="mr-3" src="blog/images/eg.png"  alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1"><a href="./article.html">js前端实现模糊查询</a></h5>
@@ -163,7 +118,7 @@
                         </li>
                         <li class="media wow bounceInRight" data-wow-duration="1s" data-wow-delay="0.5s">
                             <div class="art-img">
-                                <img class="mr-3" src="blog/images/9.jpg"  alt="Generic placeholder image">
+                                <img class="mr-3" src="blog/images/eg.png"  alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1"><a href="./article.html">js前端实现模糊查询</a></h5>
@@ -179,7 +134,7 @@
                         </li>
                         <li class="media wow bounceInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
                             <div class="art-img">
-                                <img class="mr-3" src="blog/images/10.jpg"  alt="Generic placeholder image">
+                                <img class="mr-3" src="blog/images/eg.png"  alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1"><a href="./article.html">js前端实现模糊查询</a></h5>
@@ -195,7 +150,7 @@
                         </li>
                         <li class="media wow bounceInRight" data-wow-duration="1s" data-wow-delay="0.5s">
                             <div class="art-img">
-                                <img class="mr-3" src="blog/images/11.png"  alt="Generic placeholder image">
+                                <img class="mr-3" src="blog/images/eg.png"  alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1"><a href="./article.html">js前端实现模糊查询</a></h5>
@@ -211,7 +166,7 @@
                         </li>
                         <li class="media wow bounceInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
                             <div class="art-img">
-                                <img class="mr-3" src="blog/images/12.png"  alt="Generic placeholder image">
+                                <img class="mr-3" src="blog/images/eg.png"  alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1"><a href="./article.html">js前端实现模糊查询</a></h5>
@@ -312,7 +267,7 @@
                     <ul class="list-unstyled artimg-list">
                         <li class="media">
                             <div class="artimg-img">
-                                <img class="mr-3" src="blog/images/7.jpg"  alt="Generic placeholder image">
+                                <img class="mr-3" src="blog/images/eg.png"  alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1">js前端实现模糊查询</h5>
@@ -325,7 +280,7 @@
                         </li>
                         <li class="media">
                             <div class="artimg-img">
-                                <img class="mr-3" src="blog/images/8.jpg"  alt="Generic placeholder image">
+                                <img class="mr-3" src="blog/images/eg.png"  alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1">js前端实现模糊查询</h5>
@@ -338,7 +293,7 @@
                         </li>
                         <li class="media">
                             <div class="artimg-img">
-                                <img class="mr-3" src="blog/images/9.jpg"  alt="Generic placeholder image">
+                                <img class="mr-3" src="blog/images/eg.png"  alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1">js前端实现模糊查询</h5>
@@ -514,14 +469,7 @@
 </div>
 
 <!--底部-->
-<footer id="footer">
-    <div class="foot-nav text-center">
-        <div class="copy-right"><span>Copyright © YouBlog 2020 </span></div>
-        <div class="bottom-nav">
-            <span>ICP备xxxx号 </span>
-        </div>
-    </div>
-</footer>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
