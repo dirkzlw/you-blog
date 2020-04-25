@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -10,6 +11,8 @@
     <link rel="stylesheet" href="blog/css/main.css" media="all">
     <link rel="stylesheet" href="blog/css/animate.css">
     <link rel="stylesheet" href="blog/css/font-icon.css">
+    <!--返回顶部-->
+    <link href="/back-to-top/css/style.css" rel="stylesheet" type="text/css"/>
     <title>个人博客</title>
 </head>
 <body>
@@ -235,8 +238,8 @@
         <!--右边-->
         <div class="col-md-4 ">
             <div class="container">
-
-                <div class="row bgc mt-5 right-author">
+                <!--用户信息-->
+                <div th:if="${session.user} ne null" class="row bgc mt-5 right-author">
                     <div class="col-md-12 ">
                         <div class="auth-img">
                             <img src="blog/images/logo.png"  alt="">
@@ -254,7 +257,6 @@
 
                     </div>
                 </div>
-
                 <!--搜索-->
                 <div class="row bgc mt-3">
                     <!--<form>-->
@@ -279,11 +281,7 @@
                     <div class="col-md-12 ">
                         <div class="notice">
                             <ul>
-                                <li><a href="">Thinkphp5模型添加数据方法</a></li>
-                                <li><a href="">Thinkphp5模型添加数据方法</a></li>
-                                <li><a href="">Thinkphp5模型添加数据方法</a></li>
-                                <li><a href="">Thinkphp5模型添加数据方法</a></li>
-
+                                <li th:each="notice : ${noticeList}" th:text="${notice.info}"></li>
                             </ul>
                         </div>
 
@@ -297,36 +295,9 @@
                     </div>
                     <div class="col-md-12 ">
                         <ul class="label">
-                            <li>
-                                <a href="#" title="生活">生活&nbsp;&nbsp;(1)</a>
-
+                            <li th:each="tag : ${tagList}">
+                                <a href="#" th:text="${tag.type}"></a>
                             </li>
-
-                            <li>
-                                <a href="#" title="模糊查询">模糊查询&nbsp;&nbsp;(1)</a>
-
-                            </li>
-
-                            <li>
-                                <a href="#" title="遍历二维数组">遍历二维数组&nbsp;&nbsp;(1)</a>
-
-                            </li>
-
-                            <li>
-                                <a href="#" title="Mui">Mui&nbsp;&nbsp;(2)</a>
-
-                            </li>
-
-                            <li>
-                                <a href="#" title="随机">随机&nbsp;&nbsp;(1)</a>
-
-                            </li>
-
-                            <li>
-                                <a href="#" title="文章月统计">文章月统计&nbsp;&nbsp;(1)</a>
-
-                            </li>
-
                         </ul>
                     </div>
                 </div>
@@ -505,6 +476,41 @@
         </div>
     </div>
 
+    <!--返回顶部-->
+    <div class="suspension">
+        <a class="consult" target="_blank" title="在线客服">
+            <div class="suspension-list" style="display:none;">
+                <div class="suspension-list-content">
+                    <ul>
+                        <li>
+                            <div href="javascript:;" class="service-phone">
+                                <span class="info-name">客服热线</span>
+                                <span class="info-value">400-888-8888</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div href="javascript:;" class="service-qq">
+                                <span class="info-name">在线客服</span>
+                                <span class="info-value">800991234</span>
+                            </div>
+                        </li>
+                        <li class="suspension-list-bottom">
+                            <div href="javascript:;" class="service-proposal">
+                                <span class="info-name">投诉与建议</span>
+                                <span class="info-value">最快10分钟内回应</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </a>
+        <a class="cart" title="关注微信公众号">
+            <div class="pic">
+                <div class="pic-content" th:style="'background:url(' + ${attentionImgUrl} + ') center no-repeat ;background-size :139px 169px;'"></div>
+            </div>
+        </a>
+        <a href="javascript:void(0)" onclick="toTop()" class="back-top" style="display: block;" title="返回顶部"></a>
+    </div>
 </div>
 
 <!--底部-->
@@ -514,17 +520,33 @@
         <div class="bottom-nav">
             <span>ICP备xxxx号 </span>
         </div>
-
     </div>
-
 </footer>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="blog/lib/jquery/jquery.js"></script>
-
 <script src="blog/lib/bootstrap/js/bootstrap.js"></script>
 <script src="blog/js/wow.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $(".back-top").hide();
+        $(window).bind('scroll resize', function() {
+            if ($(window).scrollTop() <= 400) {
+                $(".back-top").hide();
+            } else {
+                $(".back-top").show();
+            }
+        })
+    })
+    //回到顶部
+    function toTop() {
+        $('html, body').animate({
+            scrollTop: 0
+        }, 400);
+        return false;
+    }
+</script>
 <script>
     new WOW().init();//把wow初始化
 

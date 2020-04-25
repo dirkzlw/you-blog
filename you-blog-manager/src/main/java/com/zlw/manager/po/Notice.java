@@ -12,6 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * 公告
  * @author Dirk
  * @date 2020-04-18 14:18
  */

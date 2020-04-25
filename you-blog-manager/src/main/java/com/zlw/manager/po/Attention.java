@@ -12,6 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
+ * 关注
  * @author Dirk
  * @date 2020-04-18 19:56
  */
@@ -22,11 +23,11 @@ import lombok.ToString;
 @ToString
 public class Attention implements Serializable {
 
-    //管理员ID
+    //关注ID
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer attentionId;
-    // 管理员账户名
+    //关注图片的URL
     @Column(length = 100)
     private String imgUrl;
 

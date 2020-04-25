@@ -11,7 +11,7 @@ public interface AttentionService {
 
     List<Attention> getAllAttention();
 
-    String delAttenionById(Integer attentionId);
+    String delAttentionById(Integer attentionId);
 
     Attention findAttentionById(Integer attentionId);
 

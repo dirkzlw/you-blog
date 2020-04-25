@@ -34,7 +34,7 @@ public class AttentionServiceImpl implements AttentionService {
      * @return
      */
     @Override
-    public String delAttenionById(Integer attentionId) {
+    public String delAttentionById(Integer attentionId) {
         attentionRepository.deleteById(attentionId);
 
         return "success";

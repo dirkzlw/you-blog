@@ -84,7 +84,7 @@ public class AttentionController {
         if(null == attentionId){
             return "fail";
         }else {
-            return attentionService.delAttenionById(attentionId);
+            return attentionService.delAttentionById(attentionId);
         }
 
     }
