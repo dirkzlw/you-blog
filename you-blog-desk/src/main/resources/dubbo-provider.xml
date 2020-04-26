@@ -7,13 +7,11 @@
        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!-- 服务提供方应用名，用于计算依赖关系 -->
-    <dubbo:application name="you-blog-desk-web"/>
+    <dubbo:application name="you-blog-desk"/>
     <!-- 定义 zookeeper 注册中心地址及协议 -->
     <dubbo:registry address="zookeeper://39.107.249.220:2181" protocol="zookeeper"/>
-    <!--引入服务-->
-    <dubbo:reference interface="com.zlw.manager.service.NoticeService" id="noticeService" timeout="30000"/>
-    <dubbo:reference interface="com.zlw.manager.service.AttentionService" id="attentionService" timeout="30000"/>
-    <dubbo:reference interface="com.zlw.manager.service.TagService" id="tagService" timeout="30000"/>
-    <dubbo:reference interface="com.zlw.desk.service.BlogService" id="blogService" timeout="30000"/>
-
+    <!-- 定义 Dubbo 协议名称及使用的端口，dubbo 协议缺省端口为 20880，如果配置为 -1 或者没有配置 port，则会分配一个没有被占用的端口 -->
+    <dubbo:protocol name="dubbo" port="20881"/>
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service interface="com.zlw.desk.service.BlogService" ref="blogService" timeout="30000"/>
 </beans>

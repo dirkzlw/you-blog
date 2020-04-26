@@ -1,11 +1,16 @@
 package com.zlw.manager.po;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,5 +34,8 @@ public class Tag implements Serializable {
     //标签类别
     @Column(length = 40)
     private String type;
+    //关联博客
+    @OneToMany(mappedBy = "tag", fetch= FetchType.EAGER)
+    private List<Blog> blogList ;
 
 }
