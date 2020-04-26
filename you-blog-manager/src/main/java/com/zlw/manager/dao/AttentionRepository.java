@@ -1,6 +1,6 @@
 package com.zlw.manager.dao;
 
-import com.zlw.manager.po.Attention;
+import com.zlw.common.po.Attention;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

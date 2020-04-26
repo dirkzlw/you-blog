@@ -1,7 +1,7 @@
 package com.zlw.manager.service.impl;
 
 import com.zlw.manager.dao.AdminRepository;
-import com.zlw.manager.po.Admin;
+import com.zlw.common.po.Admin;
 import com.zlw.manager.service.AdminService;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.zlw.manager.service;
 
-import com.zlw.manager.po.Admin;
+import com.zlw.common.po.Admin;
 
 /**
  * @author Dirk

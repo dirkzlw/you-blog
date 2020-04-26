@@ -1,8 +1,8 @@
 package com.zlw.desk.web.controller;
 
-import com.zlw.manager.po.Attention;
-import com.zlw.manager.po.Notice;
-import com.zlw.manager.po.Tag;
+import com.zlw.common.po.Attention;
+import com.zlw.common.po.Notice;
+import com.zlw.common.po.Tag;
 import com.zlw.manager.service.AttentionService;
 import com.zlw.manager.service.NoticeService;
 import com.zlw.manager.service.TagService;

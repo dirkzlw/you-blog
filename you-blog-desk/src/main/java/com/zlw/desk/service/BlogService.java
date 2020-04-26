@@ -1,7 +1,7 @@
 package com.zlw.desk.service;
 
-import com.zlw.manager.po.Blog;
-import com.zlw.manager.po.Tag;
+import com.zlw.common.po.Blog;
+import com.zlw.common.po.Tag;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

@@ -1,4 +1,4 @@
-package com.zlw.manager.po;
+package com.zlw.common.po;
 
 import java.io.Serializable;
 import javax.persistence.Column;

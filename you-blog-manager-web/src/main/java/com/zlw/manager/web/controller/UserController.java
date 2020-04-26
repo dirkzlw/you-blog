@@ -1,8 +1,8 @@
-package com.zlw.manager.web;
+package com.zlw.manager.web.controller;
 
+import com.zlw.common.po.Staff;
+import com.zlw.common.po.User;
 import com.zlw.common.vo.Page;
-import com.zlw.manager.po.Staff;
-import com.zlw.manager.po.User;
 import com.zlw.manager.service.StaffService;
 import com.zlw.manager.service.UserService;
 import java.util.List;

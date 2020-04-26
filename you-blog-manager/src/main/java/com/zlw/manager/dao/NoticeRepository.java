@@ -1,6 +1,6 @@
 package com.zlw.manager.dao;
 
-import com.zlw.manager.po.Notice;
+import com.zlw.common.po.Notice;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

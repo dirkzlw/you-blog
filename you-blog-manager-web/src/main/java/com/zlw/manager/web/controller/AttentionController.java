@@ -1,8 +1,8 @@
 package com.zlw.manager.web.controller;
 
-import com.zlw.manager.po.Attention;
+import com.zlw.common.po.Attention;
+import com.zlw.common.utils.FastDFSUtils;
 import com.zlw.manager.service.AttentionService;
-import com.zlw.manager.web.utils.FastDFSUtils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

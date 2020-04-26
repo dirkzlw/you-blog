@@ -1,4 +1,4 @@
-package com.zlw.manager.po;
+package com.zlw.common.po;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -10,7 +10,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * @author Dirk

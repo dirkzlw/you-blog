@@ -1,6 +1,6 @@
 package com.zlw.desk.dao;
 
-import com.zlw.manager.po.Blog;
+import com.zlw.common.po.Blog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

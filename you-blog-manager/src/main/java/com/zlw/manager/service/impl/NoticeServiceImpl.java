@@ -1,7 +1,7 @@
 package com.zlw.manager.service.impl;
 
 import com.zlw.manager.dao.NoticeRepository;
-import com.zlw.manager.po.Notice;
+import com.zlw.common.po.Notice;
 import com.zlw.manager.service.NoticeService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

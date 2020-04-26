@@ -1,4 +1,4 @@
-package com.zlw.desk.web.utils;
+package com.zlw.common.utils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

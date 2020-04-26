@@ -1,6 +1,6 @@
 package com.zlw.manager.service;
 
-import com.zlw.manager.po.Tag;
+import com.zlw.common.po.Tag;
 import java.util.List;
 
 /**

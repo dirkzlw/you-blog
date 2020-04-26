@@ -4,12 +4,43 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <artifactId>you-blog-parent</artifactId>
+        <groupId>com.zlw.parent</groupId>
+        <version>0.1</version>
+        <relativePath>../you-blog-parent/pom.xml</relativePath>
+    </parent>
+
     <groupId>com.zlw.common</groupId>
     <artifactId>you-blog-common</artifactId>
     <version>0.1</version>
 
-    <!-- 获取中文名字的拼音 -->
     <dependencies>
+        <!--spring data jpa-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>2.1.11.RELEASE</version>
+        </dependency>
+        <!-- mysql-connector-java java连接Mysql的驱动包-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
+        </dependency>
+        <!-- druid-spring-boot-starter -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.1.10</version>
+        </dependency>
+        <!-- jasypt加密 -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>1.18</version>
+        </dependency>
+        <!-- 获取中文名字的拼音 -->
         <dependency>
             <groupId>com.belerweb</groupId>
             <artifactId>pinyin4j</artifactId>
@@ -21,6 +52,15 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.6</version>
+        </dependency>
+
+        <!--引入fastdfs的工具jar包-->
+        <dependency>
+            <groupId>fastdfs</groupId>
+            <artifactId>fastdfs</artifactId>
+            <version>1.27-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/fastdfs-client-java-1.27-SNAPSHOT.jar</systemPath>
         </dependency>
 
     </dependencies>

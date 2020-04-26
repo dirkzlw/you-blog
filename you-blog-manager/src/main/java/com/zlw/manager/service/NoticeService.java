@@ -1,6 +1,6 @@
 package com.zlw.manager.service;
 
-import com.zlw.manager.po.Notice;
+import com.zlw.common.po.Notice;
 import java.util.List;
 
 /**

@@ -1,8 +1,8 @@
 package com.zlw.manager.service;
 
 import com.zlw.common.vo.Page;
-import com.zlw.manager.po.Staff;
-import com.zlw.manager.po.User;
+import com.zlw.common.po.Staff;
+import com.zlw.common.po.User;
 
 /**
  * @author Dirk

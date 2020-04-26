@@ -1,7 +1,7 @@
 package com.zlw.manager.service.impl;
 
 import com.zlw.manager.dao.StaffRepository;
-import com.zlw.manager.po.Staff;
+import com.zlw.common.po.Staff;
 import com.zlw.manager.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

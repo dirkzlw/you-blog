@@ -1,6 +1,6 @@
 package com.zlw.manager.service;
 
-import com.zlw.manager.po.Attention;
+import com.zlw.common.po.Attention;
 import java.util.List;
 
 /**

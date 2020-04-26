@@ -2,7 +2,7 @@ package com.zlw.test;
 
 import com.zlw.manager.ManagerApplication;
 import com.zlw.manager.dao.StaffRepository;
-import com.zlw.manager.po.Staff;
+import com.zlw.common.po.Staff;
 import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;

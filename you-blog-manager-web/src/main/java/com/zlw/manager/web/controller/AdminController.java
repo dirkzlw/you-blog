@@ -1,6 +1,6 @@
 package com.zlw.manager.web.controller;
 
-import com.zlw.manager.po.Admin;
+import com.zlw.common.po.Admin;
 import com.zlw.manager.service.AdminService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

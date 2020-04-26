@@ -1,7 +1,7 @@
 package com.zlw.manager.service.impl;
 
 import com.zlw.manager.dao.AttentionRepository;
-import com.zlw.manager.po.Attention;
+import com.zlw.common.po.Attention;
 import com.zlw.manager.service.AttentionService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

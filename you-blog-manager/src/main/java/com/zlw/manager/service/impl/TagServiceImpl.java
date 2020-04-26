@@ -1,7 +1,7 @@
 package com.zlw.manager.service.impl;
 
 import com.zlw.manager.dao.TagRepository;
-import com.zlw.manager.po.Tag;
+import com.zlw.common.po.Tag;
 import com.zlw.manager.service.TagService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

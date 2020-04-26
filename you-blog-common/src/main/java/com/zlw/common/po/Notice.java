@@ -1,4 +1,4 @@
-package com.zlw.manager.po;
+package com.zlw.common.po;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -12,29 +12,29 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 关注
+ * 公告
  * @author Dirk
- * @date 2020-04-18 19:56
+ * @date 2020-04-18 14:18
  */
 @Entity
-@Table(name = "t_attention")
+@Table(name = "t_notice")
 @Getter
 @Setter
 @ToString
-public class Attention implements Serializable {
+public class Notice implements Serializable{
 
-    //关注ID
+    //公告ID
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer attentionId;
-    //关注图片的URL
-    @Column(length = 100)
-    private String imgUrl;
+    private Integer noticeId;
+    // 公告内容
+    @Column(length = 60)
+    private String info;
 
-    public Attention() {
+    public Notice() {
     }
 
-    public Attention(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public Notice(String info) {
+        this.info = info;
     }
 }
