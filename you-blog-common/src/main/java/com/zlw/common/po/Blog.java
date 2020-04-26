@@ -3,6 +3,7 @@ package com.zlw.common.po;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,5 +49,8 @@ public class Blog implements Serializable {
     @ManyToOne
     @JoinColumn(name = "tagId")
     private Tag tag;
-
+    //关联用户
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
 }

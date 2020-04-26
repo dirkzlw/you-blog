@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     private String USER_INIT_PASSWORD;
     @Value("${user.init.headImgUrl}")
     private String USER_INIT_HEADIMGURL;
-    @Value("${page.size}")
+    @Value("${data.page.size}")
     private Integer PAGE_SIZE;
 
     /**

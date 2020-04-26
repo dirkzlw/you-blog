@@ -2,7 +2,7 @@ package com.zlw.desk.service;
 
 import com.zlw.common.po.Blog;
 import com.zlw.common.po.Tag;
-import org.springframework.web.multipart.MultipartFile;
+import com.zlw.common.vo.Page;
 
 /**
  * @author Dirk
@@ -10,4 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface BlogService {
     String addBlog(Blog blog, Tag tag, String coverImgUrl);
+
+    Page<Blog> findBlogByPageAndSearch(Integer page, String search);
 }
