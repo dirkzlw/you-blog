@@ -15,7 +15,7 @@ public interface BlogRepository extends JpaRepository<Blog,Integer> {
     @Query(nativeQuery = true,
             value = "SELECT * FROM t_blog AS b " +
                     "WHERE b.title LIKE CONCAT('%',?1,'%') " +
-                    "LIMIT ?2,?3 ;")
+                    "order by blog_id desc LIMIT ?2,?3 ;")
     List<Blog> findBlogByPageAndSearch(String search, Integer start, Integer pageSize);
 
     //自定义检索统计数据

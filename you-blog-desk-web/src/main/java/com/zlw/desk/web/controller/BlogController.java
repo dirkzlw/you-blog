@@ -83,18 +83,28 @@ public class BlogController {
         String rtn;
         if (blog.getTitle() == null || tagId == null || coverImg == null) {
             rtn = "fail";
+        }else {
+            //上传封面
+            String coverImgUrl = FastDFSUtils.uploadFile(FDFS_CLIENT_PAHT, FDFS_ADDRESS, coverImg);
+            if (coverImg == null) {
+                rtn = "fail";
+            }else {
+                Tag tag = tagService.findTagById(tagId);
+                rtn = blogService.addBlog(blog, tag, coverImgUrl);
+            }
         }
-
-        //上传封面
-        String coverImgUrl = FastDFSUtils.uploadFile(FDFS_CLIENT_PAHT, FDFS_ADDRESS, coverImg);
-        if (coverImg == null) {
-            rtn = "fail";
-        }
-
-        Tag tag = tagService.findTagById(tagId);
-        rtn = blogService.addBlog(blog, tag, coverImgUrl);
 
         return rtn;
+    }
+
+    /**
+     * 查看博客
+     * @return
+     */
+    @GetMapping("/blog/show")
+    public String showBlog(Integer blogId){
+        System.out.println("blogId = " + blogId);
+        return "blog/show";
     }
 
 }

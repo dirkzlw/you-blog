@@ -30,8 +30,11 @@ public class Blog implements Serializable {
     //博客标题
     @Column(length = 40)
     private String title;
-    //博客正文
+    //博客内容
     @Column(length = 10000)
+    private String content;
+    //博客内容简介
+    @Column(length = 100)
     private String text;
     //创建时间
     @Column(length = 40)

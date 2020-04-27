@@ -52,8 +52,6 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Page<Blog> findBlogByPageAndSearch(Integer page, String search) {
         List<Blog> blogList = blogRepository.findBlogByPageAndSearch(search, page * BLOG_PAGE_SIZE, BLOG_PAGE_SIZE);
-        //倒叙，最新的博客排在前面
-        Collections.reverse(blogList);
         int totalElements = blogRepository.countBlogBySearch( search);
         int totalPages = (int) Math.ceil(totalElements * 1.0 / BLOG_PAGE_SIZE);
         Page<Blog> userPage = new Page<>(blogList, page, totalPages, totalElements, BLOG_PAGE_SIZE);

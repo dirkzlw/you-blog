@@ -135,19 +135,19 @@
 
     });
 
-    var E = window.wangEditor
-    var editor = new E(document.getElementById('editor'))
+    var E = window.wangEditor;
+    var editor = new E(document.getElementById('editor'));
     //获取文本域
-    var $textEditor = $('#textEditor')
+    var $textEditor = $('#textEditor');
     editor.customConfig.onchange = function (html) {
         // 监控变化，同步更新到 textarea
         $textEditor.val(html)
-    }
+    };
 
     //关闭过滤样式
-    editor.customConfig.pasteFilterStyle = false
+    editor.customConfig.pasteFilterStyle = false;
     // 忽略粘贴内容中的图片
-    editor.customConfig.pasteIgnoreImg = true
+    editor.customConfig.pasteIgnoreImg = true;
 
     // 自定义菜单配置
     editor.customConfig.menus = [
@@ -171,7 +171,7 @@
         'table',  // 表格
         'undo',  // 撤销
         'redo'  // 重复
-    ]
+    ];
     // 自定义配置颜色（字体颜色、背景色）
     editor.customConfig.colors = [
         '#c22525',
@@ -183,7 +183,7 @@
         '#1c487f',
         '#ffffff',
         '#000000'
-    ]
+    ];
     // 表情面板可以有多个 tab ，因此要配置成一个数组。数组每个元素代表一个 tab 的配置
     editor.customConfig.emotions = [
         {
@@ -198,7 +198,7 @@
                 '😘', '😭', '😔', '😒', '😜', '🤑', '🤣', '🤯', '👿', '🤬', '💩', '💀 ',
                 '💋']
         }
-    ]
+    ];
     //图片上传地址的URL
     editor.customConfig.uploadImgServer = '/blog/img/upload'; //上传URL
     //图片大小限制为3M，默认是5M
@@ -218,11 +218,11 @@
 
             // result 必须是一个 JSON 格式字符串！！！否则报错
         }
-    }
+    };
     //自定义提示
     editor.customConfig.customAlert = function (info) {
         layer.msg(info, {icon: 5, time: 1000});
-    }
+    };
 
     editor.create()
 </script>
@@ -230,7 +230,7 @@
 
     //文章标题获取光标
     window.onload = function () {
-        var titInput = document.getElementById("title")
+        var titInput = document.getElementById("title");
         titInput.focus();
         //第一步是先获取服务器传过来的图文信息值
         // var info1 = document.getElementById("info").textContent;
@@ -239,7 +239,7 @@
 
         // 监控变化，同步更新到 textarea
         // $('#textEditor').val(info1)
-    }
+    };
 
     /**
      * 表单提交之前进行验证
@@ -250,8 +250,8 @@
             layer.msg("标题不能为空！", {icon: 5, time: 1000});
             return false;
         }
-        var text = $("#textEditor").val().trim();
-        if (text == "") {
+        var content = $("#textEditor").val().trim();
+        if (content == "") {
             layer.msg("博客内容不能为空！", {icon: 5, time: 1000});
             return false;
         }
@@ -270,14 +270,22 @@
             layer.msg("请选择博客封面！", {icon: 5, time: 1000});
             return false;
         }
-
+        var text = editor.txt.text();
+        if (text.toLocaleString().length > 100) {
+            text = text.toLocaleString().substr(0, 100).replace("&nbsp;", "");
+        } else {
+            while (text.toLocaleString().length < 30) {
+                text = text + "#";
+            }
+        }
         var formData = new FormData();
         var coverImg = document.getElementById("coverImg").files[0];
-        formData.append("title", title)
-        formData.append("text", text)
-        formData.append("artType", artType)
-        formData.append("tagId", tagId)
-        formData.append("coverImg", coverImg)
+        formData.append("title", title);
+        formData.append("content", content);
+        formData.append("text", text);
+        formData.append("artType", artType);
+        formData.append("tagId", tagId);
+        formData.append("coverImg", coverImg);
         $.ajax({
             type: "POST",
             url: "/blog/add",
@@ -292,21 +300,21 @@
                     //     window.open("/blog/show", "_self")
                     // });
                     layer.confirm('添加博客成功!', {
-                        btn: ['查看文章','继续编辑'] //按钮
-                    }, function(){
+                        btn: ['查看文章', '继续编辑'] //按钮
+                    }, function () {
                         window.open("/blog/show", "_self")
-                    }, function(){
+                    }, function () {
                         window.open("/blog/add", "_self")
                     });
-                    return;
+
                 } else {
                     layer.msg('添加失败，请检查网络!', {icon: 5, time: 1000});
-                    return;
+
                 }
             },
             error: function () {
                 layer.msg('添加失败，请检查网络!', {icon: 5, time: 1000});
-                return;
+
             }
         });
 
