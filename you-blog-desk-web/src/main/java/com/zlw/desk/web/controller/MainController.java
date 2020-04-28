@@ -40,7 +40,7 @@ public class MainController {
     private BlogService blogService;
 
     @Value("${ATTENTION_IMG_URL}")
-    private String ATTENTION_IMG_URL;
+    private static String ATTENTION_IMG_URL;
 
     @GetMapping("/")
     public String toIndex(Model model,
@@ -49,19 +49,7 @@ public class MainController {
                           @RequestParam(required = false, defaultValue = "") String search) {
 
         HttpSession session = request.getSession();
-        //获取公告列表
-        List<Notice> noticeList = noticeService.findAllNotice();
-        session.setAttribute("noticeList", noticeList);
-        //获取标签列表
-        List<Tag> tagList = tagService.findAllTag();
-        session.setAttribute("tagList", tagList);
-        //获取关注
-        List<Attention> attentionList = attentionService.getAllAttention();
-        if (attentionList.size() == 0) {
-            session.setAttribute("attentionImgUrl", ATTENTION_IMG_URL);
-        } else {
-            session.setAttribute("attentionImgUrl", attentionList.get(0).getImgUrl());
-        }
+        sessionAddThreeList(session,noticeService,tagService,attentionService);
         //获取博客列表
         Page<Blog> blogPage = blogService.findBlogByPageAndSearch(page, search);
         model.addAttribute("blogPage", blogPage);
@@ -112,6 +100,34 @@ public class MainController {
         }
 
         return blogInfoPage;
+    }
+
+    public static void sessionAddThreeList(HttpSession session,
+                                           NoticeService noticeService,
+                                           TagService tagService,
+                                           AttentionService attentionService){
+        List<Notice> noticeList = (List<Notice>) session.getAttribute("noticeList");
+        if(noticeList ==null){
+            //获取公告列表
+            noticeList = noticeService.findAllNotice();
+            session.setAttribute("noticeList", noticeList);
+        }
+        List<Tag> tagList = (List<Tag>) session.getAttribute("tagList");
+        if(tagList ==null){
+            //获取标签列表
+            tagList = tagService.findAllTag();
+            session.setAttribute("tagList", tagList);
+        }
+        List<Attention> attentionList = (List<Attention>) session.getAttribute("attentionList");
+        if(attentionList ==null){
+            //获取关注
+            attentionList = attentionService.getAllAttention();
+            if (attentionList.size() == 0) {
+                session.setAttribute("attentionImgUrl", ATTENTION_IMG_URL);
+            } else {
+                session.setAttribute("attentionImgUrl", attentionList.get(0).getImgUrl());
+            }
+        }
     }
 
 }

@@ -4,10 +4,13 @@ import com.zlw.common.utils.FastDFSUtils;
 import com.zlw.desk.service.BlogService;
 import com.zlw.common.po.Blog;
 import com.zlw.common.po.Tag;
+import com.zlw.manager.service.AttentionService;
+import com.zlw.manager.service.NoticeService;
 import com.zlw.manager.service.TagService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -26,7 +29,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class BlogController {
 
     @Autowired(required = false)
+    private NoticeService noticeService;
+    @Autowired(required = false)
     private TagService tagService;
+    @Autowired(required = false)
+    private AttentionService attentionService;
+
     @Autowired(required = false)
     private BlogService blogService;
 
@@ -83,12 +91,12 @@ public class BlogController {
         String rtn;
         if (blog.getTitle() == null || tagId == null || coverImg == null) {
             rtn = "fail";
-        }else {
+        } else {
             //上传封面
             String coverImgUrl = FastDFSUtils.uploadFile(FDFS_CLIENT_PAHT, FDFS_ADDRESS, coverImg);
             if (coverImg == null) {
                 rtn = "fail";
-            }else {
+            } else {
                 Tag tag = tagService.findTagById(tagId);
                 rtn = blogService.addBlog(blog, tag, coverImgUrl);
             }
@@ -99,10 +107,12 @@ public class BlogController {
 
     /**
      * 查看博客
+     *
      * @return
      */
     @GetMapping("/blog/show")
-    public String showBlog(Integer blogId,Model model){
+    public String showBlog(Integer blogId, Model model, HttpServletRequest request) {
+        MainController.sessionAddThreeList(request.getSession(), noticeService, tagService, attentionService);
         Blog blog = blogService.findBlogById(blogId);
         model.addAttribute("blog", blog);
         return "blog/show";

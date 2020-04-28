@@ -45,6 +45,7 @@ public class BlogServiceImpl implements BlogService {
 
     /**
      * 分页检索博客
+     *
      * @param page
      * @param search
      * @return
@@ -52,7 +53,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Page<Blog> findBlogByPageAndSearch(Integer page, String search) {
         List<Blog> blogList = blogRepository.findBlogByPageAndSearch(search, page * BLOG_PAGE_SIZE, BLOG_PAGE_SIZE);
-        int totalElements = blogRepository.countBlogBySearch( search);
+        int totalElements = blogRepository.countBlogBySearch(search);
         int totalPages = (int) Math.ceil(totalElements * 1.0 / BLOG_PAGE_SIZE);
         Page<Blog> userPage = new Page<>(blogList, page, totalPages, totalElements, BLOG_PAGE_SIZE);
         return userPage;
@@ -61,5 +62,17 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Blog findBlogById(Integer blogId) {
         return blogRepository.findByBlogId(blogId);
+    }
+
+    /**
+     * 指定博客增加一次访问量
+     *
+     * @param blogId
+     */
+    @Override
+    public void addViewNum(Integer blogId) {
+        Blog blog = blogRepository.findByBlogId(blogId);
+        blog.setViewNum(blog.getViewNum() + 1);
+        blogRepository.save(blog);
     }
 }

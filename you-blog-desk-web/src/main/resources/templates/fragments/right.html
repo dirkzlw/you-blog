@@ -28,14 +28,13 @@
             </div>
         </div>
         <!--搜索-->
-        <div class="row bgc mt-3">
+        <div class="row bgc mt-2">
             <div class="search">
                 <input type="text" id="search" th:value="${session.search}" class="search-input" placeholder="博客标题">
                 <button class="search-submit" onclick="blogSearch()"></button>
                 <i class="el-search"></i>
             </div>
         </div>
-
         <!--网站公告-->
         <div class="row bgc mt-4">
             <div class="new new-right">
@@ -49,11 +48,10 @@
                         <li th:each="notice : ${session.noticeList}" th:text="${notice.info}"></li>
                     </ul>
                 </div>
-
             </div>
         </div>
         <!--博客标签-->
-        <div class="row bgc mt-5">
+        <div class="row bgc mt-4">
             <div class="new new-right">
                 <span><i class="el-tags"></i>博客标签</span>
                 <small>Blog Tag</small>

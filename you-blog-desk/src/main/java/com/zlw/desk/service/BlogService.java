@@ -14,4 +14,6 @@ public interface BlogService {
     Page<Blog> findBlogByPageAndSearch(Integer page, String search);
 
     Blog findBlogById(Integer blogId);
+
+    void addViewNum(Integer blogId);
 }
