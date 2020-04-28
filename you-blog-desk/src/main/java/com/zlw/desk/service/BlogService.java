@@ -16,4 +16,6 @@ public interface BlogService {
     Blog findBlogById(Integer blogId);
 
     void addViewNum(Integer blogId);
+
+    void zanBlog(Integer blogId);
 }

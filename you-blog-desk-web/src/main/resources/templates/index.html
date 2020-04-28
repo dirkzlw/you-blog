@@ -188,14 +188,6 @@
     }
 
     /**
-     * 检索博客
-     */
-    function blogSearch() {
-        var search = $("#search").val();
-        window.open("/?search=" + search, "_self");
-    }
-
-    /**
      * 监听滚动条
      */
     $(window).scroll(function () {
@@ -312,28 +304,6 @@
 </script>
 <script>
     new WOW().init();//把wow初始化
-
-</script>
-<script>
-    window.onload = function () {
-        var art_list = document.getElementById('box');
-        var art_list_a = art_list.getElementsByTagName('a');
-
-        for (var i = 0; i < art_list_a.length; i++) {
-
-            var aclick = art_list_a[i];
-
-            aclick.onclick = function () {
-
-                for (var j = 0; j < art_list_a.length; j++) {
-                    art_list_a[j].className = '';
-                    art_list_a[j].style.color = '#000000';
-                }
-                this.className = 'actives';
-                this.style.color = '#ffffff';
-            };
-        }
-    }
 </script>
 </body>
 </html>

@@ -118,4 +118,20 @@ public class BlogController {
         return "blog/show";
     }
 
+    /**
+     * 博客点赞
+     * @param blogId
+     * @return
+     */
+    @PostMapping("/blog/zan")
+    @ResponseBody
+    public String zanBlog(Integer blogId){
+        if(blogId == null)
+            return "fail";
+        else {
+            blogService.zanBlog(blogId);
+            return "success";
+        }
+    }
+
 }

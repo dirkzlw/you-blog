@@ -39,9 +39,11 @@
                                 <li class="d-none d-sm-none d-md-none d-lg-block"><a><i class="el-user"></i>
                                     <span th:text="${blog.user.username}"></span></a></li>
                                 <li><a><i class="el-heart"></i>
-                                    <span th:text="${blog.zanNum}"></span></a></li>
+                                    <span th:text="${blog.zanNum}" id="zanNum"></span></a></li>
                                 <li><a><i class="el-eye-open"></i>
                                     <span th:text="${blog.viewNum}"></span></a></li>
+                                <li style="position:relative;left: 20px;cursor: pointer" onclick="zan()">
+                                    <a><i class="el-hand-right" title="点赞"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -61,45 +63,52 @@
 <!--底部-->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
+<!--隐藏的input-->
+<input type="hidden" id="blogId" th:value="${blog.blogId}">
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="/blog/lib/jquery/jquery.js"></script>
 <script src="/blog/lib/bootstrap/js/bootstrap.js"></script>
 <script src="/blog/js/wow.js"></script>
+<!--layui-->
+<script src="/layui/layui.js" charset="utf-8"></script>
 <script>
     new WOW().init();//把wow初始化
 </script>
 <script type="text/javascript">
-    /**
-     * 检索博客
-     */
-    function blogSearch() {
-        var search = $("#search").val();
-        window.open("/?search=" + search, "_self");
-    }
-</script>
-<script>
-    window.onload = function () {
-        var art_list = document.getElementById('box');
-        var art_list_a = art_list.getElementsByTagName('a');
+    //添加弹出层
+    layui.use(['layer'], function () {
+        $ = layui.jquery;//jquery
+        layer = layui.layer;//弹出层
 
-        for (var i = 0; i < art_list_a.length; i++) {
+    });
 
-            var aclick = art_list_a[i];
+    //点赞
+    function zan() {
+        var blogId = $("#blogId").val();
+        $.ajax({
+            type: "POST",
+            url: "/blog/zan",
+            data: {'blogId': blogId},
+            dataType: "text",
+            success: function (json) {
+                if (json == "success") {
+                    layer.msg("谢谢您的赞❥(^_-)", {icon: 6, time: 1000});
+                    //更新赞的数量
+                    var zanNumObj = $("#zanNum");
+                    var zanNum = Number(zanNumObj.text());
+                    zanNumObj.text(zanNum + 1);
 
-            aclick.onclick = function () {
-
-                for (var j = 0; j < art_list_a.length; j++) {
-                    art_list_a[j].className = '';
-                    art_list_a[j].style.color = '#000000';
+                } else {
+                    layer.msg("点赞失败，请检查网络!", {icon: 5, time: 1000});
                 }
-                this.className = 'actives';
-                this.style.color = '#ffffff';
-            };
-
-
-        }
-
+            },
+            error: function (json) {
+                narn('warn', '点赞失败，请检查网络!');
+                return false;
+            }
+        });
     }
 </script>
 </body>

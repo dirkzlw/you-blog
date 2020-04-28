@@ -27,6 +27,7 @@ public class BlogServiceImpl implements BlogService {
 
     /**
      * 添加博客
+     *
      * @param blog
      * @param tag
      * @param coverImgUrl
@@ -73,6 +74,17 @@ public class BlogServiceImpl implements BlogService {
     public void addViewNum(Integer blogId) {
         Blog blog = blogRepository.findByBlogId(blogId);
         blog.setViewNum(blog.getViewNum() + 1);
+        blogRepository.save(blog);
+    }
+
+    /**
+     * 博客点赞
+     * @param blogId
+     */
+    @Override
+    public void zanBlog(Integer blogId) {
+        Blog blog = blogRepository.findByBlogId(blogId);
+        blog.setZanNum(blog.getZanNum()+1);
         blogRepository.save(blog);
     }
 }
