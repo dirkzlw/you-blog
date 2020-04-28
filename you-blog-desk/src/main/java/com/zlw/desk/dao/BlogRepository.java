@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface BlogRepository extends JpaRepository<Blog,Integer> {
 
+    Blog findByBlogId(Integer blogId);
+
     //自定义检索并分页
     @Query(nativeQuery = true,
             value = "SELECT * FROM t_blog AS b " +

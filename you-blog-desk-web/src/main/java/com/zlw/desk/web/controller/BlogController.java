@@ -102,8 +102,9 @@ public class BlogController {
      * @return
      */
     @GetMapping("/blog/show")
-    public String showBlog(Integer blogId){
-        System.out.println("blogId = " + blogId);
+    public String showBlog(Integer blogId,Model model){
+        Blog blog = blogService.findBlogById(blogId);
+        model.addAttribute("blog", blog);
         return "blog/show";
     }
 

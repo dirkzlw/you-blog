@@ -119,163 +119,12 @@
                         </li>
                     </ul>
                 </div>
-                <div class="row" id="bottom">
-
-                </div>
+                <div class="row" id="bottom"></div>
             </div>
         </div>
 
         <!--右边-->
-        <div class="col-md-4 ">
-            <div class="container">
-                <!--用户信息-->
-                <div th:if="${session.user} ne null" class="row bgc mt-5 right-author">
-                    <div class="col-md-12 ">
-                        <div class="auth-img">
-                            <img src="blog/images/logo.png" alt="">
-                        </div>
-                        <div class="auth-name">
-                            <span>惜缘</span>
-                        </div>
-                        <div class="auth-info">
-                            <ul>
-                                <li><strong>2</strong><span>原创</span></li>
-                                <li><strong>2</strong><span>转发</span></li>
-                                <li><strong>2</strong><span>翻译</span></li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-                <!--搜索-->
-                <div class="row bgc mt-3">
-                    <div class="search">
-                        <input type="hidden" id="page" th:value="${blogPage.page}">
-                        <input type="hidden" id="pageSize" th:value="${blogPage.pageSize}">
-                        <input type="hidden" id="totalElements" th:value="${blogPage.totalElements}">
-                        <input type="text" id="search" th:value="${search}" class="search-input" placeholder="博客标题">
-                        <button class="search-submit" onclick="blogSearch()"></button>
-                        <i class="el-search"></i>
-                    </div>
-
-                </div>
-
-                <!--网站公告-->
-                <div class="row bgc mt-4">
-                    <div class="new new-right">
-                        <span><i class="el-arrow-up"></i></span>
-                        <span>网站公告</span>
-                        <small>Notice</small>
-                    </div>
-                    <div class="col-md-12 ">
-                        <div class="notice">
-                            <ul>
-                                <li th:each="notice : ${noticeList}" th:text="${notice.info}"></li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-                <!--博客标签-->
-                <div class="row bgc mt-5">
-                    <div class="new new-right">
-                        <span><i class="el-tags"></i>博客标签</span>
-                        <small>Blog Tag</small>
-                    </div>
-                    <div class="col-md-12 ">
-                        <ul class="label">
-                            <li th:each="tag : ${tagList}">
-                                <a href="#" th:text="${tag.type}+' ('+${tag.blogList.size()}+') '"></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!--今日推荐-->
-                <div class="row bgc mt-4">
-                    <div class="new new-right">
-
-                        <span><i class="el-asl"></i>今日推荐</span>
-                        <small>Recommender</small>
-                    </div>
-                    <ul class="list-unstyled artimg-list">
-                        <li class="media">
-                            <div class="artimg-img">
-                                <img class="mr-3" src="blog/images/eg.png" alt="Generic placeholder image">
-                            </div>
-                            <div class="media-body art-content">
-                                <h5 class="mt-0 mb-1">js前端实现模糊查询</h5>
-                                <p>js前端实现模糊查询对于模糊查询，一般都是传关键字给后端</p>
-                                <ul>
-                                    <li><a title="惜缘2019-04-03发表"><i class="el-time"></i>2019-04-03</a></li>
-                                    <li class="d-none d-sm-none d-md-none d-lg-block"><a
-                                            href="/index/article/index/id/32.html" ><i class="el-fire"></i>5</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-
-                </div>
-
-                <!--排行榜+热门文章-->
-                <div class="row bgc mt-5">
-
-                    <div class="nav nav-tabs tab-atr" id="box" role="tablist">
-                        <a class="nav-item  active actives" id="nav-home-tab" data-toggle="tab" href="#nav-home"
-                           role="tab" aria-controls="nav-home" aria-selected="true">排行榜</a>
-                        <a class="nav-item " id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-                           aria-controls="nav-profile" aria-selected="false">文章排行</a>
-                    </div>
-
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                             aria-labelledby="nav-home-tab">
-                            <ul class="hd-ul">
-                                <li>
-                                    <div class="art-hd-list-left">
-                                        <a href="#"><img src="blog/images/logo.png" alt=""></a>
-                                    </div>
-                                    <div class="art-hd-list-right">
-                                        <span><i class="el-user"></i>惜缘</span>
-                                        <time>2020-3-7</time>
-                                        <p>一般都是传关键字给后端，由后端来做...</p>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </div>
-                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                            <ul class="art-sort">
-                                <li>
-                                    <span>1</span>
-                                    <a href="#">thinkphp5随机抽取数据的方法
-                                        <b>(235)</b>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!--友情链接-->
-                <div class="row bgc mt-5">
-                    <div class="new new-right">
-                        <span><i class="el-paper-clip"></i>友情连接</span>
-                        <small>Friend Links</small>
-                    </div>
-                    <div class="col-md-12 ">
-                        <ul class="links">
-                            <li><a href="https://www.baidu.com/">百度一下</a></li>
-                            <li><a href="https://www.yonyou.com/">企业官网</a></li>
-                            <li><a href="https://github.com/dirkzlw/you-blog">GitHub</a></li>
-                            <li><a href="">You Blog Api</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <div th:replace="~{fragments/right :: right}"></div>
     </div>
 
     <!--返回顶部-->
@@ -309,12 +158,17 @@
         <a class="cart" title="关注微信公众号">
             <div class="pic">
                 <div class="pic-content"
-                     th:style="'background:url(' + ${attentionImgUrl} + ') center no-repeat ;background-size :139px 169px;'"></div>
+                     th:style="'background:url(' + ${session.attentionImgUrl} + ') center no-repeat ;background-size :139px 169px;'"></div>
             </div>
         </a>
         <a href="javascript:void(0)" onclick="toTop()" class="back-top" style="display: block;" title="返回顶部"></a>
     </div>
 </div>
+
+<!--隐藏的input-->
+<input type="hidden" id="page" th:value="${blogPage.page}">
+<input type="hidden" id="pageSize" th:value="${blogPage.pageSize}">
+<input type="hidden" id="totalElements" th:value="${blogPage.totalElements}">
 
 <!--底部-->
 <div th:replace="~{fragments/footer :: footer}"></div>
@@ -362,7 +216,6 @@
                     json = eval('(' + json + ')');
                     var content = json.content;
                     var page = json.page;
-                    debugger;
                     if (content.length == 0){
                         var totalElements = Number($("#totalElements").val());
                         var pageSize = Number($("#pageSize").val());

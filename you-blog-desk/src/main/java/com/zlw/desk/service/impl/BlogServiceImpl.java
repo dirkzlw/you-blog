@@ -57,4 +57,9 @@ public class BlogServiceImpl implements BlogService {
         Page<Blog> userPage = new Page<>(blogList, page, totalPages, totalElements, BLOG_PAGE_SIZE);
         return userPage;
     }
+
+    @Override
+    public Blog findBlogById(Integer blogId) {
+        return blogRepository.findByBlogId(blogId);
+    }
 }

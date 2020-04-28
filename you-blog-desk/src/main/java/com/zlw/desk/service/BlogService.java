@@ -12,4 +12,6 @@ public interface BlogService {
     String addBlog(Blog blog, Tag tag, String coverImgUrl);
 
     Page<Blog> findBlogByPageAndSearch(Integer page, String search);
+
+    Blog findBlogById(Integer blogId);
 }

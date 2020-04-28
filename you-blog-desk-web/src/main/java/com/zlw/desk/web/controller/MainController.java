@@ -48,24 +48,25 @@ public class MainController {
                           @RequestParam(required = false, defaultValue = "0") Integer page,
                           @RequestParam(required = false, defaultValue = "") String search) {
 
+        HttpSession session = request.getSession();
         //获取公告列表
         List<Notice> noticeList = noticeService.findAllNotice();
-        model.addAttribute("noticeList", noticeList);
+        session.setAttribute("noticeList", noticeList);
         //获取标签列表
         List<Tag> tagList = tagService.findAllTag();
-        model.addAttribute("tagList", tagList);
+        session.setAttribute("tagList", tagList);
         //获取关注
         List<Attention> attentionList = attentionService.getAllAttention();
         if (attentionList.size() == 0) {
-            model.addAttribute("attentionImgUrl", ATTENTION_IMG_URL);
+            session.setAttribute("attentionImgUrl", ATTENTION_IMG_URL);
         } else {
-            model.addAttribute("attentionImgUrl", attentionList.get(0).getImgUrl());
+            session.setAttribute("attentionImgUrl", attentionList.get(0).getImgUrl());
         }
         //获取博客列表
         Page<Blog> blogPage = blogService.findBlogByPageAndSearch(page, search);
         model.addAttribute("blogPage", blogPage);
-        model.addAttribute("search", search);
-        request.getSession().setAttribute("page", page);
+        session.setAttribute("search", search);
+        session.setAttribute("page", page);
 
         return "index";
     }
