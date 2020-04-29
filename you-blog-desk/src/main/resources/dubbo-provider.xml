@@ -14,4 +14,5 @@
     <dubbo:protocol name="dubbo" port="20881"/>
     <!-- 声明需要暴露的服务接口 -->
     <dubbo:service interface="com.zlw.desk.service.BlogService" ref="blogService" timeout="30000"/>
+    <dubbo:service interface="com.zlw.desk.service.UserService" ref="userService" timeout="30000"/>
 </beans>

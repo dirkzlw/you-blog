@@ -3,6 +3,7 @@ package com.zlw.manager.service;
 import com.zlw.common.vo.Page;
 import com.zlw.common.po.Staff;
 import com.zlw.common.po.User;
+import java.util.List;
 
 /**
  * @author Dirk
@@ -25,4 +26,5 @@ public interface UserService {
     void yesUser(Integer userId);
 
     User findUserById(Integer userId);
+
 }

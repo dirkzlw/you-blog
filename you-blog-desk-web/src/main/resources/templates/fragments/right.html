@@ -110,22 +110,43 @@
                 <a class="nav-item " id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
                    aria-controls="nav-profile" aria-selected="false">文章排行</a>
             </div>
-
+            <!--两个标签颜色对应变化-->
+            <script>
+                window.onload=function () {
+                    var art_list=document.getElementById('box');
+                    var art_list_a=art_list.getElementsByTagName('a');
+                    for (var i=0;i<art_list_a.length;i++){
+                        var aclick = art_list_a[i];
+                        aclick.onclick=function(){
+                            for (var j=0;j<art_list_a.length;j++){
+                                art_list_a[j].className='';
+                                art_list_a[j].style.color='#000000';
+                            }
+                            this.className='actives';
+                            this.style.color='#ffffff';
+                        };
+                    }
+                }
+            </script>
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                      aria-labelledby="nav-home-tab">
-                    <ul class="hd-ul">
+                    <ul class="hd-ul" th:each="user : ${session.userRanks}">
                         <li>
                             <div class="art-hd-list-left">
-                                <a href="#"><img src="/blog/images/logo.png" alt=""></a>
+                                <a href="#"><img th:src="${user.headImgUrl}" alt=""></a>
                             </div>
                             <div class="art-hd-list-right">
-                                <span><i class="el-user"></i>惜缘</span>
-                                <time>2020-3-7</time>
-                                <p>一般都是传关键字给后端，由后端来做...</p>
+                                <span style="display: inline-block;width: 120px"><i class="el-user"></i>
+                                    <span th:text="${user.username}"></span>
+                                </span>
+                                <span><i>积分:</i>
+                                    <span th:text="${user.score}"></span>
+                                </span>
+                                <time style="position: relative;top: 5px" th:text="${user.createTime}"></time>
+                                <p th:text="${user.signStr}"></p>
                             </div>
                         </li>
-
                     </ul>
                 </div>
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">

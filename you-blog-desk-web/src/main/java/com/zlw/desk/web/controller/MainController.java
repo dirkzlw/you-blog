@@ -4,12 +4,14 @@ import com.zlw.common.po.Attention;
 import com.zlw.common.po.Blog;
 import com.zlw.common.po.Notice;
 import com.zlw.common.po.Tag;
+import com.zlw.common.po.User;
 import com.zlw.common.vo.BlogInfo;
 import com.zlw.common.vo.Page;
 import com.zlw.desk.service.BlogService;
 import com.zlw.manager.service.AttentionService;
 import com.zlw.manager.service.NoticeService;
 import com.zlw.manager.service.TagService;
+import com.zlw.desk.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +40,8 @@ public class MainController {
     private AttentionService attentionService;
     @Autowired(required = false)
     private BlogService blogService;
+    @Autowired(required = false)
+    private UserService userService;
 
     @Value("${ATTENTION_IMG_URL}")
     private static String ATTENTION_IMG_URL;
@@ -49,7 +53,7 @@ public class MainController {
                           @RequestParam(required = false, defaultValue = "") String search) {
 
         HttpSession session = request.getSession();
-        sessionAddThreeList(session,noticeService,tagService,attentionService);
+        sessionAddThreeList(session, noticeService, tagService, attentionService, userService);
         //获取博客列表
         Page<Blog> blogPage = blogService.findBlogByPageAndSearch(page, search);
         model.addAttribute("blogPage", blogPage);
@@ -70,7 +74,7 @@ public class MainController {
         synchronized (request.getSession().getClass()) {
             HttpSession session = request.getSession();
             Integer page1 = (Integer) session.getAttribute("page");
-            if (page1 == page){
+            if (page1 == page) {
                 blogInfoPage.setPage(page);
                 return blogInfoPage;
             }
@@ -105,28 +109,37 @@ public class MainController {
     public static void sessionAddThreeList(HttpSession session,
                                            NoticeService noticeService,
                                            TagService tagService,
-                                           AttentionService attentionService){
+                                           AttentionService attentionService,
+                                           UserService userService) {
+        //获取公告列表
         List<Notice> noticeList = (List<Notice>) session.getAttribute("noticeList");
-        if(noticeList ==null){
-            //获取公告列表
+        if (noticeList == null) {
             noticeList = noticeService.findAllNotice();
             session.setAttribute("noticeList", noticeList);
         }
+        //获取标签列表
         List<Tag> tagList = (List<Tag>) session.getAttribute("tagList");
-        if(tagList ==null){
-            //获取标签列表
+        if (tagList == null) {
             tagList = tagService.findAllTag();
             session.setAttribute("tagList", tagList);
         }
+        //获取关注
         List<Attention> attentionList = (List<Attention>) session.getAttribute("attentionList");
-        if(attentionList ==null){
-            //获取关注
+        if (attentionList == null) {
             attentionList = attentionService.getAllAttention();
+            //数据库中不存在，则显示默认关注二维码
             if (attentionList.size() == 0) {
                 session.setAttribute("attentionImgUrl", ATTENTION_IMG_URL);
             } else {
                 session.setAttribute("attentionImgUrl", attentionList.get(0).getImgUrl());
             }
+        }
+        //获取用户排行榜
+        List<User> userRanks = (List<User>) session.getAttribute("userRanks");
+        if (userRanks == null) {
+            userRanks = userService.getUserRanks();
+            session.setAttribute("userRanks", userRanks);
+
         }
     }
 

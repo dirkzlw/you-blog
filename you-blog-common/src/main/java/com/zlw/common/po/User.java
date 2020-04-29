@@ -1,5 +1,6 @@
 package com.zlw.common.po;
 
+import com.zlw.common.utils.DateUtils;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +22,11 @@ import lombok.ToString;
 /**
  * @author Ranger
  * @create 2019-06-04 19:44
+ * 积分规则
+ * 1、每发布一篇原创或者翻译文章：可获得10分；
+ * 2、每发布一篇转载文章：可获得2分；
+ * 3、文章被点赞一次，获得1分
+ * 4、文章阅读次数每超过100次，可获得1分
  */
 @Entity
 @Table(name = "t_user")
@@ -41,6 +47,14 @@ public class User implements Serializable {
     //邮箱
     @Column(length = 40, unique = true)
     private String email;
+    //积分，默认为0
+    private Integer score = 0;
+    //账户创建时间，默认为当前时间
+    @Column(length = 40)
+    private String createTime = DateUtils.getStringTime2();
+    //用户签名
+    @Column(length = 80)
+    private String signStr = "这个人很懒，什么也没留下~";
     //头像URL
     @Column(length = 100)
     private String headImgUrl;

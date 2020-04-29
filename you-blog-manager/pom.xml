@@ -51,10 +51,6 @@
                     <artifactId>spring-boot-starter-web</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>com.belerweb</groupId>
-                    <artifactId>pinyin4j</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>fastdfs</groupId>
                     <artifactId>fastdfs</artifactId>
                 </exclusion>

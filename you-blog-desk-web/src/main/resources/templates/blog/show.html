@@ -35,15 +35,15 @@
                     <div class="col-md-12 bgc">
                         <div class="article-title">
                             <ul>
-                                <li><a><i class="el-time"></i><span th:text="${blog.createTime}"></span></a></li>
-                                <li class="d-none d-sm-none d-md-none d-lg-block"><a><i class="el-user"></i>
-                                    <span th:text="${blog.user.username}"></span></a></li>
-                                <li><a><i class="el-heart"></i>
-                                    <span th:text="${blog.zanNum}" id="zanNum"></span></a></li>
-                                <li><a><i class="el-eye-open"></i>
+                                <li title="编辑时间"><a><i class="el-time"></i><span th:text="${blog.createTime}"></span></a></li>
+                                <li title="作者" style="position:relative;left: 20px;" class="d-none d-sm-none d-md-none d-lg-block">
+                                    <a><i class="el-user"></i>
+                                        <span th:text="${blog.user.username}"></span></a></li>
+                                <li style="position:relative;left: 40px;cursor: pointer" onclick="zan()" title="点赞">
+                                    <a><i class="el-heart"></i>
+                                        <span th:text="${blog.zanNum}" id="zanNum"></span></a></li>
+                                <li title="访问量" style="position:relative;left: 60px;"><a><i class="el-eye-open"></i>
                                     <span th:text="${blog.viewNum}"></span></a></li>
-                                <li style="position:relative;left: 20px;cursor: pointer" onclick="zan()">
-                                    <a><i class="el-hand-right" title="点赞"></i></a></li>
                             </ul>
                         </div>
                     </div>

@@ -7,6 +7,7 @@ import com.zlw.common.po.Tag;
 import com.zlw.manager.service.AttentionService;
 import com.zlw.manager.service.NoticeService;
 import com.zlw.manager.service.TagService;
+import com.zlw.desk.service.UserService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,9 +35,10 @@ public class BlogController {
     private TagService tagService;
     @Autowired(required = false)
     private AttentionService attentionService;
-
     @Autowired(required = false)
     private BlogService blogService;
+    @Autowired(required = false)
+    private UserService userService;
 
     //引入图片服务器地址
     @Value("${FDFS_ADDRESS}")
@@ -112,7 +114,7 @@ public class BlogController {
      */
     @GetMapping("/blog/show")
     public String showBlog(Integer blogId, Model model, HttpServletRequest request) {
-        MainController.sessionAddThreeList(request.getSession(), noticeService, tagService, attentionService);
+        MainController.sessionAddThreeList(request.getSession(), noticeService, tagService, attentionService,userService);
         Blog blog = blogService.findBlogById(blogId);
         model.addAttribute("blog", blog);
         return "blog/show";
