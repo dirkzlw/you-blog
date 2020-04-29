@@ -131,7 +131,7 @@
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                      aria-labelledby="nav-home-tab">
-                    <ul class="hd-ul" th:each="user : ${session.userRanks}">
+                    <ul class="hd-ul" th:each="user : ${userRanks}">
                         <li>
                             <div class="art-hd-list-left">
                                 <a href="#"><img th:src="${user.headImgUrl}" alt=""></a>
@@ -149,12 +149,11 @@
                         </li>
                     </ul>
                 </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="tab-pane" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                     <ul class="art-sort">
-                        <li>
-                            <span>1</span>
-                            <a href="#">thinkphp5随机抽取数据的方法
-                                <b>(235)</b>
+                        <li  th:each="blog,var : ${blogRanks}">
+                            <span th:text="${var.count}"></span>
+                            <a th:href="@{/blog/show(blogId=${blog.blogId})}" th:utext="${blog.title} + '<b>(' +${blog.viewNum} + ')</b>'">
                             </a>
                         </li>
                     </ul>

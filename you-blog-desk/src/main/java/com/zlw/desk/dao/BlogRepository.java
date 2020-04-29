@@ -26,4 +26,10 @@ public interface BlogRepository extends JpaRepository<Blog,Integer> {
                     "WHERE b.title LIKE CONCAT('%',?1,'%') ;")
     Integer countBlogBySearch(String search);
 
+    //获取博客排行榜
+    @Query(nativeQuery = true,value = "SELECT * FROM t_blog " +
+            "ORDER BY view_num DESC " +
+            "LIMIT 0,5 ;")
+    List<Blog> getBlogRanks();
+
 }

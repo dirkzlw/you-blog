@@ -53,12 +53,18 @@ public class MainController {
                           @RequestParam(required = false, defaultValue = "") String search) {
 
         HttpSession session = request.getSession();
-        sessionAddThreeList(session, noticeService, tagService, attentionService, userService);
+        sessionAddThreeList(session, noticeService, tagService, attentionService);
         //获取博客列表
         Page<Blog> blogPage = blogService.findBlogByPageAndSearch(page, search);
+        //获取用户排行榜
+        List<User> userRanks = userService.getUserRanks();
+        //获取博客排行榜
+        List<Blog> blogRanks = blogService.getUserRanks();
         model.addAttribute("blogPage", blogPage);
         session.setAttribute("search", search);
         session.setAttribute("page", page);
+        model.addAttribute("userRanks", userRanks);
+        model.addAttribute("blogRanks", blogRanks);
 
         return "index";
     }
@@ -109,8 +115,7 @@ public class MainController {
     public static void sessionAddThreeList(HttpSession session,
                                            NoticeService noticeService,
                                            TagService tagService,
-                                           AttentionService attentionService,
-                                           UserService userService) {
+                                           AttentionService attentionService) {
         //获取公告列表
         List<Notice> noticeList = (List<Notice>) session.getAttribute("noticeList");
         if (noticeList == null) {
@@ -133,13 +138,6 @@ public class MainController {
             } else {
                 session.setAttribute("attentionImgUrl", attentionList.get(0).getImgUrl());
             }
-        }
-        //获取用户排行榜
-        List<User> userRanks = (List<User>) session.getAttribute("userRanks");
-        if (userRanks == null) {
-            userRanks = userService.getUserRanks();
-            session.setAttribute("userRanks", userRanks);
-
         }
     }
 

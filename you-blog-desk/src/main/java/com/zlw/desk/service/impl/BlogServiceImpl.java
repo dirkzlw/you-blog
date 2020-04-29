@@ -87,4 +87,13 @@ public class BlogServiceImpl implements BlogService {
         blog.setZanNum(blog.getZanNum()+1);
         blogRepository.save(blog);
     }
+
+    /**
+     * 获取博客排行
+     * @return
+     */
+    @Override
+    public List<Blog> getUserRanks() {
+        return blogRepository.getBlogRanks();
+    }
 }

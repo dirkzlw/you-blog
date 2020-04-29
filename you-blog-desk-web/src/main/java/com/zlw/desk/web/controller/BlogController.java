@@ -1,5 +1,6 @@
 package com.zlw.desk.web.controller;
 
+import com.zlw.common.po.User;
 import com.zlw.common.utils.FastDFSUtils;
 import com.zlw.desk.service.BlogService;
 import com.zlw.common.po.Blog;
@@ -114,9 +115,15 @@ public class BlogController {
      */
     @GetMapping("/blog/show")
     public String showBlog(Integer blogId, Model model, HttpServletRequest request) {
-        MainController.sessionAddThreeList(request.getSession(), noticeService, tagService, attentionService,userService);
+        MainController.sessionAddThreeList(request.getSession(), noticeService, tagService, attentionService);
         Blog blog = blogService.findBlogById(blogId);
+        //获取用户排行榜
+        List<User> userRanks = userService.getUserRanks();
+        //获取博客排行榜
+        List<Blog> blogRanks = blogService.getUserRanks();
         model.addAttribute("blog", blog);
+        model.addAttribute("userRanks", userRanks);
+        model.addAttribute("blogRanks", blogRanks);
         return "blog/show";
     }
 

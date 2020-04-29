@@ -3,6 +3,7 @@ package com.zlw.desk.service;
 import com.zlw.common.po.Blog;
 import com.zlw.common.po.Tag;
 import com.zlw.common.vo.Page;
+import java.util.List;
 
 /**
  * @author Dirk
@@ -18,4 +19,7 @@ public interface BlogService {
     void addViewNum(Integer blogId);
 
     void zanBlog(Integer blogId);
+
+    List<Blog> getUserRanks();
+
 }
