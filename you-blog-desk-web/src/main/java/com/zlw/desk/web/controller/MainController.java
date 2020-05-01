@@ -11,7 +11,6 @@ import com.zlw.desk.service.BlogService;
 import com.zlw.manager.service.AttentionService;
 import com.zlw.manager.service.NoticeService;
 import com.zlw.manager.service.TagService;
-import com.zlw.desk.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +40,7 @@ public class MainController {
     @Autowired(required = false)
     private BlogService blogService;
     @Autowired(required = false)
-    private UserService userService;
+    private com.zlw.desk.service.UserService userServiceDesk;
 
     @Value("${ATTENTION_IMG_URL}")
     private static String ATTENTION_IMG_URL;
@@ -57,7 +56,7 @@ public class MainController {
         //获取博客列表
         Page<Blog> blogPage = blogService.findBlogByPageAndSearch(page, search);
         //获取用户排行榜
-        List<User> userRanks = userService.getUserRanks();
+        List<User> userRanks = userServiceDesk.getUserRanks();
         //获取博客排行榜
         List<Blog> blogRanks = blogService.getUserRanks();
         model.addAttribute("blogPage", blogPage);

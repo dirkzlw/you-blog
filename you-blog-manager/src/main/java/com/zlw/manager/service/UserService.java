@@ -26,5 +26,4 @@ public interface UserService {
     void yesUser(Integer userId);
 
     User findUserById(Integer userId);
-
 }

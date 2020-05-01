@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface UserService {
     List<User> getUserRanks();
+
+    void addUser(String username, String email, String password);
 }

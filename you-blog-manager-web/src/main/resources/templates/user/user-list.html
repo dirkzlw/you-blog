@@ -79,9 +79,9 @@
         <tbody>
         <tr th:each="user,var : ${userPage.content}">
             <td th:text="${var.count}"></td>
-            <td th:text="${user.staff.staffNo}"></td>
-            <td th:text="${user.staff.realname}"></td>
-            <td th:text="${user.staff.department}"></td>
+            <td th:if="${user.staff} ne null" th:text="${user.staff.staffNo}"></td>
+            <td th:if="${user.staff} ne null" th:text="${user.staff.realname}"></td>
+            <td th:if="${user.staff} ne null" th:text="${user.staff.department}"></td>
             <td th:text="${user.username}"></td>
             <td th:text="${user.email}"></td>
             <td class="td-status">
@@ -90,11 +90,11 @@
                 </span>
             </td>
             <td class="td-manage">
-                <a style="text-decoration:none" th:id="${user.userId}" onclick="user_stop(this)" href="javascript:;"
+                <a style="text-decoration:none" th:id="${user.userId}" onclick="user_stop(this)" href="javascript:"
                    title="禁用">
                     <i class="layui-icon">&#xe601;</i>
                 </a>
-                <a title="编辑" href="javascript:;" th:id="${user.userId}"
+                <a title="编辑" href="javascript:" th:id="${user.userId}"
                    onclick="user_edit('编辑','/user-edit?userId='+id,'600','300')"
                    class="ml-5" style="text-decoration:none">
                     <i class="layui-icon">&#xe642;</i>
@@ -163,15 +163,15 @@
                         $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-danger">已禁用</span>');
                         $(obj).remove();
                         layer.msg('已禁用!', {icon: 5, time: 1000});
-                        return;
+
                     } else {
                         layer.msg('禁用失败，请检查网络!', {icon: 5, time: 1000});
-                        return
+
                     }
                 },
                 error: function () {
                     layer.msg('禁用失败，请检查网络!', {icon: 5, time: 1000});
-                    return;
+
                 }
             });
 
@@ -194,15 +194,15 @@
                         $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-normal">已启用</span>');
                         $(obj).remove();
                         layer.msg('已启用!', {icon: 6, time: 1000});
-                        return;
+
                     } else {
                         layer.msg('禁用失败，请检查网络!', {icon: 5, time: 1000});
-                        return
+
                     }
                 },
                 error: function () {
                     layer.msg('禁用失败，请检查网络!', {icon: 5, time: 1000});
-                    return;
+
                 }
             });
         });
