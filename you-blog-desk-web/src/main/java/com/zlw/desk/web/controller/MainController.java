@@ -5,6 +5,7 @@ import com.zlw.common.po.Blog;
 import com.zlw.common.po.Notice;
 import com.zlw.common.po.Tag;
 import com.zlw.common.po.User;
+import com.zlw.common.utils.HttpUtils;
 import com.zlw.common.vo.BlogInfo;
 import com.zlw.common.vo.Page;
 import com.zlw.desk.service.BlogService;
@@ -111,6 +112,29 @@ public class MainController {
         return blogInfoPage;
     }
 
+
+    /**
+     * 异常处理
+     *
+     * @param model     模型
+     * @param code http状态码
+     * @return 执行错误处理页面
+     */
+    @GetMapping("/to/error")
+    public String toError(Model model, Integer code) {
+        String msg = HttpUtils.getMessageByCode(code);
+        model.addAttribute("code", code);
+        model.addAttribute("msg", msg);
+        return "error";
+    }
+
+    /**
+     * 将三个数据列表加入session
+     * @param session
+     * @param noticeService
+     * @param tagService
+     * @param attentionService
+     */
     public static void sessionAddThreeList(HttpSession session,
                                            NoticeService noticeService,
                                            TagService tagService,

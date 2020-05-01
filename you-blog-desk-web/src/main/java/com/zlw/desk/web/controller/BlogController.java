@@ -170,4 +170,10 @@ public class BlogController {
         }
     }
 
+    @GetMapping("/blog/user")
+    public String blogByUser(Integer userId){
+        System.out.println("userId = " + userId);
+        return "index";
+    }
+
 }

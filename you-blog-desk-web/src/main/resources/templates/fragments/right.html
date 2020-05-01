@@ -134,7 +134,7 @@
                     <ul class="hd-ul" th:each="user : ${userRanks}">
                         <li>
                             <div class="art-hd-list-left">
-                                <a href="#"><img th:src="${user.headImgUrl}" alt=""></a>
+                                <a th:href="@{/blog/user(userId=${user.userId})}"><img th:src="${user.headImgUrl}" alt=""></a>
                             </div>
                             <div class="art-hd-list-right">
                                 <span style="display: inline-block;width: 120px"><i class="el-user"></i>
