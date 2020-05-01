@@ -34,6 +34,9 @@ public interface BlogRepository extends JpaRepository<Blog,Integer> {
 
     //查询指定用户的博客列表
     @Query(nativeQuery = true,value = "SELECT * FROM t_blog AS b WHERE b.user_id=?1 ;")
-    List<Blog> findBlogByUser(Integer userId);
+    List<Blog> findBlogByUserId(Integer userId);
 
+    //查询指定标签的博客列表
+    @Query(nativeQuery = true,value = "SELECT * FROM t_blog AS b WHERE b.tag_id=?1 ;")
+    List<Blog> findBlogByTagId(Integer tagId);
 }

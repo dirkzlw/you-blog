@@ -68,7 +68,7 @@
             <div class="col-md-12 ">
                 <ul class="label">
                     <li th:each="tag : ${session.tagList}">
-                        <a href="#" th:text="${tag.type}+' ('+${tag.blogList.size()}+') '"></a>
+                        <a th:href="@{/blog/tag(tagId=${tag.tagId})}" th:text="${tag.type}+' ('+${tag.blogList.size()}+') '"></a>
                     </li>
                 </ul>
             </div>

@@ -107,8 +107,18 @@ public class BlogServiceImpl implements BlogService {
      * @return
      */
     @Override
-    public List<Blog> findBlogByUser(Integer userId) {
+    public List<Blog> findBlogByUserId(Integer userId) {
 
-        return blogRepository.findBlogByUser(userId);
+        return blogRepository.findBlogByUserId(userId);
+    }
+
+    /**
+     * 根据标签获取博客列表
+     * @param tagId
+     * @return
+     */
+    @Override
+    public List<Blog> findBlogByTagId(Integer tagId) {
+        return blogRepository.findBlogByTagId(tagId);
     }
 }

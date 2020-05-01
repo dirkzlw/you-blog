@@ -1,5 +1,6 @@
 package com.zlw.desk.web.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.zlw.common.po.User;
 import com.zlw.common.utils.FastDFSUtils;
 import com.zlw.common.utils.SessionUtils;
@@ -172,7 +173,7 @@ public class BlogController {
         HttpSession session = request.getSession();
         MainController.sessionAddThreeList(session, noticeService, tagService, attentionService);
         //获取博客列表
-        List<Blog> blogList = blogService.findBlogByUser(userId);
+        List<Blog> blogList = blogService.findBlogByUserId(userId);
         //获取用户排行榜
         List<User> userRanks = userServiceDesk.getUserRanks();
         //获取博客排行榜
@@ -182,6 +183,29 @@ public class BlogController {
         model.addAttribute("blogRanks", blogRanks);
 
         return "blog/user";
+    }
+
+    /**
+     * 根据标签查看博客列表
+     * @param tagId
+     * @return
+     */
+    @GetMapping("/blog/tag")
+    public String blogByTag(Integer tagId, Model model,
+                            HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        MainController.sessionAddThreeList(session, noticeService, tagService, attentionService);
+        //获取博客列表
+        List<Blog> blogList = blogService.findBlogByTagId(tagId);
+        //获取用户排行榜
+        List<User> userRanks = userServiceDesk.getUserRanks();
+        //获取博客排行榜
+        List<Blog> blogRanks = blogService.getUserRanks();
+        model.addAttribute("blogList", blogList);
+        model.addAttribute("userRanks", userRanks);
+        model.addAttribute("blogRanks", blogRanks);
+
+        return "blog/tag";
     }
 
 }
