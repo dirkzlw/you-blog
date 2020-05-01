@@ -46,6 +46,14 @@ public class MainController {
     @Value("${ATTENTION_IMG_URL}")
     private static String ATTENTION_IMG_URL;
 
+    /**
+     * 获取主页，加载相关数据
+     * @param model
+     * @param request
+     * @param page
+     * @param search
+     * @return
+     */
     @GetMapping("/")
     public String toIndex(Model model,
                           HttpServletRequest request,
@@ -69,6 +77,13 @@ public class MainController {
         return "index";
     }
 
+    /**
+     * 异步加载更多数据
+     * @param page
+     * @param search
+     * @param request
+     * @return
+     */
     @PostMapping("/blog/more")
     @ResponseBody
     public Page<BlogInfo> getMoreBlog(Integer page,

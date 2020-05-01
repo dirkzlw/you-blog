@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
     @Override
-    public User updateScore(User user) {
+    public void updateScore(User user) {
         int score = 0;
         List<Blog> blogList = user.getBlogList();
         for (Blog blog : blogList) {
@@ -99,7 +99,6 @@ public class UserServiceImpl implements UserService {
         user.setScore(score);
         userRepository.save(user);
 
-        return user;
     }
 
 }

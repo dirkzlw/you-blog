@@ -24,4 +24,5 @@ public interface BlogService {
 
     List<Blog> getUserRanks();
 
+    List<Blog> findBlogByUser(Integer userId);
 }

@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 /**
@@ -98,5 +99,16 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public List<Blog> getUserRanks() {
         return blogRepository.getBlogRanks();
+    }
+
+    /**
+     * 根据用户查询博客列表
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<Blog> findBlogByUser(Integer userId) {
+
+        return blogRepository.findBlogByUser(userId);
     }
 }

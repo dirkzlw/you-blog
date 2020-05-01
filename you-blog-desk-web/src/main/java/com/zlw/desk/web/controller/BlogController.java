@@ -3,6 +3,7 @@ package com.zlw.desk.web.controller;
 import com.zlw.common.po.User;
 import com.zlw.common.utils.FastDFSUtils;
 import com.zlw.common.utils.SessionUtils;
+import com.zlw.common.vo.Page;
 import com.zlw.common.vo.ResultObj;
 import com.zlw.common.vo.SessionUser;
 import com.zlw.desk.service.BlogService;
@@ -99,21 +100,19 @@ public class BlogController {
 
         ResultObj rtnObj;
         if (blog.getTitle() == null || tagId == null || coverImg == null) {
-            rtnObj = new ResultObj("fail",null );
+            rtnObj = new ResultObj("fail", null);
         } else {
             //上传封面
             String coverImgUrl = FastDFSUtils.uploadFile(FDFS_CLIENT_PAHT, FDFS_ADDRESS, coverImg);
             if (coverImg == null) {
-                rtnObj = new ResultObj("fail",null );
+                rtnObj = new ResultObj("fail", null);
             } else {
                 Tag tag = tagService.findTagById(tagId);
                 SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
                 User user = userServiceManager.findUserById(sessionUser.getUserId());
                 rtnObj = blogService.addBlog(blog, tag, coverImgUrl, user);
                 //更新积分
-                User user2 =  userServiceDesk.updateScore(user);
-                //更新sessionUser
-                SessionUtils.userToSessionUser(session, user2);
+                userServiceDesk.updateScore(blogService.findBlogById(rtnObj.getObjId()).getUser());
             }
         }
 
@@ -138,12 +137,7 @@ public class BlogController {
         model.addAttribute("blogRanks", blogRanks);
 
         //更新积分
-        HttpSession session = request.getSession();
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        User user = userServiceManager.findUserById(sessionUser.getUserId());
-        User user2 =  userServiceDesk.updateScore(user);
-        //更新sessionUser
-        SessionUtils.userToSessionUser(session, user2);
+        userServiceDesk.updateScore(blog.getUser());
         return "blog/show";
     }
 
@@ -155,25 +149,39 @@ public class BlogController {
      */
     @PostMapping("/blog/zan")
     @ResponseBody
-    public String zanBlog(Integer blogId,HttpSession session) {
+    public String zanBlog(Integer blogId, HttpSession session) {
         if (blogId == null)
             return "fail";
         else {
             blogService.zanBlog(blogId);
             //更新积分
-            SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-            User user = userServiceManager.findUserById(sessionUser.getUserId());
-            User user2 =  userServiceDesk.updateScore(user);
-            //更新sessionUser
-            SessionUtils.userToSessionUser(session, user2);
+            userServiceDesk.updateScore(blogService.findBlogById(blogId).getUser());
             return "success";
         }
     }
 
+    /**
+     * 根据用户查询博客
+     * @param userId
+     * @param model
+     * @return
+     */
     @GetMapping("/blog/user")
-    public String blogByUser(Integer userId){
-        System.out.println("userId = " + userId);
-        return "index";
+    public String blogByUser(Integer userId, Model model,
+                             HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        MainController.sessionAddThreeList(session, noticeService, tagService, attentionService);
+        //获取博客列表
+        List<Blog> blogList = blogService.findBlogByUser(userId);
+        //获取用户排行榜
+        List<User> userRanks = userServiceDesk.getUserRanks();
+        //获取博客排行榜
+        List<Blog> blogRanks = blogService.getUserRanks();
+        model.addAttribute("blogList", blogList);
+        model.addAttribute("userRanks", userRanks);
+        model.addAttribute("blogRanks", blogRanks);
+
+        return "blog/user";
     }
 
 }

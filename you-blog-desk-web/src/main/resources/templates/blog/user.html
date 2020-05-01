@@ -69,7 +69,7 @@
                 <!--文章列表 内容-->
                 <div class="row mt-2 " id="blog-content">
 
-                    <ul class="list-unstyled art-list" th:each="blog,var : ${blogPage.content}">
+                    <ul class="list-unstyled art-list" th:each="blog,var : ${blogList}">
                         <li th:if="${var.count} % 2 eq 1 "
                             class="media wow bounceInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
                             <div class="art-img">
@@ -165,11 +165,6 @@
     </div>
 </div>
 
-<!--隐藏的input-->
-<input type="hidden" id="page" th:value="${blogPage.page}">
-<input type="hidden" id="pageSize" th:value="${blogPage.pageSize}">
-<input type="hidden" id="totalElements" th:value="${blogPage.totalElements}">
-
 <!--底部-->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
@@ -186,99 +181,6 @@
     function showBlog(id) {
         window.open("/blog/show?blogId=" + id, "_self");
     }
-
-    /**
-     * 监听滚动条
-     */
-    $(window).scroll(function () {
-        //滚动条所在位置的高度
-        totalheight = parseFloat($(window).height()) + parseFloat($(window).scrollTop());
-        //当前文档高度   小于或等于   滚动条所在位置高度  则是页面底部
-        if (($(document).height()) <= totalheight + 1) {
-            //滚动条到底加载新的数据
-            var search = $("#search").val();
-            var page = $("#page").val() * 1.0 + 1;
-            $.ajax({
-                type: "POST",
-                url: "/blog/more",
-                data: {'page': page, 'search': search},
-                dataType: "text",
-                success: function (json) {
-                    //解析json
-                    json = eval('(' + json + ')');
-                    var content = json.content;
-                    var page = json.page;
-                    if (content.length == 0){
-                        var totalElements = Number($("#totalElements").val());
-                        var pageSize = Number($("#pageSize").val());
-                        if(Math.ceil(totalElements/pageSize) == page){
-                            //底部代码
-                            var htmlStr = "<div class='col-md-12 bgc'>" +
-                                "                        <div class='new'>" +
-                                "                            <span><i class='el-'></i>已经到底了~</span>" +
-                                "                        </div>" +
-                                "                    </div>";
-                            $("#bottom").html(htmlStr);
-                        }
-                        return;
-                    }
-                    //拼接html
-                    var htmlUl1 = "<ul class='list-unstyled art-list'>";
-                    var htmlUl2 = "</ul>";
-                    for (var i = 0; i < content.length; i+=2) {
-                        var htmlStr = "                        <li class='media wow bounceInLeft' data-wow-duration='1s' data-wow-delay='0.5s'>" +
-                            "                            <div class='art-img'>" +
-                            "                                <img class='mr-3' src=" + content[i].coverImgUrl + " alt='Generic placeholder image'>" +
-                            "                            </div>" +
-                            "                            <div class='media-body art-content'>" +
-                            "                                <h5 class='mt-0 mb-1'><a href='#' id='" + content[i].blogId + "' onclick='showBlog(this.id)'>" + content[i].title + "</a></h5>" +
-                            "                                <p>" + content[i].text + "</p>" +
-                            "                                <ul>" +
-                            "                                    <li><a><i class='el-time'></i><span>" + content[i].createTime + "</span></a></li>" +
-                            "                                    <li class='d-none d-sm-none d-md-none d-lg-block'>" +
-                            "                                        <a href='#'><i class='el-user'></i>" +
-                            "                                            <span>" + content[i].username + "</span></a></li>" +
-                            "                                    <li><a><i class='el-heart'></i><span>" + content[i].zanNum + "</span></a></li>" +
-                            "                                    <li><a><i class='el-eye-open'></i><span>" + content[i].viewNum + "</span></a></li>" +
-                            "                                    <li class='d-none d-sm-none d-md-none d-lg-block'>" +
-                            "                                        <a href='#' title='查看分类'><i" +
-                            "                                                class='el-th-list'></i><span>" + content[i].tag + "</span></a></li>" +
-                            "                                </ul>" +
-                            "                            </div>" +
-                            "                        </li>";
-                        if (i + 1 < content.length) {
-                            htmlStr += "                        <li class='media wow bounceInRight' data-wow-duration='1s' data-wow-delay='0.5s'>" +
-                                "                            <div class='art-img'>" +
-                                "                                <img class='mr-3' src=" + content[i+1].coverImgUrl + " alt='Generic placeholder image'>" +
-                                "                            </div>" +
-                                "                            <div class='media-body art-content'>" +
-                                "                                <h5 class='mt-0 mb-1'><a href='#' id='" + content[i+1].blogId + "' onclick='showBlog(this.id)'>" + content[i+1].title + "</a></h5>" +
-                                "                                <p>" + content[i+1].text + "</p>" +
-                                "                                <ul>" +
-                                "                                    <li><a><i class='el-time'></i><span>" + content[i+1].createTime + "</span></a></li>" +
-                                "                                    <li class='d-none d-sm-none d-md-none d-lg-block'>" +
-                                "                                        <a href='#'><i class='el-user'></i>" +
-                                "                                            <span>" + content[i+1].username + "</span></a></li>" +
-                                "                                    <li><a><i class='el-heart'></i><span>" + content[i+1].zanNum + "</span></a></li>" +
-                                "                                    <li><a><i class='el-eye-open'></i><span>" + content[i+1].viewNum + "</span></a></li>" +
-                                "                                    <li class='d-none d-sm-none d-md-none d-lg-block'>" +
-                                "                                        <a href='#' title='查看分类'><i" +
-                                "                                                class='el-th-list'></i><span>" + content[i+1].tag + "</span></a></li>" +
-                                "                                </ul>" +
-                                "                            </div>" +
-                                "                        </li>"
-                        }
-                        $("#blog-content").append(htmlUl1 + htmlStr + htmlUl2);
-                    }
-                    $("#page").attr("value", page);
-                },
-                error: function () {
-                    layer.msg('添加失败，请检查网络!', {icon: 5, time: 1000});
-
-                }
-            });
-        }
-    });
 
     /**
      * 监听返回顶部

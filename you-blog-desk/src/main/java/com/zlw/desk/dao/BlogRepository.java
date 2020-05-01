@@ -32,4 +32,8 @@ public interface BlogRepository extends JpaRepository<Blog,Integer> {
             "LIMIT 0,5 ;")
     List<Blog> getBlogRanks();
 
+    //查询指定用户的博客列表
+    @Query(nativeQuery = true,value = "SELECT * FROM t_blog AS b WHERE b.user_id=?1 ;")
+    List<Blog> findBlogByUser(Integer userId);
+
 }

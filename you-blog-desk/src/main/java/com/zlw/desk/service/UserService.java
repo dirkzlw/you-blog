@@ -16,5 +16,5 @@ public interface UserService {
 
     User findUserByUsernameOrEmail(String username);
 
-    User updateScore(User user);
+    void updateScore(User user);
 }
