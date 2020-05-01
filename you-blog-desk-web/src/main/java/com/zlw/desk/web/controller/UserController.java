@@ -2,6 +2,7 @@ package com.zlw.desk.web.controller;
 
 import com.zlw.common.po.Blog;
 import com.zlw.common.po.User;
+import com.zlw.common.utils.SessionUtils;
 import com.zlw.common.vo.SessionUser;
 import java.util.List;
 import javax.servlet.http.HttpServlet;
@@ -29,6 +30,14 @@ public class UserController {
         return "login";
     }
 
+    /**
+     * 注册
+     * @param username
+     * @param email
+     * @param password
+     * @param session
+     * @return
+     */
     @PostMapping("/register")
     @ResponseBody
     public String register(String username, String email, String password,
@@ -43,12 +52,19 @@ public class UserController {
         }else {
             User user = userServiceDesk.addUser(username,email,password);
             //user转sessionUser，保存在session
-            userToSessionUser(session, user);
+            SessionUtils.userToSessionUser(session, user);
         }
 
         return "success";
     }
 
+    /**
+     * 登录
+     * @param username
+     * @param password
+     * @param session
+     * @return
+     */
     @PostMapping("/login")
     @ResponseBody
     public String login(String username, String password,HttpSession session) {
@@ -58,26 +74,10 @@ public class UserController {
         } else {
             rtn = userServiceDesk.login(username, password);
             if ("success".equals(rtn)) {
-                userToSessionUser(session, userServiceDesk.findUserByUsernameOrEmail(username));
+                SessionUtils.userToSessionUser(session, userServiceDesk.findUserByUsernameOrEmail(username));
             }
         }
         return rtn;
-    }
-    private void userToSessionUser(HttpSession session,User user){
-        List<Blog> blogList = user.getBlogList();
-        int zanNum = 0;
-        for (Blog blog : blogList) {
-            zanNum += blog.getZanNum();
-        }
-        SessionUser sessionUser = new SessionUser(user.getUserId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getHeadImgUrl(),
-                user.getSignStr(),
-                user.getScore(),
-                zanNum,
-                blogList);
-        session.setAttribute("sessionUser", sessionUser);
     }
 
 }

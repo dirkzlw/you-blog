@@ -1,5 +1,6 @@
 package com.zlw.desk.service.impl;
 
+import com.zlw.common.po.Blog;
 import com.zlw.common.po.User;
 import com.zlw.desk.dao.UserRepository;
 import com.zlw.desk.service.UserService;
@@ -73,6 +74,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByUsernameOrEmail(String username) {
         return userRepository.findByUsernameOrEmail(username, username);
+    }
+
+    /**
+     * 更新积分
+     * @param user
+     */
+    @Override
+    public User updateScore(User user) {
+        int score = 0;
+        List<Blog> blogList = user.getBlogList();
+        for (Blog blog : blogList) {
+            //计算规则1/2
+            if (blog.getArtType() == 1 || blog.getArtType() == 3) {
+                score += 10;
+            } else {
+                score += 2;
+            }
+            //规则3
+            score += blog.getZanNum();
+            //规则4
+            score += blog.getViewNum() / 100;
+        }
+        user.setScore(score);
+        userRepository.save(user);
+
+        return user;
     }
 
 }

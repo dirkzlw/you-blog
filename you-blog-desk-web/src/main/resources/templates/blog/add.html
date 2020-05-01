@@ -294,15 +294,14 @@
             processData: false,
             contentType: false,
             success: function (json) {
-                if (json == "success") {
-                    // layer.alert("添加博客成功", {icon: 6}, function () {
-                    //     //刷新device-list.html页面
-                    //     window.open("/blog/show", "_self")
-                    // });
+                json = eval('(' + json + ')');
+                var status = json.status;
+                if (status == "success") {
+                    var blogId = json.objId;
                     layer.confirm('添加博客成功!', {
                         btn: ['查看文章', '继续编辑'] //按钮
                     }, function () {
-                        window.open("/blog/show", "_self")
+                        window.open("/blog/show?blogId="+blogId, "_self")
                     }, function () {
                         window.open("/blog/add", "_self")
                     });

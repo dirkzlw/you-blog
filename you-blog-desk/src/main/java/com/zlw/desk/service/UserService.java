@@ -15,4 +15,6 @@ public interface UserService {
     String login(String username, String password);
 
     User findUserByUsernameOrEmail(String username);
+
+    User updateScore(User user);
 }

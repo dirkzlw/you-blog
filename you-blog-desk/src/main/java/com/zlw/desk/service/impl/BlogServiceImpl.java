@@ -2,8 +2,10 @@ package com.zlw.desk.service.impl;
 
 import com.zlw.common.po.Blog;
 import com.zlw.common.po.Tag;
+import com.zlw.common.po.User;
 import com.zlw.common.utils.DateUtils;
 import com.zlw.common.vo.Page;
+import com.zlw.common.vo.ResultObj;
 import com.zlw.desk.dao.BlogRepository;
 import com.zlw.desk.service.BlogService;
 import java.util.Collections;
@@ -34,14 +36,15 @@ public class BlogServiceImpl implements BlogService {
      * @return
      */
     @Override
-    public String addBlog(Blog blog, Tag tag, String coverImgUrl) {
+    public ResultObj addBlog(Blog blog, Tag tag, String coverImgUrl, User user) {
 
         blog.setTag(tag);
         blog.setCoverImgUrl(coverImgUrl);
         blog.setCreateTime(DateUtils.getStringTime());
+        blog.setUser(user);
         blogRepository.save(blog);
 
-        return "success";
+        return new ResultObj("success", blog.getBlogId());
     }
 
     /**
