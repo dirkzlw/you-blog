@@ -9,6 +9,7 @@ import com.zlw.common.vo.ResultObj;
 import com.zlw.desk.dao.BlogRepository;
 import com.zlw.desk.service.BlogService;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -120,5 +121,28 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public List<Blog> findBlogByTagId(Integer tagId) {
         return blogRepository.findBlogByTagId(tagId);
+    }
+
+    /**
+     * 获取今日推荐
+     * @return
+     */
+    @Override
+    public Blog findBlogTodayRecommander() {
+
+        //获取今日创建的博客列表
+        List<Blog> blogList = blogRepository.findByCreateTimeContaining(DateUtils.getStringTime2());
+        if (blogList.size() == 0) {
+            return null;
+        }else {
+            //倒序排序
+            Collections.sort(blogList, new Comparator<Blog>() {
+                @Override
+                public int compare(Blog o1, Blog o2) {
+                    return o2.getViewNum()-o1.getViewNum();
+                }
+            });
+            return blogList.get(0);
+        }
     }
 }

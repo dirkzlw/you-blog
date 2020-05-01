@@ -27,4 +27,6 @@ public interface BlogService {
     List<Blog> findBlogByUserId(Integer userId);
 
     List<Blog> findBlogByTagId(Integer tagId);
+
+    Blog findBlogTodayRecommander();
 }

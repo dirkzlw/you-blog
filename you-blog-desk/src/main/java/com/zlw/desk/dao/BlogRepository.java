@@ -13,6 +13,8 @@ public interface BlogRepository extends JpaRepository<Blog,Integer> {
 
     Blog findByBlogId(Integer blogId);
 
+    List<Blog> findByCreateTimeContaining(String createTime);
+
     //自定义检索并分页
     @Query(nativeQuery = true,
             value = "SELECT * FROM t_blog AS b " +
@@ -39,4 +41,5 @@ public interface BlogRepository extends JpaRepository<Blog,Integer> {
     //查询指定标签的博客列表
     @Query(nativeQuery = true,value = "SELECT * FROM t_blog AS b WHERE b.tag_id=?1 ;")
     List<Blog> findBlogByTagId(Integer tagId);
+
 }

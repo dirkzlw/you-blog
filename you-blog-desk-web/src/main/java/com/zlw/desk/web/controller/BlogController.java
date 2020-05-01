@@ -133,9 +133,12 @@ public class BlogController {
         List<User> userRanks = userServiceDesk.getUserRanks();
         //获取博客排行榜
         List<Blog> blogRanks = blogService.getUserRanks();
+        //获取今日推荐
+        Blog blogRecommender = blogService.findBlogTodayRecommander();
         model.addAttribute("blog", blog);
         model.addAttribute("userRanks", userRanks);
         model.addAttribute("blogRanks", blogRanks);
+        model.addAttribute("blogRecommender", blogRecommender);
 
         //更新积分
         userServiceDesk.updateScore(blog.getUser());
@@ -178,9 +181,12 @@ public class BlogController {
         List<User> userRanks = userServiceDesk.getUserRanks();
         //获取博客排行榜
         List<Blog> blogRanks = blogService.getUserRanks();
+        //获取今日推荐
+        Blog blogRecommender = blogService.findBlogTodayRecommander();
         model.addAttribute("blogList", blogList);
         model.addAttribute("userRanks", userRanks);
         model.addAttribute("blogRanks", blogRanks);
+        model.addAttribute("blogRecommender", blogRecommender);
 
         return "blog/user";
     }
@@ -201,9 +207,12 @@ public class BlogController {
         List<User> userRanks = userServiceDesk.getUserRanks();
         //获取博客排行榜
         List<Blog> blogRanks = blogService.getUserRanks();
+        //获取今日推荐
+        Blog blogRecommender = blogService.findBlogTodayRecommander();
         model.addAttribute("blogList", blogList);
         model.addAttribute("userRanks", userRanks);
         model.addAttribute("blogRanks", blogRanks);
+        model.addAttribute("blogRecommender", blogRecommender);
 
         return "blog/tag";
     }

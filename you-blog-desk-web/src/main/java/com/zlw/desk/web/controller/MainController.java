@@ -68,11 +68,14 @@ public class MainController {
         List<User> userRanks = userServiceDesk.getUserRanks();
         //获取博客排行榜
         List<Blog> blogRanks = blogService.getUserRanks();
+        //获取今日推荐
+        Blog blogRecommender = blogService.findBlogTodayRecommander();
         model.addAttribute("blogPage", blogPage);
         session.setAttribute("search", search);
         session.setAttribute("page", page);
         model.addAttribute("userRanks", userRanks);
         model.addAttribute("blogRanks", blogRanks);
+        model.addAttribute("blogRecommender", blogRecommender);
 
         return "index";
     }

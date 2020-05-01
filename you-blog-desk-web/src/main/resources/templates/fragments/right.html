@@ -75,7 +75,7 @@
         </div>
 
         <!--今日推荐-->
-        <div class="row bgc mt-4">
+        <div class="row bgc mt-4"  th:if="${blogRecommender} ne null">
             <div class="new new-right">
 
                 <span><i class="el-asl"></i>今日推荐</span>
@@ -84,15 +84,18 @@
             <ul class="list-unstyled artimg-list">
                 <li class="media">
                     <div class="artimg-img">
-                        <img class="mr-3" src="/blog/images/eg.png" alt="Generic placeholder image">
+                        <img class="mr-3" th:src="${blogRecommender.coverImgUrl}" alt="Generic placeholder image">
                     </div>
                     <div class="media-body art-content">
-                        <h5 class="mt-0 mb-1">js前端实现模糊查询</h5>
-                        <p>js前端实现模糊查询对于模糊查询，一般都是传关键字给后端</p>
+                        <a th:href="@{/blog/show(blogId=${blogRecommender.blogId})}">
+                            <h5 class="mt-0 mb-1" th:text="${blogRecommender.title}"></h5>
+                        </a>
+                        <p th:if="${blogRecommender.text.length()} gt 20" th:utext="${#strings.substring(blogRecommender.text,0,20)}"></p>
+                        <p th:if="${blogRecommender.text.length()} lt 20" th:utext="${blogRecommender.text}"></p>
                         <ul>
-                            <li><a title="惜缘2019-04-03发表"><i class="el-time"></i>2019-04-03</a></li>
                             <li class="d-none d-sm-none d-md-none d-lg-block"><a
-                                    href="/index/article/index/id/32.html" ><i class="el-fire"></i>5</a>
+                                    href="/index/article/index/id/32.html" ><i class="el-fire"></i>
+                                <span th:text="${blogRecommender.viewNum}"></span></a>
                             </li>
                         </ul>
                     </div>
