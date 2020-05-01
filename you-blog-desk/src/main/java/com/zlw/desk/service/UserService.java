@@ -10,5 +10,9 @@ import java.util.List;
 public interface UserService {
     List<User> getUserRanks();
 
-    void addUser(String username, String email, String password);
+    User addUser(String username, String email, String password);
+
+    String login(String username, String password);
+
+    User findUserByUsernameOrEmail(String username);
 }

@@ -127,15 +127,58 @@ $(document).ready(function () {
             dataType: "text", //return dataType: text or json
             success: function (json) {
                 if (json == "success") {
-                    layer.msg("注册成功", {icon: 6, time: 1000});
+                    window.open("/","_self")
                 }else if(json == "username_repeat") {
                     layer.msg("用户名重复", {icon: 5, time: 1000});
                 }else if(json == "email_repeat") {
                     layer.msg("邮箱已被注册", {icon: 5, time: 1000});
+                }else {
+                    layer.msg("邮箱失败，请检查网络", {icon: 5, time: 1000});
                 }
             },
             error: function (json) {
                 layer.msg("注册失败，请检查网络", {icon: 5, time: 1000});
+            }
+        });
+    });
+
+    //登录校验
+    $('#log').click(function () {
+        var username = $('#u').val();
+        if (username == "") {
+            layer.msg("账号不能为空", {icon: 5, time: 1000});
+            return false;
+        }
+
+        var password = $('#p').val();
+        if (password=="") {
+            layer.msg("密码不能为空", {icon: 5, time: 1000});
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            data: {
+                'username': username,
+                'password': password,
+            },
+            dataType: "text", //return dataType: text or json
+            success: function (json) {
+                if (json == "success") {
+                    window.open("/","_self")
+                }else if(json == "username_error") {
+                    layer.msg("账户不存在", {icon: 5, time: 1000});
+                }else if(json == "user_no") {
+                    layer.msg("账户已封禁", {icon: 5, time: 1000});
+                }else if(json == "password_error") {
+                    layer.msg("密码错误", {icon: 5, time: 1000});
+                }else {
+                    layer.msg("登录失败，请检查网络", {icon: 5, time: 1000});
+                }
+            },
+            error: function (json) {
+                layer.msg("登录失败，请检查网络", {icon: 5, time: 1000});
 
             }
         });

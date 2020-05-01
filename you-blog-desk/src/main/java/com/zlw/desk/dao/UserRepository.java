@@ -15,4 +15,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
             "ORDER BY score DESC " +
             "LIMIT 0,5 ;")
     List<User> getUserRanks();
+
+    User findByUsernameOrEmail(String username,String email);
+
 }
