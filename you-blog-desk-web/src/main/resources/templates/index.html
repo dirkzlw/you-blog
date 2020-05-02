@@ -83,12 +83,12 @@
                                 <ul>
                                     <li><a><i class="el-time"></i><span th:text="${blog.createTime}"></span></a></li>
                                     <li class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a href="./article.html"><i class="el-user"></i>
+                                        <a th:href="@{/blog/user(userId=${blog.user.userId})}"><i class="el-user"></i>
                                             <span th:text="${blog.user.username}"></span></a></li>
                                     <li><a><i class="el-heart"></i><span th:text="${blog.zanNum}"></span></a></li>
                                     <li><a><i class="el-eye-open"></i><span th:text="${blog.viewNum}"></span></a></li>
                                     <li class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a href="./article.html" ><i
+                                        <a th:href="@{/blog/tag(tagId=${blog.tag.tagId})}"><i
                                                 class="el-th-list"></i><span th:text="${blog.tag.type}"></span></a>
                                     </li>
                                 </ul>
@@ -107,12 +107,12 @@
                                 <ul>
                                     <li><a><i class="el-time"></i><span th:text="${blog.createTime}"></span></a></li>
                                     <li class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a href="./article.html"><i class="el-user"></i>
+                                        <a th:href="@{/blog/user(userId=${blog.user.userId})}"><i class="el-user"></i>
                                             <span th:text="${blog.user.username}"></span></a></li>
                                     <li><a><i class="el-heart"></i><span th:text="${blog.zanNum}"></span></a></li>
                                     <li><a><i class="el-eye-open"></i><span th:text="${blog.viewNum}"></span></a></li>
                                     <li class="d-none d-sm-none d-md-none d-lg-block"><a
-                                            href="/index/article/index/id/32.html" ><i
+                                            th:href="@{/blog/tag(tagId=${blog.tag.tagId})}"><i
                                             class="el-th-list"></i><span th:text="${blog.tag.type}"></span></a></li>
                                 </ul>
                             </div>

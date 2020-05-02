@@ -17,4 +17,8 @@ public interface UserService {
     User findUserByUsernameOrEmail(String username);
 
     void updateScore(User user);
+
+    String resetUsername(Integer userId, String newUsername);
+
+    String resetEmail(Integer userId, String newEmail);
 }

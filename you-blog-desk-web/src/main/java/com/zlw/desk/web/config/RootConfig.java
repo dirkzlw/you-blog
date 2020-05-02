@@ -25,7 +25,7 @@ public class RootConfig extends WebMvcConfigurerAdapter {
         //对用户进行拦截
         UserInterceptor userRoot = new UserInterceptor();
         registry.addInterceptor(userRoot)
-                .addPathPatterns("/blog/add");                                               //AdminController
+                .addPathPatterns("/blog/add","/user/self");                                               //AdminController
         //对跳转错误页面进行拦截
         ErrorInterceptor errorRoot = new ErrorInterceptor();
         registry.addInterceptor(errorRoot);

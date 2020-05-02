@@ -101,4 +101,44 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     * 用户修改用户名
+     * @param userId
+     * @param newUsername
+     * @return
+     */
+    @Override
+    public String resetUsername(Integer userId, String newUsername) {
+
+        User byUsername = userRepository.findByUsername(newUsername);
+        if (byUsername != null) {
+            return "repeat";
+        }else {
+            User user = userRepository.findByUserId(userId);
+            user.setUsername(newUsername);
+            userRepository.save(user);
+        }
+
+        return "success";
+    }
+
+    /**
+     * 用户修改邮箱
+     * @param userId
+     * @param newEmail
+     * @return
+     */
+    @Override
+    public String resetEmail(Integer userId, String newEmail) {
+        User byEmail = userRepository.findByEmail(newEmail);
+        if (byEmail != null) {
+            return "repeat";
+        }else {
+            User user = userRepository.findByUserId(userId);
+            user.setEmail(newEmail);
+            userRepository.save(user);
+        }
+        return "success";
+    }
+
 }
