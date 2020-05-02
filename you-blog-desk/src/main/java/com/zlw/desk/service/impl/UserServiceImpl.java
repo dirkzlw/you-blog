@@ -182,4 +182,22 @@ public class UserServiceImpl implements UserService {
         return "success";
     }
 
+    /**
+     * 用户修改头像
+     * @param userId
+     * @param imgUrl
+     * @return
+     */
+    @Override
+    public String resetHeadImg(Integer userId, String imgUrl) {
+        User user = userRepository.findByUserId(userId);
+        if (null == user) {
+            return "fail";
+        }else {
+            user.setHeadImgUrl(imgUrl);
+            userRepository.save(user);
+        }
+        return "success";
+    }
+
 }

@@ -1,7 +1,9 @@
 package com.zlw.desk.web.controller;
 
+import com.zlw.common.po.Attention;
 import com.zlw.common.po.Blog;
 import com.zlw.common.po.User;
+import com.zlw.common.utils.FastDFSUtils;
 import com.zlw.common.utils.SessionUtils;
 import com.zlw.common.vo.SessionUser;
 import com.zlw.desk.service.BlogService;
@@ -13,11 +15,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author Dirk
@@ -38,6 +42,11 @@ public class UserController {
     private com.zlw.manager.service.UserService userServiceManager;
     @Autowired(required = false)
     private com.zlw.desk.service.UserService userServiceDesk;
+
+    @Value("${FDFS_ADDRESS}")
+    private String FDFS_ADDRESS;
+    @Value("${FDFS_CLIENT_PAHT}")
+    private String FDFS_CLIENT_PAHT;
 
     @GetMapping("/to/login")
     public String toLogin() {
@@ -167,7 +176,7 @@ public class UserController {
         } else {
             rtn = userServiceDesk.resetEmail(userId, newEmail);
             if ("success".equals(rtn)) {
-                //用户名修改成功，更新session
+                //邮箱修改成功，更新session
                 SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
                 sessionUser.setEmail(newEmail);
                 session.setAttribute("sessionUser", sessionUser);
@@ -195,6 +204,13 @@ public class UserController {
         return rtn;
     }
 
+    /**
+     * 用户修改个性签名
+     * @param userId
+     * @param newSignStr
+     * @param session
+     * @return
+     */
     @PostMapping("/user/signStr/reset")
     @ResponseBody
     public String resetSignReset(Integer userId, String newSignStr,
@@ -205,7 +221,7 @@ public class UserController {
         }else {
             rtn = userServiceDesk.resetSignStr(userId, newSignStr);
             if ("success".equals(rtn)) {
-                //用户名修改成功，更新session
+                //个性签名修改成功，更新session
                 SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
                 sessionUser.setSignStr(newSignStr);
                 session.setAttribute("sessionUser", sessionUser);
@@ -213,4 +229,35 @@ public class UserController {
         }
         return rtn;
     }
+
+    /**
+     * 用户修改头像
+     * @param userId
+     * @param headImg
+     * @return
+     */
+    @PostMapping("/user/headImg/reset")
+    @ResponseBody
+    public String resetHeadImg(Integer userId, MultipartFile headImg,
+                               HttpSession session) {
+        String rtn;
+        if (userId == null || headImg == null) {
+            rtn = "fail";
+        }else {
+            String imgUrl = FastDFSUtils.uploadFile(FDFS_CLIENT_PAHT, FDFS_ADDRESS, headImg);
+            if(null ==imgUrl || "".equals(imgUrl)){
+                rtn = "fail";
+            }else {
+                rtn = userServiceDesk.resetHeadImg(userId,imgUrl);
+                if ("success".equals(rtn)) {
+                    //头像修改成功，更新session
+                    SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+                    sessionUser.setHeadImgUrl(imgUrl);
+                    session.setAttribute("sessionUser", sessionUser);
+                }
+            }
+        }
+        return rtn;
+    }
+
 }

@@ -80,7 +80,7 @@
                                 <td></td>
                                 <td>
                                     <button class="thBtn" onclick="changeHeadImg()">修改</button>
-                                    <input hidden="" type="file" value="选择">
+                                    <input hidden="" type="file" value="选择" id="headImgInput" onchange="uploadHeadImg()">
                                 </td>
                             </tr>
                             <tr>
@@ -157,12 +157,54 @@
     });
 
     /**
-     * 修改头像
+     * 修改头像触发input
      */
     function changeHeadImg() {
-
+        $("#headImgInput").trigger("click");
     }
 
+    /**
+     * 上传头像
+     */
+    function uploadHeadImg() {
+        debugger;
+        var headImg = document.getElementById("headImgInput").files[0];
+        if(typeof(headImg) == "undefined"){
+            layer.msg('头像未更改!', {icon: 5, time: 1000});
+
+        }else {
+            var userId = $("#userId").val();
+            var formData = new FormData();
+            formData.append("userId", userId);
+            formData.append("headImg", headImg);
+            $.ajax({
+                type: "POST",
+                url: "/user/headImg/reset",
+                data: formData,
+                dataType: "text",
+                processData: false,
+                contentType: false,
+                success: function (json) {
+                    if (json == "success") {
+                        layer.msg('头像修改成功!', {icon: 6, time: 1000});
+                        //延迟1秒刷新界面
+                        window.setTimeout(function () {
+                            self.location.reload()
+                        }, 1000);
+
+                    } else {
+                        layer.msg('修改失败，请检查网络!', {icon: 5, time: 1000});
+
+                    }
+                },
+                error: function () {
+                    layer.msg('添加失败，请检查网络!', {icon: 5, time: 1000});
+
+                }
+            });
+        }
+    }
+    
     /**
      * 修改用户名
      */

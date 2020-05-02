@@ -25,4 +25,6 @@ public interface UserService {
     String resetPassword(Integer userId, String oldPassword, String newPassword);
 
     String resetSignStr(Integer userId, String newSignStr);
+
+    String resetHeadImg(Integer userId, String imgUrl);
 }
