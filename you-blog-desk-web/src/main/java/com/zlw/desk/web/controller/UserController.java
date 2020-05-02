@@ -8,6 +8,7 @@ import com.zlw.desk.service.BlogService;
 import com.zlw.manager.service.AttentionService;
 import com.zlw.manager.service.NoticeService;
 import com.zlw.manager.service.TagService;
+import java.security.Signature;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,6 +46,7 @@ public class UserController {
 
     /**
      * 注册
+     *
      * @param username
      * @param email
      * @param password
@@ -58,12 +60,12 @@ public class UserController {
 
         if (username == null || password == null || email == null) {
             return "fail";
-        }else if (userServiceManager.findUserByUsername(username) !=null){
+        } else if (userServiceManager.findUserByUsername(username) != null) {
             return "username_repeat";
         } else if (userServiceManager.findUserByEmail(email) != null) {
             return "email_repeat";
-        }else {
-            User user = userServiceDesk.addUser(username,email,password);
+        } else {
+            User user = userServiceDesk.addUser(username, email, password);
             //user转sessionUser，保存在session
             SessionUtils.userToSessionUser(session, user);
         }
@@ -73,6 +75,7 @@ public class UserController {
 
     /**
      * 登录
+     *
      * @param username
      * @param password
      * @param session
@@ -80,7 +83,7 @@ public class UserController {
      */
     @PostMapping("/login")
     @ResponseBody
-    public String login(String username, String password,HttpSession session) {
+    public String login(String username, String password, HttpSession session) {
         String rtn;
         if (username == null || password == null) {
             rtn = "fail";
@@ -95,12 +98,13 @@ public class UserController {
 
     /**
      * 展示用户个人信息
+     *
      * @param request
      * @param model
      * @return
      */
     @GetMapping("/user/self")
-    public String toUserSelf(HttpServletRequest request, Model model){
+    public String toUserSelf(HttpServletRequest request, Model model) {
 
         HttpSession session = request.getSession();
         MainController.sessionAddThreeList(session, noticeService, tagService, attentionService);
@@ -120,6 +124,7 @@ public class UserController {
 
     /**
      * 用户修改用户名
+     *
      * @param userId
      * @param newUsername
      * @param session
@@ -127,12 +132,12 @@ public class UserController {
      */
     @PostMapping("/user/username/reset")
     @ResponseBody
-    public String usernameReset(Integer userId,String newUsername,
-                                HttpSession session){
+    public String usernameReset(Integer userId, String newUsername,
+                                HttpSession session) {
         String rtn;
         if (userId == null || newUsername == null) {
             rtn = "fail";
-        }else {
+        } else {
             rtn = userServiceDesk.resetUsername(userId, newUsername);
             if ("success".equals(rtn)) {
                 //用户名修改成功，更新session
@@ -143,21 +148,23 @@ public class UserController {
         }
         return rtn;
     }
+
     /**
      * 用户修改邮箱
+     *
      * @param userId
-     * @param newUsername
+     * @param newEmail
      * @param session
      * @return
      */
     @PostMapping("/user/email/reset")
     @ResponseBody
-    public String emailReset(Integer userId,String newEmail,
-                                HttpSession session){
+    public String emailReset(Integer userId, String newEmail,
+                             HttpSession session) {
         String rtn;
         if (userId == null || newEmail == null) {
             rtn = "fail";
-        }else {
+        } else {
             rtn = userServiceDesk.resetEmail(userId, newEmail);
             if ("success".equals(rtn)) {
                 //用户名修改成功，更新session
@@ -169,4 +176,41 @@ public class UserController {
         return rtn;
     }
 
+    /**
+     * 用户修改密码
+     *
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
+    @PostMapping("/user/password/reset")
+    @ResponseBody
+    public String resetPassword(Integer userId, String oldPassword, String newPassword) {
+        String rtn;
+        if (userId == null || oldPassword == null || newPassword == null) {
+            rtn = "fail";
+        } else {
+            rtn = userServiceDesk.resetPassword(userId,oldPassword, newPassword);
+        }
+        return rtn;
+    }
+
+    @PostMapping("/user/signStr/reset")
+    @ResponseBody
+    public String resetSignReset(Integer userId, String newSignStr,
+                                 HttpSession session) {
+        String rtn;
+        if (userId == null || newSignStr == null) {
+            rtn = "fail";
+        }else {
+            rtn = userServiceDesk.resetSignStr(userId, newSignStr);
+            if ("success".equals(rtn)) {
+                //用户名修改成功，更新session
+                SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+                sessionUser.setSignStr(newSignStr);
+                session.setAttribute("sessionUser", sessionUser);
+            }
+        }
+        return rtn;
+    }
 }

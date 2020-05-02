@@ -21,4 +21,8 @@ public interface UserService {
     String resetUsername(Integer userId, String newUsername);
 
     String resetEmail(Integer userId, String newEmail);
+
+    String resetPassword(Integer userId, String oldPassword, String newPassword);
+
+    String resetSignStr(Integer userId, String newSignStr);
 }

@@ -141,4 +141,45 @@ public class UserServiceImpl implements UserService {
         return "success";
     }
 
+    /**
+     * 用户修改密码
+     * @param userId
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
+    @Override
+    public String resetPassword(Integer userId, String oldPassword, String newPassword) {
+        User user = userRepository.findByUserId(userId);
+        if (null == user) {
+            return "fail";
+        } else if (!oldPassword.equals(encryptor.decrypt(user.getPassword()))) {
+            return "password_error";
+        }else {
+            user.setPassword(encryptor.encrypt(newPassword));
+            userRepository.save(user);
+        }
+
+        return "success";
+    }
+
+    /**
+     * 用户修改个性签名
+     * @param userId
+     * @param newSignStr
+     * @return
+     */
+    @Override
+    public String resetSignStr(Integer userId, String newSignStr) {
+        User user = userRepository.findByUserId(userId);
+        if (null == user) {
+            return "fail";
+        }else {
+            user.setSignStr(newSignStr);
+            userRepository.save(user);
+        }
+
+        return "success";
+    }
+
 }

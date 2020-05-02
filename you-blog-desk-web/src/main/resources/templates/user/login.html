@@ -9,7 +9,7 @@
     <script type="text/javascript" src="/layui/layui.js"></script>
     <link href="/login/css/login2.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>
+<body onkeydown="keyLogin()">
 <h1>友博网(快速登录注册)<sup>2020</sup></h1>
 
 <div class="login" style="margin-top:50px;">
@@ -103,14 +103,18 @@
                     <div class="cl"></div>
                 </ul>
             </form>
-
-
         </div>
-
-
     </div>
     <!--注册end-->
 </div>
 <div class="jianyi">*推荐使用ie8或以上版本ie浏览器或Chrome内核浏览器访问本站</div>
 </body>
+<script type="text/javascript">
+    function keyLogin() {
+        if (event.keyCode == 13) { //回车键的键值为13
+            var toClick = document.getElementById("log");
+            toClick.click();  //调用登录按钮的登录事件
+        }
+    }
+</script>
 </html>

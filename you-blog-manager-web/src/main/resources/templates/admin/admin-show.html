@@ -31,7 +31,7 @@
                     <th  width="80">用户名：</th>
                     <td th:text="${session.username}"></td>
                       <td>
-                          <a style="text-decoration:none" href="javascript:;" title="修改用户名" onclick="editUsername()">
+                          <a style="text-decoration:none" href="javascript:" title="修改用户名" onclick="editUsername()">
                               <i class="layui-icon layui-icon-edit">修改</i>
                           </a>
                       </td>
@@ -40,7 +40,7 @@
                     <th>密码：</th>
                     <td>******</td>
                       <td>
-                          <a style="text-decoration:none" href="javascript:;" title="修改密码">
+                          <a style="text-decoration:none" href="javascript:" title="修改密码">
                               <i class="layui-icon layui-icon-edit" onclick="resetPassword()">修改</i>
                           </a>
                       </td>
@@ -66,11 +66,11 @@
                     title: '修改密码',
                     area: ['300px', '180px'],
                     btn: ['确定'],
-                    content: '<div style="margin-left:20px; margin-top:10px;">' +
-                        '原密码：&nbsp;&nbsp;&nbsp;<input type="password" id="oldPassword" placeholder="请输入原密码"><br>' +
-                        '新密码：&nbsp;&nbsp;&nbsp;<input type="password" id="newPassword" placeholder="请输入新密码"><br>' +
-                        '确认密码：<input type="password" id="reNewPassword" placeholder="请再次输入新密码">' +
-                        '</div>',
+                    content: '<div style="margin-left:20px; margin-top:10px;"><table>' +
+                        '<tr><td>原密码：</td><td><input type="password" id="oldPassword" placeholder="请输入原密码"></td></tr>' +
+                        '<tr><td>新密码：</td><td><input type="password" id="newPassword" placeholder="请输入新密码"></td></tr>' +
+                        '<tr><td>确认密码：</td><td><input type="password" id="reNewPassword" placeholder="请再次输入新密码"></td></tr>' +
+                        '</table></div>',
                     yes: function () {
                         //'确定'后回调
                         var oldPassword = $("#oldPassword").val();// 获取输入的退回原因
@@ -78,10 +78,10 @@
                         var reNewPassword = $("#reNewPassword").val();// 获取输入的退回原因
                         if (oldPassword == "" || newPassword == "" || reNewPassword == "") {
                             layer.msg('请完善信息!', {icon: 5, time: 1000});
-                            return
+
                         } else if (newPassword != reNewPassword) {
                             layer.msg('新密码与确认密码不一致!', {icon: 5, time: 1000});
-                            return
+
                         } else {
                             $.ajax({
                                 type: "POST",
@@ -98,15 +98,15 @@
                                         return true;
                                     } else if (json == "pwd_error") {
                                         layer.msg('原密码输入错误!', {icon: 5, time: 1000});
-                                        return
+
                                     } else {
                                         layer.msg('修改失败，请检查!', {icon: 5, time: 1000});
-                                        return
+
                                     }
                                 },
                                 error: function () {
                                     layer.msg('修改失败，请检查网络!', {icon: 5, time: 1000});
-                                    return;
+
                                 }
                             });
                         }
@@ -129,7 +129,7 @@
                         var newUsername = $("#newUsername").val();// 获取输入的退回原因
                         if (newUsername == "") {
                             layer.msg('用户名不能为空!', {icon: 5, time: 1000});
-                            return
+
                         } else {
                             $.ajax({
                                 type: "POST",
@@ -146,12 +146,12 @@
                                         return true;
                                     } else {
                                         layer.msg('修改失败，请检查!', {icon: 5, time: 1000});
-                                        return
+
                                     }
                                 },
                                 error: function () {
                                     layer.msg('修改失败，请检查网络!', {icon: 5, time: 1000});
-                                    return;
+
                                 }
                             });
                         }

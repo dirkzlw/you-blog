@@ -183,7 +183,7 @@
                 if (newUsername == "") {
                     layer.msg('用户名不能为空!', {icon: 5, time: 1000});
 
-                }else if (newUsername == oldUsername) {
+                } else if (newUsername == oldUsername) {
                     layer.msg('用户名未改动！', {icon: 5, time: 1000});
 
                 } else {
@@ -200,7 +200,7 @@
                                     self.location.reload()
                                 }, 1000);
                                 return true;
-                            } else if(json == "repeat"){
+                            } else if (json == "repeat") {
                                 layer.msg('用户名已存在!', {icon: 5, time: 1000});
 
                             } else {
@@ -230,7 +230,7 @@
             area: ['300px', '150px'],
             btn: ['确定'],
             content: '<div style="margin-left:20px; margin-top:10px;">' +
-                '新用户名：<input type="text" id="newEmail" placeholder="请输入新邮箱">' +
+                '新邮箱：<input type="text" id="newEmail" placeholder="请输入新邮箱">' +
                 '</div>',
             yes: function () {
                 //'确定'后回调
@@ -238,7 +238,7 @@
                 if (newEmail == "") {
                     layer.msg('邮箱不能为空!', {icon: 5, time: 1000});
 
-                }else if (newEmail == oldEmail) {
+                } else if (newEmail == oldEmail) {
                     layer.msg('邮箱未改动！', {icon: 5, time: 1000});
 
                 } else {
@@ -255,7 +255,7 @@
                                     self.location.reload()
                                 }, 1000);
                                 return true;
-                            } else if(json == "repeat"){
+                            } else if (json == "repeat") {
                                 layer.msg('邮箱已存在!', {icon: 5, time: 1000});
 
                             } else {
@@ -272,12 +272,114 @@
             }
         });
     }
+
     /**
      * 修改密码
      */
     function changePassword() {
+        var userId = $("#userId").val();
+        layer.open({
+            type: 1,
+            title: '修改密码',
+            area: ['300px', '200px'],
+            btn: ['确定'],
+            content: '<div style="margin-left:20px; margin-top:10px;"><table>' +
+                '<tr><td>原密码：</td><td><input type="password" id="oldPassword" placeholder="请输入原密码"></td></tr>' +
+                '<tr><td>新密码：</td><td><input type="password" id="newPassword" placeholder="请输入新密码"></td></tr>' +
+                '<tr><td>确认密码：</td><td><input type="password" id="reNewPassword" placeholder="请再次输入新密码"></td></tr>' +
+                '</table></div>',
+            yes: function () {
+                //'确定'后回调
+                var oldPassword = $("#oldPassword").val();// 获取输入的退回原因
+                var newPassword = $("#newPassword").val();// 获取输入的退回原因
+                var reNewPassword = $("#reNewPassword").val();// 获取输入的退回原因
+                if (oldPassword == "" || newPassword == "" || reNewPassword == "") {
+                    layer.msg('请完善信息!', {icon: 5, time: 1000});
 
+                } else if (newPassword != reNewPassword) {
+                    layer.msg('新密码与确认密码不一致!', {icon: 5, time: 1000});
+
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/user/password/reset",
+                        data: {'userId': userId, 'oldPassword': oldPassword, 'newPassword': newPassword},
+                        dataType: "text",
+                        success: function (json) {
+                            if (json == "success") {
+                                layer.msg('密码修改成功!', {icon: 6, time: 1000});
+                                //延迟1秒刷新界面
+                                window.setTimeout(function (args) {
+                                    self.location.reload()
+                                }, 1000);
+                                return true;
+                            } else if(json == "password_error"){
+                                layer.msg('原密码错误!', {icon: 5, time: 1000});
+
+                            }else {
+                                layer.msg('修改失败，请检查!', {icon: 5, time: 1000});
+
+                            }
+                        },
+                        error: function () {
+                            layer.msg('修改失败，请检查网络!', {icon: 5, time: 1000});
+
+                        }
+                    });
+                }
+            }
+        });
     }
+
+    /**
+     * 修改个性签名
+     */
+    function changeSignStr() {
+        var userId = $("#userId").val();
+        layer.open({
+            type: 1,
+            title: '修改个性签名',
+            area: ['300px', '200px'],
+            btn: ['确定'],
+            content: '<div style="margin-left:20px; margin-top:10px;">' +
+                '<textarea id="newSignStr" style="width: 250px;height: 80px" placeholder="请输入个性签名">' +
+                '</textarea></div>',
+            yes: function () {
+                //'确定'后回调
+                debugger;
+                var newSignStr = $("#newSignStr").val().trim();// 获取输入的退回原因
+                if (newSignStr == "") {
+                    layer.msg('请完善信息!', {icon: 5, time: 1000});
+
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/user/signStr/reset",
+                        data: {'userId': userId, 'newSignStr': newSignStr},
+                        dataType: "text",
+                        success: function (json) {
+                            if (json == "success") {
+                                layer.msg('个性签名修改成功!', {icon: 6, time: 1000});
+                                //延迟1秒刷新界面
+                                window.setTimeout(function (args) {
+                                    self.location.reload()
+                                }, 1000);
+                                return true;
+                            }else {
+                                layer.msg('修改失败，请检查!', {icon: 5, time: 1000});
+
+                            }
+                        },
+                        error: function () {
+                            layer.msg('修改失败，请检查网络!', {icon: 5, time: 1000});
+
+                        }
+                    });
+                }
+            }
+        });
+    }
+
 </script>
 </body>
 </html>
