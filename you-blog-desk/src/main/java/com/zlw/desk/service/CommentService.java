@@ -10,4 +10,8 @@ import com.zlw.common.po.User;
  */
 public interface CommentService {
     Comment addComment(User user, Blog blog, String content);
+
+    String delComment(Integer commentId);
+
+    void editComment(Integer commentId, String content);
 }

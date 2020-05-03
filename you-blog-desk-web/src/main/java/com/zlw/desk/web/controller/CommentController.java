@@ -26,15 +26,16 @@ public class CommentController {
     private com.zlw.manager.service.UserService userServiceManager;
 
     /**
-     * 博客评论
+     * 博客新增评论
+     *
      * @param userId
      * @param blogId
      * @param content
      * @return
      */
-    @PostMapping("/blog/comment")
+    @PostMapping("/blog/comment/add")
     @ResponseBody
-    public CommentInfo commentBlog(Integer userId, Integer blogId, String content) {
+    public CommentInfo addBlogComment(Integer userId, Integer blogId, String content) {
         CommentInfo commentInfo = new CommentInfo();
         if (userId == null || blogId == null || content == null) {
             commentInfo.setStatus("fail");
@@ -51,6 +52,35 @@ public class CommentController {
             commentInfo.setCreateTime(comment.getCreateTime());
 
             return commentInfo;
+        }
+    }
+
+    /**
+     * 博客新增评论
+     *
+     * @param userId
+     * @param blogId
+     * @param content
+     * @return
+     */
+    @PostMapping("/blog/comment/edit")
+    @ResponseBody
+    public String editBlogComment(Integer commentId, String content) {
+        if (commentId == null || content == null) {
+            return "fail";
+        } else {
+            commentService.editComment(commentId,content);
+            return "success";
+        }
+    }
+
+    @PostMapping("/blog/comment/del")
+    @ResponseBody
+    public String delComment(Integer commentId) {
+        if (null == commentId) {
+            return "fail";
+        } else {
+            return commentService.delComment(commentId);
         }
     }
 

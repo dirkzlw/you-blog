@@ -8,4 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date 2020-05-03 17:00
  */
 public interface CommentRepository extends JpaRepository<Comment,Integer> {
+
+    Comment findByCommentId(Integer commentId);
+
 }

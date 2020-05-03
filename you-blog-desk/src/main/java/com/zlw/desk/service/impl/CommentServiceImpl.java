@@ -31,4 +31,30 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
         return comment;
     }
+
+    /**
+     * 删除评论
+     * @param commentId
+     * @return
+     */
+    @Override
+    public String delComment(Integer commentId) {
+        commentRepository.deleteById(commentId);
+        return "success";
+    }
+
+    /**
+     * 编辑评论
+     * @param commentId
+     * @param content
+     * @return
+     */
+    @Override
+    public void editComment(Integer commentId, String content) {
+
+        Comment comment = commentRepository.findByCommentId(commentId);
+        comment.setContent(content);
+        commentRepository.save(comment);
+    }
+
 }
