@@ -29,4 +29,10 @@ public interface BlogService {
     List<Blog> findBlogByTagId(Integer tagId);
 
     Blog findBlogTodayRecommander();
+
+    String delBlog(Integer blogId);
+
+    ResultObj editBlog(Blog blog, Tag tag, String coverImgUrl);
+
+    ResultObj editBlog(Blog blog, Tag tag);
 }

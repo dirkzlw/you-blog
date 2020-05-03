@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/blog/lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/blog/css/main.css" media="all">
+    <link rel="stylesheet" href="/blog/css/animate.css">
+    <link rel="stylesheet" href="/blog/css/font-icon.css">
+    <title>友博网</title>
+</head>
+<body>
+<!--头部-->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!--内容-->
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1 col-md-10 offset-md-1">
+            <table align="center" border="0px" style="width: 100%">
+                <tr align="center" style="width: 99%">
+                    <td colspan="3">
+                        <div>
+                            <input style="width: 100%;height: 35px"
+                                   type="text"
+                                   id="title" maxlength="50"
+                                   name="title" placeholder=" 输入文章标题 (限50字) "
+                                   th:value="${blog.title}">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 15px"></td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <div id="editor">
+                            <p id="info" th:text="${blog.content}" ></p>
+                        </div>
+                    </td>
+                </tr>
+                <!--富文本编辑器wangEditor-->
+                <tr>
+                    <td colspan="3">
+                        <textarea id="textEditor" style="display: none" name="text"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 15px"></td>
+                </tr>
+                <!--标签-->
+                <tr>
+                    <td colspan="3">
+                        文章类型：
+                        <select name="artType">
+                            <option>请选择</option>
+                            <option value="1" th:selected="${blog.artType} == 1">原创</option>
+                            <option value="2" th:selected="${blog.artType} == 2">转发</option>
+                            <option value="3" th:selected="${blog.artType} == 3">翻译</option>
+                        </select>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        博客标签：
+                        <select name="tagId">
+                            <option>请选择</option>
+                            <option th:each="tag : ${tagList}" th:value="${tag.tagId}"
+                                    th:text="${tag.type}" th:selected="${blog.tag.type} == ${tag.type}"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 20px"></td>
+                </tr>
+                <!--封面-->
+                <tr>
+                    <td colspan="3">
+                        文章封面：
+                        <input id="coverImg"
+                               type="file" accept="image/*" name="coverImg"
+                               style="display: none;"
+                               onchange="preImg(this.id,'imgPre');">
+
+                        <!--触发<input type="file"/>-->
+                        <input type="button" style="color: black;cursor: pointer"
+                               value="选择封面"
+                               onclick="document.getElementById('coverImg').click()"/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        封面预览：
+                        <img id="imgPre" style="width: 169.5px;height: 105px;" th:src="${blog.coverImgUrl}"
+                             title="文章封面预览">
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td style="height: 28px"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" class="btn btn-block btn-danger"
+                               style="text-align: center;width: 80%;cursor: pointer;font-size: 20px"
+                               value="发布博客" onclick="checkSubmit()">
+                    </td>
+                    <td>
+                        <a href="/"><input class="btn btn-block btn-info"
+                                           style="text-align: center;width: 40%;cursor: pointer;font-size: 20px"
+                                           value="取消编辑"></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--隐藏的input-->
+<input type="hidden" id="blogId" th:value="${blog.blogId}">
+
+<!--底部-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="/blog/lib/jquery/jquery.js"></script>
+<script src="/blog/lib/bootstrap/js/bootstrap.js"></script>
+<!--加载wangEditor富文本编辑器-->
+<script type="text/javascript" charset="utf-8" src="/wangEditor/wangEditor.min.js"></script>
+<!--layui-->
+<script src="/layui/layui.js" charset="utf-8"></script>
+<!--修改富文本编辑器样式-->
+<script type="text/javascript">
+
+    //添加弹出层
+    layui.use(['layer'], function () {
+        $ = layui.jquery;//jquery
+        layer = layui.layer;//弹出层
+
+    });
+
+    var E = window.wangEditor;
+    var editor = new E(document.getElementById('editor'));
+    //获取文本域
+    var $textEditor = $('#textEditor');
+    editor.customConfig.onchange = function (html) {
+        // 监控变化，同步更新到 textarea
+        $textEditor.val(html)
+    };
+
+    //关闭过滤样式
+    editor.customConfig.pasteFilterStyle = false;
+    // 忽略粘贴内容中的图片
+    editor.customConfig.pasteIgnoreImg = true;
+
+    // 自定义菜单配置
+    editor.customConfig.menus = [
+        'head',  // 标题
+        'bold',  // 粗体
+        'fontSize',  // 字号
+        'fontName',  // 字体
+        'italic',  // 斜体
+        'underline',  // 下划线
+        'strikeThrough',  // 删除线
+        'foreColor',  // 文字颜色
+        'quote',  // 引用
+        // 'video',  // 插入视频
+        'backColor',  // 背景颜色
+        'link',  // 插入链接
+        'code',  // 插入代码
+        'list',  // 列表
+        'justify',  // 对齐方式
+        'emoticon',  // 表情
+        'image',  // 插入图片
+        'table',  // 表格
+        'undo',  // 撤销
+        'redo'  // 重复
+    ];
+    // 自定义配置颜色（字体颜色、背景色）
+    editor.customConfig.colors = [
+        '#c22525',
+        '#f9963b',
+        '#8baa4a',
+        '#46acc8',
+        '#4d80bf',
+        '#7b5ba1',
+        '#1c487f',
+        '#ffffff',
+        '#000000'
+    ];
+    // 表情面板可以有多个 tab ，因此要配置成一个数组。数组每个元素代表一个 tab 的配置
+    editor.customConfig.emotions = [
+        {
+            // tab 的标题
+            title: 'emoji',
+            // type -> 'emoji' / 'image'
+            type: 'emoji',
+            // content -> 数组
+            content: ['😂', '😅', '😐', '😠', '😀', '😃', '😆', '😉', '😑', '😬', '😡',
+                '😮', '😥', '😨', '😟', '😳', '😢', '😣', '😦', '😩', '😱', '😵', '😴',
+                '😤', '😧', '😰', '😲', '😶', '😷', '😍', '😎', '😖', '😞', '😛', '😋',
+                '😘', '😭', '😔', '😒', '😜', '🤑', '🤣', '🤯', '👿', '🤬', '💩', '💀 ',
+                '💋']
+        }
+    ];
+    //图片上传地址的URL
+    editor.customConfig.uploadImgServer = '/blog/img/upload'; //上传URL
+    //图片大小限制为3M，默认是5M
+    // editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
+    //上传图片数量默认10000张
+    // editor.customConfig.uploadImgMaxLength = 5;
+    // 上传文件的名字
+    editor.customConfig.uploadFileName = 'file';
+    editor.customConfig.uploadImgHooks = {
+        customInsert: function (insertImg, result, editor) {
+            // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+            // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+
+            // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+            var url = result.data;
+            insertImg(url);
+
+            // result 必须是一个 JSON 格式字符串！！！否则报错
+        }
+    };
+    //自定义提示
+    editor.customConfig.customAlert = function (info) {
+        layer.msg(info, {icon: 5, time: 1000});
+    };
+
+    editor.create()
+</script>
+<script type="text/javascript">
+
+    //文章标题获取光标
+    window.onload = function () {
+        var titInput = document.getElementById("title");
+        titInput.focus();
+        //第一步是先获取服务器传过来的图文信息值
+        var info1 = document.getElementById("info").textContent;
+        // 把图文信息的值通过innerHTML赋值给编辑器
+        document.getElementById("info").innerHTML = info1;
+
+        // 监控变化，同步更新到 textarea
+        $('#textEditor').val(info1)
+    };
+
+    /**
+     * 表单提交之前进行验证
+     */
+    function checkSubmit() {
+        var blogId = $("#blogId").val();
+        var title = $("#title").val().trim();
+        if (title == "") {
+            layer.msg("标题不能为空！", {icon: 5, time: 1000});
+            return false;
+        }
+        var content = $("#textEditor").val().trim();
+        if (content == "") {
+            layer.msg("博客内容不能为空！", {icon: 5, time: 1000});
+            return false;
+        }
+        var artType = document.getElementsByName("artType")[0].value;
+        if (artType == "请选择") {
+            layer.msg("请选择博客类型！", {icon: 5, time: 1000});
+            return false;
+        }
+        var tagId = document.getElementsByName("tagId")[0].value;
+        if (tagId == "请选择") {
+            layer.msg("请选择博客标签！", {icon: 5, time: 1000});
+            return false;
+        }
+        var text = editor.txt.text();
+        if (text.toLocaleString().length > 100) {
+            text = text.toLocaleString().substr(0, 100).replace("&nbsp;", "");
+        }
+        var formData = new FormData();
+        var coverImg = document.getElementById("coverImg").files[0];
+        formData.append("blogId", blogId);
+        formData.append("title", title);
+        formData.append("content", content);
+        formData.append("text", text);
+        formData.append("artType", artType);
+        formData.append("tagId", tagId);
+        formData.append("coverImg", coverImg);
+        $.ajax({
+            type: "POST",
+            url: "/blog/edit",
+            data: formData,
+            dataType: "text",
+            processData: false,
+            contentType: false,
+            success: function (json) {
+                json = eval('(' + json + ')');
+                var status = json.status;
+                if (status == "success") {
+                    var blogId = json.objId;
+                    layer.confirm('编辑博客成功!', {
+                        btn: ['查看文章', '继续编写'] //按钮
+                    }, function () {
+                        window.open("/blog/show?blogId="+blogId, "_self")
+                    }, function () {
+                        window.open("/blog/add", "_self")
+                    });
+
+                } else {
+                    layer.msg('编辑失败，请检查网络!', {icon: 5, time: 1000});
+
+                }
+            },
+            error: function () {
+                layer.msg('编辑失败，请检查网络!', {icon: 5, time: 1000});
+
+            }
+        });
+
+        return true;
+    }
+
+    /**
+     * 将本地图片 显示到浏览器上
+     */
+    function preImg(sourceId, targetId) {
+        var url = getFileUrl(sourceId);
+        var imgPre = document.getElementById(targetId);
+        imgPre.src = url;
+    }
+
+    /**
+     * 从 file 域获取 本地图片 url
+     */
+    function getFileUrl(sourceId) {
+        var url;
+        if (navigator.userAgent.indexOf("MSIE") >= 1) { // IE
+            url = document.getElementById(sourceId).value;
+        } else if (navigator.userAgent.indexOf("Firefox") > 0) { // Firefox
+            url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+        } else if (navigator.userAgent.indexOf("Chrome") > 0) { // Chrome
+            url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+        }
+        return url;
+    }
+
+</script>
+<!--自定义wangEditor的高度-->
+<style>
+    .w-e-text-container {
+        height: 450px !important;
+    }
+</style>
+
+</body>
+</html>

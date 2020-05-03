@@ -69,6 +69,22 @@ public class BlogController {
     }
 
     /**
+     * 跳转至编辑博客界面
+     *
+     * @return
+     */
+    @GetMapping("/blog/edit")
+    private String toBlogEdit(Model model, Integer blogId) {
+
+        List<Tag> tagList = tagService.findAllTag();
+        model.addAttribute("tagList", tagList);
+        Blog blog = blogService.findBlogById(blogId);
+        model.addAttribute("blog", blog);
+
+        return "blog/edit";
+    }
+
+    /**
      * 博文图片上传
      *
      * @return
@@ -105,7 +121,7 @@ public class BlogController {
         } else {
             //上传封面
             String coverImgUrl = FastDFSUtils.uploadFile(FDFS_CLIENT_PAHT, FDFS_ADDRESS, coverImg);
-            if (coverImg == null) {
+            if (coverImgUrl == null) {
                 rtnObj = new ResultObj("fail", null);
             } else {
                 Tag tag = tagService.findTagById(tagId);
@@ -118,6 +134,56 @@ public class BlogController {
         }
 
         return rtnObj;
+    }
+
+    /**
+     * 编辑博客
+     *
+     * @param blog     博客：标题，正文，类型
+     * @param tagId    博客标签
+     * @param coverImg 封面
+     * @return
+     */
+    @PostMapping("/blog/edit")
+    @ResponseBody
+    public ResultObj editBlog(Blog blog, Integer tagId, MultipartFile coverImg) {
+
+        ResultObj rtnObj;
+        if (blog.getTitle() == null || tagId == null) {
+            rtnObj = new ResultObj("fail", null);
+        } else {
+            //上传封面
+            String coverImgUrl;
+            Tag tag = tagService.findTagById(tagId);
+            if (coverImg != null) {
+                coverImgUrl = FastDFSUtils.uploadFile(FDFS_CLIENT_PAHT, FDFS_ADDRESS, coverImg);
+                if (coverImgUrl == null) {
+                    rtnObj = new ResultObj("fail", null);
+                }else {
+                    rtnObj = blogService.editBlog(blog, tag, coverImgUrl);
+                }
+            }else {
+                rtnObj = blogService.editBlog(blog, tag);
+            }
+        }
+
+        return rtnObj;
+    }
+
+    /**
+     * 删除博客
+     *
+     * @param blogId
+     * @return
+     */
+    @PostMapping("/blog/del")
+    @ResponseBody
+    public String delBlog(Integer blogId) {
+        if (null == blogId) {
+            return "fail";
+        } else {
+            return blogService.delBlog(blogId);
+        }
     }
 
     /**
@@ -166,6 +232,7 @@ public class BlogController {
 
     /**
      * 根据用户查询博客
+     *
      * @param userId
      * @param model
      * @return
@@ -193,6 +260,7 @@ public class BlogController {
 
     /**
      * 根据标签查看博客列表
+     *
      * @param tagId
      * @return
      */

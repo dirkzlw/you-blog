@@ -50,6 +50,48 @@ public class BlogServiceImpl implements BlogService {
     }
 
     /**
+     * 编辑博客，修改封面
+     * @param blog
+     * @param tag
+     * @param coverImgUrl
+     * @return
+     */
+    @Override
+    public ResultObj editBlog(Blog blog, Tag tag, String coverImgUrl) {
+
+        Blog oldBlog = blogRepository.findByBlogId(blog.getBlogId());
+        oldBlog.setTitle(blog.getTitle());
+        oldBlog.setContent(blog.getContent());
+        oldBlog.setText(blog.getText());
+        oldBlog.setArtType(blog.getArtType());
+        oldBlog.setTag(tag);
+        oldBlog.setCoverImgUrl(coverImgUrl);
+        blogRepository.save(oldBlog);
+
+        return new ResultObj("success", blog.getBlogId());
+    }
+
+    /**
+     * 编辑博客，未修改封面
+     * @param blog
+     * @param tag
+     * @return
+     */
+    @Override
+    public ResultObj editBlog(Blog blog, Tag tag) {
+
+        Blog oldBlog = blogRepository.findByBlogId(blog.getBlogId());
+        oldBlog.setTitle(blog.getTitle());
+        oldBlog.setContent(blog.getContent());
+        oldBlog.setText(blog.getText());
+        oldBlog.setArtType(blog.getArtType());
+        oldBlog.setTag(tag);
+        blogRepository.save(oldBlog);
+
+        return new ResultObj("success", blog.getBlogId());
+    }
+
+    /**
      * 分页检索博客
      *
      * @param page
@@ -145,4 +187,16 @@ public class BlogServiceImpl implements BlogService {
             return blogList.get(0);
         }
     }
+
+    /**
+     * 根据id删除博客
+     * @param blogId
+     * @return
+     */
+    @Override
+    public String delBlog(Integer blogId) {
+        blogRepository.deleteById(blogId);
+        return "success";
+    }
+
 }

@@ -47,6 +47,12 @@
                                         <span th:text="${blog.zanNum}" id="zanNum"></span></a></li>
                                 <li title="访问量" style="position:relative;left: 60px;"><a><i class="el-eye-open"></i>
                                     <span th:text="${blog.viewNum}"></span></a></li>
+                                <li th:if="${session.sessionUser ne null and session.sessionUser.userId eq blog.user.userId}"
+                                    style="position:relative;left: 80px;">
+                                    <a style="color: #0066cc;cursor: pointer" th:id="${blog.blogId}" onclick="editBlog(this.id)">编辑</a></li>
+                                <li th:if="${session.sessionUser ne null and session.sessionUser.userId eq blog.user.userId}"
+                                    style="position:relative;left: 100px;">
+                                    <a style="color: #0066cc;cursor: pointer" th:id="${blog.blogId}" onclick="delBlog(this.id)">删除</a></li>
                             </ul>
                         </div>
                     </div>
@@ -142,8 +148,45 @@
         layer = layui.layer;//弹出层
 
     });
-    var commentId = "";
+    //编辑博客
+    function editBlog(blogId) {
+        window.open("/blog/edit?blogId=" + blogId);
+    }
 
+    //删除博客
+    function delBlog(blogId) {
+        layer.alert("确定删除文章？", {
+            skin: 'layui-layer-molv' //样式类名  自定义样式
+            ,closeBtn: 1    // 是否显示关闭按钮
+            ,anim: 1 //动画类型
+            ,btn: ['确定','取消'] //按钮
+            ,icon: 6    // icon
+            ,yes:function(){
+                $.ajax({
+                    type: "POST",
+                    url: "/blog/del",
+                    data: {"blogId":blogId},
+                    dataType: "text",
+                    success: function (json) {
+                        if(json == "success"){
+                            layer.msg('删除文章成功!',{icon: 6,time:1000});
+                            window.setTimeout(function (args) {
+                                window.open("/", "_self");
+                            },1000);
+                        }else {
+                            layer.msg('删除文章失败，请检查网络!',{icon: 5,time:1000});
+                        }
+                    },
+                    error: function () {
+                        layer.msg('删除文章失败，请检查网络!',{icon: 5,time:1000});
+                    }
+                });
+            }
+        });
+    }
+
+    //区分编辑评论还是新增评论的变量
+    var commentId = "";
     //编辑评论
     function editComment(id) {
         var parent = document.getElementById(id * (-1));
