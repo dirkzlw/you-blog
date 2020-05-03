@@ -3,6 +3,7 @@ package com.zlw.common.vo;
 import com.zlw.common.po.Blog;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,12 +22,12 @@ public class SessionUser implements Serializable {
     private String signStr;
     private Integer score;
     private Integer zanNum;
-    private List<Blog> blogList;
+    private Set<Blog> blogSet;
 
     public SessionUser() {
     }
 
-    public SessionUser(Integer userId, String username, String email, String headImgUrl, String signStr, Integer score, Integer zanNum, List<Blog> blogList) {
+    public SessionUser(Integer userId, String username, String email, String headImgUrl, String signStr, Integer score, Integer zanNum, Set<Blog> blogSet) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -34,6 +35,6 @@ public class SessionUser implements Serializable {
         this.signStr = signStr;
         this.score = score;
         this.zanNum = zanNum;
-        this.blogList = blogList;
+        this.blogSet = blogSet;
     }
 }

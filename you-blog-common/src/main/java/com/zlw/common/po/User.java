@@ -66,12 +66,7 @@ public class User implements Serializable {
     private Staff staff;
     //关联的博客集合
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Blog> blogList;
-
-    //关联的评论集合
-//    @OneToMany(mappedBy = "user")
-//    private List<Comment> commentList = new ArrayList<>();
-
+    private Set<Blog> blogSet;
 
     public User() {
     }

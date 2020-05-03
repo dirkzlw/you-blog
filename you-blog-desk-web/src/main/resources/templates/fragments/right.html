@@ -20,7 +20,7 @@
                 <div class="auth-info">
                     <ul>
                         <li><strong th:text="${session.sessionUser.score}"></strong><span>积分</span></li>
-                        <li><strong th:text="${session.sessionUser.blogList.size()}"></strong><span>文章</span></li>
+                        <li><strong th:text="${session.sessionUser.blogSet.size()}"></strong><span>文章</span></li>
                         <li><strong th:text="${session.sessionUser.zanNum}"></strong><span>获赞</span></li>
                     </ul>
                 </div>
@@ -77,7 +77,6 @@
         <!--今日推荐-->
         <div class="row bgc mt-4"  th:if="${blogRecommender} ne null">
             <div class="new new-right">
-
                 <span><i class="el-asl"></i>今日推荐</span>
                 <small>Recommender</small>
             </div>

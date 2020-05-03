@@ -69,7 +69,7 @@
                 <!--文章列表 内容-->
                 <div class="row mt-2 " id="blog-content">
 
-                    <ul class="list-unstyled art-list" th:each="blog,var : ${blogPage.content}">
+                    <ul class="list-unstyled art-list" th:each="blog,var : ${blogPage.content}" style="width: 100%">
                         <li th:if="${var.count} % 2 eq 1 "
                             class="media wow bounceInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
                             <div class="art-img">
@@ -223,7 +223,7 @@
                         return;
                     }
                     //拼接html
-                    var htmlUl1 = "<ul class='list-unstyled art-list'>";
+                    var htmlUl1 = "<ul class='list-unstyled art-list' style='width: 100%'>";
                     var htmlUl2 = "</ul>";
                     for (var i = 0; i < content.length; i+=2) {
                         var htmlStr = "                        <li class='media wow bounceInLeft' data-wow-duration='1s' data-wow-delay='0.5s'>" +

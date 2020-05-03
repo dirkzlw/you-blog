@@ -273,10 +273,6 @@
         var text = editor.txt.text();
         if (text.toLocaleString().length > 100) {
             text = text.toLocaleString().substr(0, 100).replace("&nbsp;", "");
-        } else {
-            while (text.toLocaleString().length < 30) {
-                text = text + "#";
-            }
         }
         var formData = new FormData();
         var coverImg = document.getElementById("coverImg").files[0];

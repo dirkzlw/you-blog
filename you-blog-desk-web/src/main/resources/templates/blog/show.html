@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/blog/css/main.css">
     <link rel="stylesheet" href="/blog/css/animate.css">
     <link rel="stylesheet" href="/blog/css/font-icon.css">
+    <link rel="stylesheet" href="/blog/css/comment.css">
     <title>友博网</title>
 </head>
 <body>
@@ -22,7 +23,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="container">
-
+                <!--博客标题-->
                 <div class="row mt-2">
                     <div class="col-md-12 bgc">
                         <div class="new">
@@ -30,7 +31,7 @@
                         </div>
                     </div>
                 </div>
-
+                <!--博客相关信息-->
                 <div class="row mt-2">
                     <div class="col-md-12 bgc">
                         <div class="article-title">
@@ -48,9 +49,47 @@
                         </div>
                     </div>
                 </div>
-
+                <!--博客内容-->
                 <div class="row mt-2 bgc">
                     <div class="article-body" th:utext="${blog.content}"></div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12 bgc">
+                        <!--评论区标题-->
+                        <div class="article-title">
+                            <span style="position: absolute;left: 15px">
+                                <i class="el-list-alt"></i>评论区</span>
+                        </div>
+                        <!--评论区内容-->
+                        <aside class="comments" id="comments">
+                            <article class="comment" th:each="comment : ${blog.commentList}">
+                                <header class="clearfix">
+                                    <img th:src="${comment.user.headImgUrl}" alt="头像" class="avatar" style="position: relative;bottom: 10px">
+                                    <div class="meta">
+                                        <h3><a href="#" th:text="${comment.user.username}"></a></h3>
+                                        <span class="date" th:text="${comment.createTime}"></span>
+                                    </div>
+                                </header>
+                                <div class="body" th:text="${comment.content}"></div>
+                            </article>
+                            <!--空白评论-->
+                            <article id="last_comment"></article>
+                        </aside>
+                        <!--添加评论-->
+                        <aside class="create-comment" id="create-comment" th:if="${session.sessionUser} ne null">
+                            <hr>
+                            <input type="hidden" id="userId" th:value="${session.sessionUser.userId}">
+                            <textarea rows="10" id="content" placeholder="这篇文章不错，夸两句吧..." class="form-control input-lg"></textarea>
+
+                            <div class="buttons clearfix">
+                                <button onclick="submitComment()" class="btn btn-xlarge btn-clean-one">提交</button>
+                            </div>
+                        </aside>
+                        <!--登录提示-->
+                        <div class="article-title" th:if="${session.sessionUser} eq null" style="font-size: 20px;position: relative;bottom: 30px">
+                            <a href="/to/login" style="color: blue">登录</a>后，方可评论~
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -105,10 +144,75 @@
                 }
             },
             error: function (json) {
-                narn('warn', '点赞失败，请检查网络!');
+                layer.msg("点赞失败，请检查网络!", {icon: 5, time: 1000});
                 return false;
             }
         });
+    }
+
+    //提交评论
+    function submitComment() {
+        var blogId = $("#blogId").val();
+        var userId = $("#userId").val();
+        var content = $("#content").val().trim();
+
+        if (content == '') {
+            layer.msg("评论内容不能为空!", {icon: 5, time: 1000});
+            return false;
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/blog/comment",
+                data: {'userId': userId, 'blogId': blogId,'content':content},
+                dataType: "text", //return dataType: text or json
+                success: function (json) {
+                    //将json解析成对象
+                    json = eval('(' + json + ')');
+                    var status = json.status;
+                    if (status == "success") {
+                        var commentId = json.commentId;
+                        var parentId = commentId * (-1);
+                        var username = json.username;
+                        var headImgUrl = json.userHeadImgUrl;
+                        var createTime = json.createTime;
+                        var content = json.content;
+                        var temp = "";
+                        temp = "" +
+                            "<article class='comment' id='" + parentId + "'>\n" +
+                            "                        <header class='clearfix'>\n" +
+                            "                            <img src='" + headImgUrl + "' alt='' class='avatar'>\n" +
+                            "                            <div class='meta'>\n" +
+                            "                                <h3><a href='#'> " + username + " </a></h3>\n" +
+                            "                                <span class='date'>" +
+                            "                                    " + createTime + "\n" +
+                            "                                 </span>\n" +
+                            "                                &nbsp;&nbsp;&nbsp;&nbsp;\n" +
+                            "                                <!--删除评论-->\n" +
+                            "                                  <a id='" + commentId + "'\n" +
+                            "                                   onclick='delComment(this.id)'\n" +
+                            "                                   style='cursor: pointer;color: #0066cc'>\n" +
+                            "                                    删除评论</a>\n" +
+                            "                            </div>\n" +
+                            "                        </header>\n" +
+                            "                        <div class='body'>" +
+                            "                               " + content + "\n" +
+                            "                           </div>\n" +
+                            "                    </article>";
+                        // 展示评论
+                        $("#last_comment").after(temp);
+                        // 将评论框置空
+                        document.getElementById('content').value = "";
+                    }else {
+                        layer.msg("评论失败，请检查网络!", {icon: 5, time: 1000});
+                    }
+
+                },
+                error: function (json) {
+                    layer.msg("评论失败，请检查网络!", {icon: 5, time: 1000});
+                    return false;
+                }
+            });
+        }
     }
 </script>
 </body>

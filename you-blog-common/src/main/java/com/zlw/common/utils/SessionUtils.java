@@ -4,6 +4,7 @@ import com.zlw.common.po.Blog;
 import com.zlw.common.po.User;
 import com.zlw.common.vo.SessionUser;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -18,9 +19,9 @@ public class SessionUtils {
      * @param user
      */
     public static void userToSessionUser(HttpSession session, User user){
-        List<Blog> blogList = user.getBlogList();
+        Set<Blog> blogSet = user.getBlogSet();
         int zanNum = 0;
-        for (Blog blog : blogList) {
+        for (Blog blog : blogSet) {
             zanNum += blog.getZanNum();
         }
         SessionUser sessionUser = new SessionUser(user.getUserId(),
@@ -30,7 +31,7 @@ public class SessionUtils {
                 user.getSignStr(),
                 user.getScore(),
                 zanNum,
-                blogList);
+                blogSet);
         session.setAttribute("sessionUser", sessionUser);
     }
 

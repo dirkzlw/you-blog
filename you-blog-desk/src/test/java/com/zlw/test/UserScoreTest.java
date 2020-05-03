@@ -5,6 +5,7 @@ import com.zlw.common.po.User;
 import com.zlw.desk.DeskApplication;
 import com.zlw.desk.dao.UserRepository;
 import java.util.List;
+import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class UserScoreTest {
         List<User> userList = userRepository.findAll();
         for (User user : userList) {
             int score = 0;
-            List<Blog> blogList = user.getBlogList();
-            for (Blog blog : blogList) {
+            Set<Blog> blogSet = user.getBlogSet();
+            for (Blog blog : blogSet) {
                 //计算规则1/2
                 if (blog.getArtType() == 1 || blog.getArtType() == 3) {
                     score += 10;
