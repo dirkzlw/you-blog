@@ -130,6 +130,8 @@ public class BlogController {
                 rtnObj = blogService.addBlog(blog, tag, coverImgUrl, user);
                 //更新积分
                 userServiceDesk.updateScore(blogService.findBlogById(rtnObj.getObjId()).getUser());
+                //更新sessionUser
+                SessionUtils.userToSessionUser(session, userServiceManager.findUserById(sessionUser.getUserId()));
             }
         }
 
@@ -192,8 +194,8 @@ public class BlogController {
      * @return
      */
     @GetMapping("/blog/show")
-    public String showBlog(Integer blogId, Model model, HttpServletRequest request) {
-        MainController.sessionAddThreeList(request.getSession(), noticeService, tagService, attentionService);
+    public String showBlog(Integer blogId, Model model, HttpSession session) {
+        MainController.sessionAddThreeList(session, noticeService, tagService, attentionService);
         Blog blog = blogService.findBlogById(blogId);
         //获取用户排行榜
         List<User> userRanks = userServiceDesk.getUserRanks();
@@ -208,6 +210,12 @@ public class BlogController {
 
         //更新积分
         userServiceDesk.updateScore(blog.getUser());
+        //判断是否需要更新sessionUser
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        User user = blog.getUser();
+        if (user.getUserId() == sessionUser.getUserId()) {
+            SessionUtils.userToSessionUser(session, user);
+        }
         return "blog/show";
     }
 
@@ -225,7 +233,13 @@ public class BlogController {
         else {
             blogService.zanBlog(blogId);
             //更新积分
-            userServiceDesk.updateScore(blogService.findBlogById(blogId).getUser());
+            User user = blogService.findBlogById(blogId).getUser();
+            userServiceDesk.updateScore(user);
+            //判断是否需要更新sessionUser
+            SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+            if (user.getUserId() == sessionUser.getUserId()) {
+                SessionUtils.userToSessionUser(session, user);
+            }
             return "success";
         }
     }
