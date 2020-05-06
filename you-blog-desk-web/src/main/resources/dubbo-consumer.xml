@@ -9,7 +9,7 @@
     <!-- 服务提供方应用名，用于计算依赖关系 -->
     <dubbo:application name="you-blog-desk-web"/>
     <!-- 定义 zookeeper 注册中心地址及协议 -->
-    <dubbo:registry address="zookeeper://39.107.249.220:2181" protocol="zookeeper"/>
+    <dubbo:registry address="zookeeper://123.57.210.127:2181" protocol="zookeeper"/>
     <!--引入服务-->
     <dubbo:reference interface="com.zlw.manager.service.NoticeService" id="noticeService" timeout="30000"/>
     <dubbo:reference interface="com.zlw.manager.service.AttentionService" id="attentionService" timeout="30000"/>

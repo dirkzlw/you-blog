@@ -1,6 +1,7 @@
 package com.zlw.common.po;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,6 +35,6 @@ public class Tag implements Serializable {
     private String type;
     //关联博客
     @OneToMany(mappedBy = "tag", fetch= FetchType.EAGER)
-    private List<Blog> blogList ;
+    private List<Blog> blogList = new ArrayList<>();
 
 }

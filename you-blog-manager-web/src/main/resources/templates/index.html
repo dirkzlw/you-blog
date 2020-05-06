@@ -33,10 +33,10 @@
         <li class="layui-nav-item" id="time" style="margin-right: 50px;font-size: 20px;color: #2fb9d4;font-family: 'yjsz'"></li>
         <li class="layui-nav-item"><img src="/images/logo.png" class="layui-circle" style="border: 2px solid #A9B7B7;" width="35px" alt=""></li>
         <li class="layui-nav-item">
-          <a href="javascript:;" th:text="${session.username}"></a>
+          <a href="javascript:" th:text="${session.username}"></a>
           <dl class="layui-nav-child">
             <!-- 二级菜单 -->
-            <dd><a href="javascript:;" onclick="member_show('个人信息','/admin-show','10001','360','280')">个人信息</a></dd>
+            <dd><a href="javascript:" onclick="member_show('个人信息','/admin-show','10001','360','280')">个人信息</a></dd>
             <dd><a href="/logout">退出</a></dd>
           </dl>
         </li>
@@ -58,16 +58,16 @@
         <li class="layui-nav-item">
            <a class="javascript:;" style="cursor: pointer" _href="/tag-list"> <i class="layui-icon iconfont" style="top: 3px;">&#xe661;</i><cite>标签管理</cite> </a>
         </li>
-        <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon iconfont" style="top: 3px;">&#xe625;</i><cite>用户管理</cite> </a>
+        <li class="layui-nav-item"> <a class="javascript:;" href="javascript:"> <i class="layui-icon iconfont" style="top: 3px;">&#xe625;</i><cite>用户管理</cite> </a>
           <dl class="layui-nav-child">
-            <dd class=""> <a href="javascript:;" _href="/user-list"> <cite>用户列表</cite> </a> </dd>
-            <dd class=""> <a href="javascript:;" _href="/user-no-list"> <cite>禁用列表</cite> </a> </dd>
+            <dd class=""> <a href="javascript:" _href="/user-list"> <cite>内部员工</cite> </a> </dd>
+            <dd class=""> <a href="javascript:" _href="/user-no-list"> <cite>禁用列表</cite> </a> </dd>
           </dl>
         </li>
-        <li class="layui-nav-item"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon iconfont" style="top: 3px;">&#xe60f;</i><cite>博客管理</cite> </a>
+        <li class="layui-nav-item"> <a class="javascript:;" href="javascript:"> <i class="layui-icon iconfont" style="top: 3px;">&#xe60f;</i><cite>博客管理</cite> </a>
           <dl class="layui-nav-child">
-            <dd class=""> <a href="javascript:;" _href="/xxx"> <cite>博客列表</cite> </a> </dd>
-            <dd class=""> <a href="javascript:;" _href="/xxx"> <cite>评论列表</cite> </a> </dd>
+            <dd class=""> <a href="javascript:" _href="/xxx"> <cite>博客列表</cite> </a> </dd>
+            <dd class=""> <a href="javascript:" _href="/xxx"> <cite>评论列表</cite> </a> </dd>
           </dl>
         </li>
 
@@ -137,7 +137,7 @@
         nowTime = myYear+'-'+fillZero(myMonth)+'-'+fillZero(myToday)+'&nbsp;&nbsp;'+fillZero(myHour)+':'+fillZero(myMinute)+':'+fillZero(mySecond)+'&nbsp;&nbsp;'+week[myDay]+'&nbsp;&nbsp;';
         //console.log(nowTime);
         $('#time').html(nowTime);
-    };
+    }
     function fillZero(str){
         var realNum;
         if(str<10){

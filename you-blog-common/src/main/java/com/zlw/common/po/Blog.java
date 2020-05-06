@@ -1,6 +1,7 @@
 package com.zlw.common.po;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -63,5 +64,5 @@ public class Blog implements Serializable {
     private User user;
     //关联评论，级联删除
     @OneToMany(mappedBy = "blog", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    private List<Comment> commentList;
+    private List<Comment> commentList = new ArrayList<>();
 }

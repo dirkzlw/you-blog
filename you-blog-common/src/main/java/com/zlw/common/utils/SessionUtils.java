@@ -3,6 +3,7 @@ package com.zlw.common.utils;
 import com.zlw.common.po.Blog;
 import com.zlw.common.po.User;
 import com.zlw.common.vo.SessionUser;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ public class SessionUtils {
      * @param user
      */
     public static void userToSessionUser(HttpSession session, User user){
+
         Set<Blog> blogSet = user.getBlogSet();
         int zanNum = 0;
         for (Blog blog : blogSet) {

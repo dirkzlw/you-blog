@@ -55,7 +55,7 @@ public class FastDFSUtils {
             e.printStackTrace();
         }
 
-        return imgUrl;
+        return imgUrl.replace("/group1/M00", "");
     }
 
 }

@@ -133,7 +133,7 @@ $(document).ready(function () {
                 }else if(json == "email_repeat") {
                     layer.msg("邮箱已被注册", {icon: 5, time: 1000});
                 }else {
-                    layer.msg("邮箱失败，请检查网络", {icon: 5, time: 1000});
+                    layer.msg("注册失败，请检查网络", {icon: 5, time: 1000});
                 }
             },
             error: function (json) {

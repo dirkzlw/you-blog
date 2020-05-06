@@ -19,7 +19,7 @@
             <span class="layui-breadcrumb">
               <a><cite>首页</cite></a>
               <a><cite>用户管理</cite></a>
-              <a><cite>用户列表</cite></a>
+              <a><cite>内部员工</cite></a>
             </span>
     <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
        href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon"
@@ -78,10 +78,10 @@
         </thead>
         <tbody>
         <tr th:each="user,var : ${userPage.content}">
-            <td th:text="${var.count}"></td>
-            <td th:if="${user.staff} ne null" th:text="${user.staff.staffNo}"></td>
-            <td th:if="${user.staff} ne null" th:text="${user.staff.realname}"></td>
-            <td th:if="${user.staff} ne null" th:text="${user.staff.department}"></td>
+            <td th:text="${var.count + userPage.pageSize * userPage.page}"></td>
+            <td th:text="${user.staff.staffNo}"></td>
+            <td th:text="${user.staff.realname}"></td>
+            <td th:text="${user.staff.department}"></td>
             <td th:text="${user.username}"></td>
             <td th:text="${user.email}"></td>
             <td class="td-status">

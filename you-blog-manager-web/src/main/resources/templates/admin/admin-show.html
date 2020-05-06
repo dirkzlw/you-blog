@@ -141,7 +141,7 @@
                                         layer.msg('用户名修改成功!', {icon: 6, time: 1000});
                                         //延迟1秒刷新界面
                                         window.setTimeout(function () {
-                                            self.location.reload()
+                                            parent.open("/", "_self");
                                         }, 1000);
                                         return true;
                                     } else {

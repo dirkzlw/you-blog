@@ -64,9 +64,9 @@ public class User implements Serializable {
     @OneToOne
     @JoinColumn(name = "staffId")
     private Staff staff;
-    //关联的博客集合
+    //关联的博客集合,new避免空指针异常
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<Blog> blogSet;
+    private Set<Blog> blogSet = new HashSet<>();
 
     public User() {
     }

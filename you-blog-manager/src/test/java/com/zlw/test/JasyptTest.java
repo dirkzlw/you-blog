@@ -19,12 +19,10 @@ public class JasyptTest {
 
     @Autowired
     private StringEncryptor encryptor;
-    @Autowired
-    private UserService userService;
 
     @Test
     public void testJasypt(){
-        System.out.println(encryptor.encrypt("xxx"));
+        System.out.println(encryptor.encrypt("admin"));
     }
 
 }
