@@ -59,10 +59,11 @@
                 <div class="row mt-2 wow fadeInDown">
                     <div class="col-md-12 bgc">
                         <div class="new">
-                            <span><i class="el-certificate"></i></span>
-
-                            <span>最新资源</span>
-                            <small>New Resource</small>
+                            <div>
+                                <span><i class="el-certificate"></i></span>
+                                <span>最新资源</span>
+                                <small>New Resource</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -86,9 +87,13 @@
                                             <span th:text="${resource.user.username}"></span></a></li>
                                     <li>所需积分：<span th:text="${resource.downScore}"></span></li>
                                     <li>下载次数：<span th:text="${resource.downNum}"></span></li>
-                                    <li class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a th:href="${resource.downUrl}"><i
+                                    <li th:if="${session.sessionUser} ne null" class="d-none d-sm-none d-md-none d-lg-block">
+                                        <a th:href="${resource.downUrl}" download ><i
                                                 class="el-download-alt"></i>下载</span></a>
+                                    </li>
+                                    <li th:if="${session.sessionUser} eq null" class="d-none d-sm-none d-md-none d-lg-block">
+                                        <a href="/to/login" ><i
+                                                class="el-download-alt"></i><span style="color: #0066cc">登录</span></a>方可下载
                                     </li>
                                 </ul>
                             </div>
@@ -109,9 +114,13 @@
                                             <span th:text="${resource.user.username}"></span></a></li>
                                     <li>所需积分：<span th:text="${resource.downScore}"></span></li>
                                     <li>下载次数：<span th:text="${resource.downNum}"></span></li>
-                                    <li class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a th:href="${resource.downUrl}"><i
+                                    <li th:if="${session.sessionUser} ne null" class="d-none d-sm-none d-md-none d-lg-block">
+                                        <a th:href="${resource.downUrl}" download ><i
                                                 class="el-download-alt"></i>下载</span></a>
+                                    </li>
+                                    <li th:if="${session.sessionUser} eq null" class="d-none d-sm-none d-md-none d-lg-block">
+                                        <a href="/to/login" ><i
+                                                class="el-download-alt"></i><span style="color: #0066cc">登录</span></a>方可下载
                                     </li>
                                 </ul>
                             </div>

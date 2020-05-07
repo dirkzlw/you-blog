@@ -23,7 +23,10 @@
                             <a class="nav-link" href="/blog/add">写博客</a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" href="/resource/list">资源分享</a>
+                            <a class="nav-link" href="/resource/list">资源列表</a>
+                        </li>
+                        <li class="nav-item" th:if="${session.sessionUser} ne null">
+                            <a class="nav-link" href="/resource/add">资源分享</a>
                         </li>
                         <li class="nav-item" th:if="${session.sessionUser} ne null">
                             <a class="nav-link" href="/user/self">个人中心</a>
