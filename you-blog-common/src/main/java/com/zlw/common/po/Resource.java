@@ -39,6 +39,9 @@ public class Resource implements Serializable {
     //资源url
     @Column(length = 100)
     private String downUrl;
+    //资源封面URL
+    @Column(length = 100)
+    private String coverImgUrl;
     //下载次数--默认为0
     private Integer downNum = 0;
     //关联用户

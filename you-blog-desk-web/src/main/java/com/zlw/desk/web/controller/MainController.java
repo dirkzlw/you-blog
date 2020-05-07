@@ -60,10 +60,10 @@ public class MainController {
                           @RequestParam(required = false, defaultValue = "0") Integer page,
                           @RequestParam(required = false, defaultValue = "") String search) {
 
-        HttpSession session = request.getSession();
-        sessionAddThreeList(session, noticeService, tagService, attentionService);
         //获取博客列表
         Page<Blog> blogPage = blogService.findBlogByPageAndSearch(page, search);
+        HttpSession session = request.getSession();
+        sessionAddThreeList(session, noticeService, tagService, attentionService);
         //获取用户排行榜
         List<User> userRanks = userServiceDesk.getUserRanks();
         //获取博客排行榜

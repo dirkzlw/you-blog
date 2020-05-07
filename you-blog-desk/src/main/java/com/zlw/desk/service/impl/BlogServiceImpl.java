@@ -13,7 +13,6 @@ import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,8 +25,8 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private BlogRepository blogRepository;
 
-    @Value("${blog.page.size}")
-    private Integer BLOG_PAGE_SIZE;
+    @Value("${index.page.size}")
+    private Integer INDEX_PAGE_SIZE;
 
     /**
      * 添加博客
@@ -100,11 +99,13 @@ public class BlogServiceImpl implements BlogService {
      */
     @Override
     public Page<Blog> findBlogByPageAndSearch(Integer page, String search) {
-        List<Blog> blogList = blogRepository.findBlogByPageAndSearch(search, page * BLOG_PAGE_SIZE, BLOG_PAGE_SIZE);
+
+        List<Blog> blogList = blogRepository.findBlogByPageAndSearch(search, page * INDEX_PAGE_SIZE, INDEX_PAGE_SIZE);
         int totalElements = blogRepository.countBlogBySearch(search);
-        int totalPages = (int) Math.ceil(totalElements * 1.0 / BLOG_PAGE_SIZE);
-        Page<Blog> userPage = new Page<>(blogList, page, totalPages, totalElements, BLOG_PAGE_SIZE);
-        return userPage;
+        int totalPages = (int) Math.ceil(totalElements * 1.0 / INDEX_PAGE_SIZE);
+        Page<Blog> blogPage = new Page<>(blogList, page, totalPages, totalElements, INDEX_PAGE_SIZE);
+
+        return blogPage;
     }
 
     @Override

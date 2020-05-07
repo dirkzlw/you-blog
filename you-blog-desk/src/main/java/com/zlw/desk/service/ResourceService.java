@@ -2,6 +2,7 @@ package com.zlw.desk.service;
 
 import com.zlw.common.po.Resource;
 import com.zlw.common.po.User;
+import com.zlw.common.vo.Page;
 
 /**
  * @author Dirk
@@ -9,4 +10,6 @@ import com.zlw.common.po.User;
  */
 public interface ResourceService {
     void saveResource(Resource resource, User user);
+
+    Page<Resource> findResourceByPageAndSearch(Integer page, String search);
 }
