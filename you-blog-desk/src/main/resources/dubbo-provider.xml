@@ -16,4 +16,5 @@
     <dubbo:service interface="com.zlw.desk.service.BlogService" ref="blogService" timeout="30000"/>
     <dubbo:service interface="com.zlw.desk.service.UserService" ref="userService" timeout="30000"/>
     <dubbo:service interface="com.zlw.desk.service.CommentService" ref="commentService" timeout="30000"/>
+    <dubbo:service interface="com.zlw.desk.service.ResourceService" ref="resourceService" timeout="30000"/>
 </beans>

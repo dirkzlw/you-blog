@@ -36,7 +36,7 @@
             <div class="layui-form-item imgs">
                 <label  class="layui-form-label">原图
                 </label>
-                <img th:src="${attention.imgUrl}" id="imgShow" style="width: 300px;height: 250px;"/>
+                <img th:src="${attention.imgUrl}" id="imgShow" style="width: 250px;height: 250px;"/>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
@@ -62,15 +62,15 @@
 
             //编辑关注
             function editAttention() {
-                var attentionId = document.getElementById("attentionId").value
+                var attentionId = document.getElementById("attentionId").value;
                 var attentionImg = document.getElementById("attentionImg").files[0];
                 if(typeof(attentionImg) == "undefined"){
                     layer.msg('请选择关注配图!', {icon: 5, time: 1000});
-                    return;
+
                 }else {
                     var formData = new FormData();
-                    formData.append("attentionId", attentionId)
-                    formData.append("attentionImg", attentionImg)
+                    formData.append("attentionId", attentionId);
+                    formData.append("attentionImg", attentionImg);
                     $.ajax({
                         type: "POST",
                         url: "/attention/edit",
@@ -88,15 +88,15 @@
                                     //刷新device-list.html页面
                                     window.open("/attention-list", "_parent")
                                 });
-                                return;
+
                             } else {
                                 layer.msg('编辑失败，请检查网络!', {icon: 5, time: 1000});
-                                return;
+
                             }
                         },
                         error: function () {
                             layer.msg('编辑失败，请检查网络!', {icon: 5, time: 1000});
-                            return;
+
                         }
                     });
                 }

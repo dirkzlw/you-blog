@@ -38,12 +38,8 @@ public class FastDFSUtils {
 
             StorageClient storageClient = new StorageClient(trackerServer,
                     storageServer);
-            NameValuePair nvp[] = new NameValuePair[]{
-                    new NameValuePair("item_id", "100010"),
-                    new NameValuePair("width", "80"),
-                    new NameValuePair("height", "90")
-            };
-            String fileIds[] = storageClient.upload_file(file.getBytes(), ext, nvp);
+
+            String fileIds[] = storageClient.upload_file(file.getBytes(), ext, null);
 
             imgUrl = "http://" + FDFS_ADDRESS + "/" + fileIds[0] + "/" + fileIds[1];
 
