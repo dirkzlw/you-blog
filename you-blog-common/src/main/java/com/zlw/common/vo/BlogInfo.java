@@ -16,9 +16,11 @@ public class BlogInfo {
     private String title;
     private String text;
     private String createTime;
+    private Integer userId;
     private String username;
     private Integer zanNum;
     private Integer viewNum;
     private String artType;
+    private Integer tagId;
     private String tag;
 }

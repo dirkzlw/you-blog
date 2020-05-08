@@ -6,14 +6,18 @@ import com.zlw.common.po.Resource;
 import com.zlw.common.po.User;
 import com.zlw.common.utils.FastDFSUtils;
 import com.zlw.common.utils.SessionUtils;
+import com.zlw.common.vo.BlogInfo;
 import com.zlw.common.vo.Page;
+import com.zlw.common.vo.ResourceInfo;
 import com.zlw.desk.service.BlogService;
 import com.zlw.desk.service.IcoInfoService;
 import com.zlw.desk.service.ResourceService;
 import com.zlw.manager.service.AttentionService;
 import com.zlw.manager.service.NoticeService;
 import com.zlw.manager.service.TagService;
+import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -65,7 +69,7 @@ public class ResourceController {
         Page<Resource> resourcePage = resourceService.findResourceByPageAndSearch(page, search);
         model.addAttribute("resourcePage", resourcePage);
         session.setAttribute("search", search);
-        session.setAttribute("page", page);
+        session.setAttribute("rPage", page);
         //获取三个列表
         MainController.sessionAddThreeList(session, noticeService, tagService, attentionService);
         //获取用户排行榜
@@ -150,6 +154,13 @@ public class ResourceController {
         }
     }
 
+    /**
+     * 下载资源
+     * @param resourceId
+     * @param userId
+     * @param session
+     * @return
+     */
     @PostMapping("/resource/download")
     @ResponseBody
     public String downloadResource(Integer resourceId, Integer userId,
@@ -177,4 +188,44 @@ public class ResourceController {
         }
     }
 
+    @PostMapping("/resource/more")
+    @ResponseBody
+    public Page<ResourceInfo> getMoreResource(Integer page,
+                                              String search,
+                                              HttpSession session){
+        Page<ResourceInfo> resourceInfoPage = new Page<>();
+        //加锁，防止多次同意页面请求
+        synchronized (session.getClass()) {
+            Integer rPage = (Integer) session.getAttribute("rPage");
+            if (rPage == page) {
+                resourceInfoPage.setPage(page);
+                return resourceInfoPage;
+            }
+            //获取博客列表
+            Page<Resource> resourcePage = resourceService.findResourceByPageAndSearch(page, search);
+
+            //重置content
+            List<ResourceInfo> resourceInfoList = new ArrayList<>();
+            for (Resource resource : resourcePage.content) {
+                ResourceInfo resourceInfo = new ResourceInfo();
+                resourceInfo.setResourceId(resource.getResourceId());
+                resourceInfo.setCoverImgUrl(resource.getCoverImgUrl());
+                resourceInfo.setFileName(resource.getFileName());
+                resourceInfo.setInfo(resource.getInfo());
+                resourceInfo.setUsername(resource.getUser().getUsername());
+                resourceInfo.setDownScore(resource.getDownScore());
+                resourceInfo.setFileSize(resource.getFileSize());
+                resourceInfo.setDownNum(resource.getDownNum());
+                resourceInfoList.add(resourceInfo);
+            }
+            resourceInfoPage.setContent(resourceInfoList);
+            resourceInfoPage.setPage(resourcePage.getPage());
+            resourceInfoPage.setTotalPages(resourcePage.getTotalPages());
+            resourceInfoPage.setTotalElements(resourcePage.getTotalElements());
+            resourceInfoPage.setPageSize(resourcePage.getPageSize());
+            session.setAttribute("rPage", page);
+        }
+
+        return resourceInfoPage;
+    }
 }

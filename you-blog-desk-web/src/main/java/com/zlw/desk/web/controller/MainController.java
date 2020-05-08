@@ -113,9 +113,11 @@ public class MainController {
                 blogInfo.setTitle(blog.getTitle());
                 blogInfo.setText(blog.getText());
                 blogInfo.setCreateTime(blog.getCreateTime());
+                blogInfo.setUserId(blog.getUser().getUserId());
                 blogInfo.setUsername(blog.getUser().getUsername());
                 blogInfo.setZanNum(blog.getZanNum());
                 blogInfo.setViewNum(blog.getViewNum());
+                blogInfo.setTagId(blog.getTag().getTagId());
                 blogInfo.setTag(blog.getTag().getType());
                 blogInfoList.add(blogInfo);
             }

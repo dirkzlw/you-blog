@@ -109,18 +109,16 @@
                                 <img class="mr-3" th:src="${resource.coverImgUrl}" alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
-                                <h5 class="mt-0 mb-1"><a th:id="${resource.resourceId}"
-                                                         th:text="${resource.fileName}"></a></h5>
+                                <h5 class="mt-0 mb-1"><a th:text="${resource.fileName}"></a></h5>
                                 <p th:text="${resource.info}"></p>
                                 <ul>
                                     <li class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a th:href="@{/resource/user(userId=${resource.user.userId})}"><i
-                                                class="el-user"></i>
+                                        <a href="#"><i class="el-user"></i>
                                             <span th:text="${resource.user.username}"></span></a></li>
                                     <li>所需积分：<span th:id="'downScore' + ${resource.resourceId}"
                                                    th:text="${resource.downScore}"></span></li>
-
-                                    <li>下载次数：<span th:id="'downNum'+${resource.resourceId}" th:text="${resource.downNum}"></span></li>
+                                    <li>文件大小：<span th:text="${resource.fileSize}"></span></li>
+                                    <li>下载次数：<span th:text="${resource.downNum}"></span></li>
                                     <li th:if="${session.sessionUser} ne null"
                                         class="d-none d-sm-none d-md-none d-lg-block">
                                         <a href="javascript:void(0)" th:id="${resource.resourceId}"
@@ -257,10 +255,11 @@
             var page = $("#page").val() * 1.0 + 1;
             $.ajax({
                 type: "POST",
-                url: "/blog/more",
+                url: "/resource/more",
                 data: {'page': page, 'search': search},
                 dataType: "text",
                 success: function (json) {
+
                     //解析json
                     json = eval('(' + json + ')');
                     var content = json.content;
@@ -279,51 +278,64 @@
                         }
                         return;
                     }
+
                     //拼接html
                     var htmlUl1 = "<ul class='list-unstyled art-list' style='width: 100%'>";
                     var htmlUl2 = "</ul>";
                     for (var i = 0; i < content.length; i += 2) {
+                        //判断用户是否登录
+                        var userId = $("#userId").val();
+                        var loginStr;
+                        if (typeof(userId) == "undefined") {
+                            loginStr= "<li class='d-none d-sm-none d-md-none d-lg-block'>" +
+                                "                        <a href='/to/login'><span style='color: #0066cc'>登录</span></a>后下载" +
+                                "                    </li>"
+                        } else {
+                            loginStr = "<li class='d-none d-sm-none d-md-none d-lg-block'>" +
+                                "                            <a href='javascript:void(0)' id='" + content[i].resourceId + "' onclick='downloadFile(this)'>" +
+                                "                            <i class='el-download-alt'></i>下载</span></a>" +
+                                "                        </li>"
+                        }
+                        var spanId = "downScore" + content[i].resourceId;
                         var htmlStr = "                        <li class='media wow bounceInLeft' data-wow-duration='1s' data-wow-delay='0.5s'>" +
                             "                            <div class='art-img'>" +
                             "                                <img class='mr-3' src=" + content[i].coverImgUrl + " alt='Generic placeholder image'>" +
                             "                            </div>" +
                             "                            <div class='media-body art-content'>" +
-                            "                                <h5 class='mt-0 mb-1'><a href='#' id='" + content[i].blogId + "' onclick='showBlog(this.id)'>" + content[i].title + "</a></h5>" +
-                            "                                <p>" + content[i].text + "</p>" +
+                            "                                <h5 class='mt-0 mb-1'><a href='#'>" + content[i].fileName + "</a></h5>" +
+                            "                                <p>" + content[i].info + "</p>" +
                             "                                <ul>" +
-                            "                                    <li><a><i class='el-time'></i><span>" + content[i].createTime + "</span></a></li>" +
                             "                                    <li class='d-none d-sm-none d-md-none d-lg-block'>" +
                             "                                        <a href='#'><i class='el-user'></i>" +
                             "                                            <span>" + content[i].username + "</span></a></li>" +
-                            "                                    <li><a><i class='el-heart'></i><span>" + content[i].zanNum + "</span></a></li>" +
-                            "                                    <li><a><i class='el-eye-open'></i><span>" + content[i].viewNum + "</span></a></li>" +
+                            "                                    <li>所获积分：<span id=" + spanId +">" + content[i].downScore + "</span></li>" +
+                            "                                    <li>文件大小：<span>" + content[i].fileSize + "</span></li>" +
+                            "                                    <li>下载次数：<span>" + content[i].downNum + "</span></li>" +
                             "                                    <li class='d-none d-sm-none d-md-none d-lg-block'>" +
-                            "                                        <a href='#' title='查看分类'><i" +
-                            "                                                class='el-th-list'></i><span>" + content[i].tag + "</span></a></li>" +
+                                                                    loginStr+
                             "                                </ul>" +
                             "                            </div>" +
                             "                        </li>";
                         if (i + 1 < content.length) {
-                            htmlStr += "                        <li class='media wow bounceInRight' data-wow-duration='1s' data-wow-delay='0.5s'>" +
+                            htmlStr = "                        <li class='media wow bounceInRight' data-wow-duration='1s' data-wow-delay='0.5s'>" +
                                 "                            <div class='art-img'>" +
-                                "                                <img class='mr-3' src=" + content[i + 1].coverImgUrl + " alt='Generic placeholder image'>" +
+                                "                                <img class='mr-3' src=" + content[i].coverImgUrl + " alt='Generic placeholder image'>" +
                                 "                            </div>" +
                                 "                            <div class='media-body art-content'>" +
-                                "                                <h5 class='mt-0 mb-1'><a href='#' id='" + content[i + 1].blogId + "' onclick='showBlog(this.id)'>" + content[i + 1].title + "</a></h5>" +
-                                "                                <p>" + content[i + 1].text + "</p>" +
+                                "                                <h5 class='mt-0 mb-1'><a href='#'>" + content[i].fileName + "</a></h5>" +
+                                "                                <p>" + content[i].info + "</p>" +
                                 "                                <ul>" +
-                                "                                    <li><a><i class='el-time'></i><span>" + content[i + 1].createTime + "</span></a></li>" +
                                 "                                    <li class='d-none d-sm-none d-md-none d-lg-block'>" +
                                 "                                        <a href='#'><i class='el-user'></i>" +
-                                "                                            <span>" + content[i + 1].username + "</span></a></li>" +
-                                "                                    <li><a><i class='el-heart'></i><span>" + content[i + 1].zanNum + "</span></a></li>" +
-                                "                                    <li><a><i class='el-eye-open'></i><span>" + content[i + 1].viewNum + "</span></a></li>" +
+                                "                                            <span>" + content[i].username + "</span></a></li>" +
+                                "                                    <li>所获积分：<span id=" + spanId +">" + content[i].downScore + "</span></li>" +
+                                "                                    <li>文件大小：<span>" + content[i].fileSize + "</span></li>" +
+                                "                                    <li>下载次数：<span>" + content[i].downNum + "</span></li>" +
                                 "                                    <li class='d-none d-sm-none d-md-none d-lg-block'>" +
-                                "                                        <a href='#' title='查看分类'><i" +
-                                "                                                class='el-th-list'></i><span>" + content[i + 1].tag + "</span></a></li>" +
+                                loginStr+
                                 "                                </ul>" +
                                 "                            </div>" +
-                                "                        </li>"
+                                "                        </li>";
                         }
                         $("#blog-content").append(htmlUl1 + htmlStr + htmlUl2);
                     }
