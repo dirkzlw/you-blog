@@ -88,6 +88,10 @@
             <td th:if="${blog.artType} eq 3">翻译</td>
             <td th:text="${blog.tag.type}"></td>
             <td class="td-manage">
+                <a title="查看" th:href="@{http://localhost:85/blog/show(blogId=${blog.blogId})}"
+                   style="text-decoration:none" target="_blank">
+                    <i class="layui-icon">&#xe64c;</i>
+                </a>
                 <a title="删除" href="javascript:" th:id="${blog.blogId}" onclick="blog_del(this)"
                    style="text-decoration:none">
                     <i class="layui-icon">&#xe640;</i>

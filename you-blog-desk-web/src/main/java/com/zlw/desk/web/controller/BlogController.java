@@ -213,7 +213,7 @@ public class BlogController {
         //判断是否需要更新sessionUser
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         User user = blog.getUser();
-        if (user.getUserId() == sessionUser.getUserId()) {
+        if (sessionUser!=null && user.getUserId() == sessionUser.getUserId()) {
             SessionUtils.userToSessionUser(session, user);
         }
         return "blog/show";
@@ -237,7 +237,7 @@ public class BlogController {
             userServiceDesk.updateScore(user);
             //判断是否需要更新sessionUser
             SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-            if (user.getUserId() == sessionUser.getUserId()) {
+            if (sessionUser!=null && user.getUserId() == sessionUser.getUserId()) {
                 SessionUtils.userToSessionUser(session, user);
             }
             return "success";
