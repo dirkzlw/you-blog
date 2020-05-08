@@ -54,7 +54,8 @@
                                 <td></td>
                                 <td class="td1">资源名称</td>
                                 <td>
-                                    <input type="text" id="fileName" disabled style="width: 70%" placeholder="上传文件时自动获取">
+                                    <input type="text" id="fileName" disabled style="width: 70%"
+                                           placeholder="上传文件时自动获取">
                                 </td>
                             </tr>
                             <tr>
@@ -80,6 +81,7 @@
                                     <input type="button" value="上传文件" class="btn btn-primary" onclick="uploadClick()">
                                     <input type="file" hidden="" id="fileInput" onchange="uploadFile()">
                                     <input type="hidden" id="fileUrl">
+                                    <input type="hidden" id="fileSize">
                                 </td>
                                 <td>
                                     <!--<div class="progress" style="width: 70%">-->
@@ -141,17 +143,17 @@
      * 提交资源表单
      */
     function submitResource() {
-        debugger;
         var fileUrl = $("#fileUrl").val();
+        var fileSize = $("#fileSize").val();
         var downScore = $("#downScore").val();
         var info = $("#info").val();
-        if (fileUrl == "") {
+        if (fileUrl == "" || fileSize == "") {
             layer.msg('未上传文件!', {icon: 5, time: 1000});
-        }else if (downScore == "") {
+        } else if (downScore == "") {
             layer.msg('所获积分未填写!', {icon: 5, time: 1000});
-        }else if (info == "") {
+        } else if (info == "") {
             layer.msg('描述不可为空!', {icon: 5, time: 1000});
-        }else {
+        } else {
             var userId = $("#userId").val();
             var fileName = $("#fileName").val();
             $.ajax({
@@ -162,22 +164,22 @@
                     'fileName': fileName,
                     'downScore': downScore,
                     'info': info,
+                    'fileSize': fileSize,
                     'downUrl': fileUrl
                 },
                 dataType: "text", //return dataType: text or json
                 success: function (json) {
-                    if (json =="success") {
+                    if (json == "success") {
                         layer.msg('资源上传成功!', {icon: 6, time: 1000});
                         window.setTimeout(function (args) {
                             window.open("/resource/list", "_self");
-                        },1000);
+                        }, 1000);
                     } else {
                         layer.msg('提交失败，请检查网络!', {icon: 5, time: 1000});
                     }
                 },
                 error: function (json) {
                     layer.msg('提交失败，请检查网络!', {icon: 5, time: 1000});
-
                 }
             });
         }
@@ -196,7 +198,7 @@
     }
 
     /**
-     * 修改头像触发input
+     * 触发input
      */
     function uploadClick() {
         $("#fileInput").trigger("click");
@@ -222,8 +224,20 @@
                     layer.closeAll();
                     //创建定时器
                     var inputShowTimeCI = setInterval(setInputInfo, 1000);
+                    //需要上传的参数
                     var formData = new FormData();
+                    //文件
                     formData.append("file", file);
+                    //文件大小
+                    var fileSize = file.size;
+                    if (fileSize < 1024) {
+                        fileSize = fileSize + "B";
+                    } else if(fileSize < 1048576){
+                        fileSize = (fileSize / 1024).toFixed(2) + "K";
+                    }else {
+                        fileSize = (fileSize / 1048576).toFixed(2) + "M";
+                    }
+                    //将文件大小赋值给input
                     $.ajax({
                         type: "POST",
                         url: "/resource/file/upload",
@@ -232,7 +246,7 @@
                         processData: false,
                         contentType: false,
                         success: function (json) {
-                            if (json !="fail") {
+                            if (json != "fail") {
                                 layer.msg('文件上传成功!', {icon: 6, time: 1000});
                                 //关闭定时器
                                 clearInterval(inputShowTimeCI);
@@ -240,6 +254,8 @@
                                 secI = 1;
                                 //获取返回的文件url，存于input
                                 $("#fileUrl").val(json);
+                                //文件大小存于input
+                                $("#fileSize").val(fileSize);
                                 //设置上传文件名称
                                 $("#fileName").val(fileName);
                                 $("#inputShow").val("已上传：" + fileName);

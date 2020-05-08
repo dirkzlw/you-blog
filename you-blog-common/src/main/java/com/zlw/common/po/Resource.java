@@ -36,6 +36,9 @@ public class Resource implements Serializable {
     //资源描述
     @Column(length = 100)
     private String info;
+    //文件大小
+    @Column(length = 20)
+    private String fileSize;
     //资源url
     @Column(length = 100)
     private String downUrl;

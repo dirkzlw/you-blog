@@ -1,11 +1,13 @@
 package com.zlw.desk.web.controller;
 
 import com.zlw.common.po.Blog;
+import com.zlw.common.po.IcoInfo;
 import com.zlw.common.po.Resource;
 import com.zlw.common.po.User;
 import com.zlw.common.utils.FastDFSUtils;
 import com.zlw.common.vo.Page;
 import com.zlw.desk.service.BlogService;
+import com.zlw.desk.service.IcoInfoService;
 import com.zlw.desk.service.ResourceService;
 import com.zlw.manager.service.AttentionService;
 import com.zlw.manager.service.NoticeService;
@@ -39,6 +41,8 @@ public class ResourceController {
     private BlogService blogService;
     @Autowired(required = false)
     private ResourceService resourceService;
+    @Autowired(required = false)
+    private IcoInfoService icoInfoService;
     @Autowired(required = false)
     private com.zlw.desk.service.UserService userServiceDesk;
     @Autowired(required = false)
@@ -106,7 +110,7 @@ public class ResourceController {
      */
     @PostMapping("/resource/file/upload")
     @ResponseBody
-    public String resourceUpload(MultipartFile file, Model model) {
+    public String resourceUpload(MultipartFile file) {
         if (file == null) {
             return "fail";
         } else {
@@ -114,8 +118,6 @@ public class ResourceController {
             if (null == fileUrl || "".equals(fileUrl)) {
                 return "fail";
             }
-            System.out.println("fileUrl = " + fileUrl);
-            model.addAttribute(fileUrl, fileUrl);
             return fileUrl;
         }
     }
@@ -129,9 +131,16 @@ public class ResourceController {
     @PostMapping("/resource/save")
     @ResponseBody
     public String saveResource(Resource resource, Integer userId) {
-        if (userId == null || resource == null) {
+        if (userId == null || resource == null ||resource.getDownUrl() == null) {
             return "fail";
         }else {
+            //判断资源文件的图标
+            String[] split = resource.getDownUrl().split("\\.");
+            String suf = split[split.length-1];
+            System.out.println("suf = " + suf);
+            String icoUrl = icoInfoService.findIcoInfoByIcoName(suf);
+            resource.setCoverImgUrl(icoUrl);
+
             User user = userServiceManager.findUserById(userId);
             //保存资源
             resourceService.saveResource(resource, user);

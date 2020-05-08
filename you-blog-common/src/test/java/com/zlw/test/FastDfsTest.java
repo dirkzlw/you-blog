@@ -1,7 +1,6 @@
 package com.zlw.test;
 
 import com.zlw.common.CommonApplication;
-import com.zlw.test.dao.IcoInfoRepository;
 import com.zlw.common.po.IcoInfo;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,9 +24,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest(classes = CommonApplication.class)
 public class FastDfsTest {
 
-    @Autowired
-    private IcoInfoRepository icoInfoRepository;
+//    @Autowired
+//    private IcoInfoRepository icoInfoRepository;
 
+    /**
+     * 读取本地文件上传至FastDFS并将元数据保存至数据库
+     * @throws Exception
+     */
     @Test
     public void leadInIco() throws Exception {
         File dir = new File("C:\\Users\\zhouliwei\\Downloads\\5eb3aa97df4ca");
@@ -62,10 +65,10 @@ public class FastDfsTest {
 
             String fileIds[] = storageClient.upload_file(data, ext, null);
 
-            String icoUrl = "http://123.57.210.127:80/" + fileIds[0] + "/" + fileIds[1];
+            String icoUrl = ("http://123.57.210.127:80/" + fileIds[0] + "/" + fileIds[1]).replace("/group1/M00", "");
 
             IcoInfo icoInfo = new IcoInfo(icoName, icoUrl);
-            icoInfoRepository.save(icoInfo);
+//            icoInfoRepository.save(icoInfo);
         }
     }
 

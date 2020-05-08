@@ -73,8 +73,8 @@
                     <ul class="list-unstyled art-list" th:each="resource,var : ${resourcePage.content}" style="width: 100%">
                         <li th:if="${var.count} % 2 eq 1 "
                             class="media wow bounceInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
-                            <div class="art-img">
-                                <img class="mr-3" th:src="${resource.coverImgUrl}" alt="Generic placeholder image" style="width: 70%;height: 100%">
+                            <div class="art-img" style="width: 120px;">
+                                <img class="mr-3" th:src="${resource.coverImgUrl}" alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1"><a th:id="${resource.resourceId}"
@@ -86,22 +86,22 @@
                                         <a th:href="@{/resource/user(userId=${resource.user.userId})}"><i class="el-user"></i>
                                             <span th:text="${resource.user.username}"></span></a></li>
                                     <li>所需积分：<span th:text="${resource.downScore}"></span></li>
+                                    <li>文件大小：<span th:text="${resource.fileSize}"></span></li>
                                     <li>下载次数：<span th:text="${resource.downNum}"></span></li>
                                     <li th:if="${session.sessionUser} ne null" class="d-none d-sm-none d-md-none d-lg-block">
                                         <a th:href="${resource.downUrl}" download ><i
                                                 class="el-download-alt"></i>下载</span></a>
                                     </li>
                                     <li th:if="${session.sessionUser} eq null" class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a href="/to/login" ><i
-                                                class="el-download-alt"></i><span style="color: #0066cc">登录</span></a>方可下载
+                                        <a href="/to/login" ><span style="color: #0066cc">登录</span></a>后下载
                                     </li>
                                 </ul>
                             </div>
                         </li>
                         <li th:if="${var.count} % 2 eq 0 "
                             class="media wow bounceInRight" data-wow-duration="1s" data-wow-delay="0.5s">
-                            <div class="art-img">
-                                <img class="mr-3" th:src="${resource.coverImgUrl}" alt="Generic placeholder image" style="width: 70%;height: 100%">
+                            <div class="art-img" style="width: 120px;">
+                                <img class="mr-3" th:src="${resource.coverImgUrl}" alt="Generic placeholder image">
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1"><a th:id="${resource.resourceId}"
@@ -113,14 +113,14 @@
                                         <a th:href="@{/resource/user(userId=${resource.user.userId})}"><i class="el-user"></i>
                                             <span th:text="${resource.user.username}"></span></a></li>
                                     <li>所需积分：<span th:text="${resource.downScore}"></span></li>
+                                    <li>文件大小：<span th:text="${resource.fileSize}"></span></li>
                                     <li>下载次数：<span th:text="${resource.downNum}"></span></li>
                                     <li th:if="${session.sessionUser} ne null" class="d-none d-sm-none d-md-none d-lg-block">
                                         <a th:href="${resource.downUrl}" download ><i
                                                 class="el-download-alt"></i>下载</span></a>
                                     </li>
                                     <li th:if="${session.sessionUser} eq null" class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a href="/to/login" ><i
-                                                class="el-download-alt"></i><span style="color: #0066cc">登录</span></a>方可下载
+                                        <a href="/to/login" ><span style="color: #0066cc">登录</span></a>后下载
                                     </li>
                                 </ul>
                             </div>
@@ -281,7 +281,7 @@
                     $("#page").attr("value", page);
                 },
                 error: function () {
-                    layer.msg('添加失败，请检查网络!', {icon: 5, time: 1000});
+                    layer.msg('加载失败，请检查网络!', {icon: 5, time: 1000});
 
                 }
             });
