@@ -18,5 +18,6 @@
     <dubbo:reference interface="com.zlw.manager.service.TagService" id="tagService"/>
     <dubbo:reference interface="com.zlw.manager.service.UserService" id="userService"/>
     <dubbo:reference interface="com.zlw.manager.service.BlogService" id="blogService"/>
+    <dubbo:reference interface="com.zlw.manager.service.CommentService" id="commentService"/>
 
 </beans>

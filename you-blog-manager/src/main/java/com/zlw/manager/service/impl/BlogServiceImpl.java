@@ -30,7 +30,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Page<Blog> findBlogBySearchAndPage(String search, Integer page) {
         List<Blog> blogList = blogRepository.findBySearchAndPage(search, page * PAGE_SIZE, PAGE_SIZE);
-        int totalElements = blogRepository.countUserNoByStatusAndSearch(search);
+        int totalElements = blogRepository.countBlogByStatusAndSearch(search);
         int totalPages = (int) Math.ceil(totalElements * 1.0 / PAGE_SIZE);
         Page<Blog> blogPage = new Page<>(blogList, page, totalPages, totalElements, PAGE_SIZE);
 

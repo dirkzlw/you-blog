@@ -63,6 +63,6 @@ public class Blog implements Serializable {
     @JoinColumn(name = "userId")
     private User user;
     //关联评论，级联删除
-    @OneToMany(mappedBy = "blog", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "blog", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 }

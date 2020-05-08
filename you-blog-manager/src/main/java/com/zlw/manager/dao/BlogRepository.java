@@ -21,5 +21,5 @@ public interface BlogRepository extends JpaRepository<Blog,Integer> {
     @Query(nativeQuery = true,value = "SELECT count(*) " +
             "FROM t_blog AS b " +
             "WHERE b.title LIKE CONCAT('%',?1,'%') ;")
-    Integer countUserNoByStatusAndSearch(String search);
+    Integer countBlogByStatusAndSearch(String search);
 }
