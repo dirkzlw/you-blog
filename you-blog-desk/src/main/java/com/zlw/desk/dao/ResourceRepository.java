@@ -19,4 +19,7 @@ public interface ResourceRepository extends JpaRepository<Resource,Integer> {
     @Query(nativeQuery = true,value = "SELECT count(*) FROM t_resource AS r " +
             "WHERE r.file_name LIKE CONCAT('%',?1,'%') ;")
     Integer countResourceBySearch(String search);
+
+    Resource findByResourceId(Integer resourceId);
+
 }

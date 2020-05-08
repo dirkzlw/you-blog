@@ -49,4 +49,19 @@ public class ResourceServiceImpl implements ResourceService {
 
         return resourcePage;
     }
+
+    /**
+     * 根据id查询资源
+     * @param resourceId
+     * @return
+     */
+    @Override
+    public Resource findResourceById(Integer resourceId) {
+        return resourceRepository.findByResourceId(resourceId);
+    }
+
+    @Override
+    public void saveResource(Resource resource) {
+        resourceRepository.save(resource);
+    }
 }

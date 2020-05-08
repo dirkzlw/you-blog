@@ -70,7 +70,8 @@
                 <!--文章列表 内容-->
                 <div class="row mt-2 " id="blog-content">
 
-                    <ul class="list-unstyled art-list" th:each="resource,var : ${resourcePage.content}" style="width: 100%">
+                    <ul class="list-unstyled art-list" th:each="resource,var : ${resourcePage.content}"
+                        style="width: 100%">
                         <li th:if="${var.count} % 2 eq 1 "
                             class="media wow bounceInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
                             <div class="art-img" style="width: 120px;">
@@ -78,22 +79,26 @@
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1"><a th:id="${resource.resourceId}"
-                                                         th:text="${resource.fileName}"
-                                                         onclick="showBlog(this.id)"></a></h5>
+                                                         th:text="${resource.fileName}"></a></h5>
                                 <p th:text="${resource.info}"></p>
                                 <ul>
                                     <li class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a th:href="@{/resource/user(userId=${resource.user.userId})}"><i class="el-user"></i>
+                                        <a th:href="@{/resource/user(userId=${resource.user.userId})}"><i
+                                                class="el-user"></i>
                                             <span th:text="${resource.user.username}"></span></a></li>
-                                    <li>所需积分：<span th:text="${resource.downScore}"></span></li>
+                                    <li>所需积分：<span th:id="'downScore' + ${resource.resourceId}"
+                                                   th:text="${resource.downScore}"></span></li>
                                     <li>文件大小：<span th:text="${resource.fileSize}"></span></li>
                                     <li>下载次数：<span th:text="${resource.downNum}"></span></li>
-                                    <li th:if="${session.sessionUser} ne null" class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a th:href="${resource.downUrl}" download ><i
-                                                class="el-download-alt"></i>下载</span></a>
+                                    <li th:if="${session.sessionUser} ne null"
+                                        class="d-none d-sm-none d-md-none d-lg-block">
+                                        <a href="javascript:void(0)" th:id="${resource.resourceId}"
+                                           onclick="downloadFile(this)">
+                                            <i class="el-download-alt"></i>下载</span></a>
                                     </li>
-                                    <li th:if="${session.sessionUser} eq null" class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a href="/to/login" ><span style="color: #0066cc">登录</span></a>后下载
+                                    <li th:if="${session.sessionUser} eq null"
+                                        class="d-none d-sm-none d-md-none d-lg-block">
+                                        <a href="/to/login"><span style="color: #0066cc">登录</span></a>后下载
                                     </li>
                                 </ul>
                             </div>
@@ -105,22 +110,26 @@
                             </div>
                             <div class="media-body art-content">
                                 <h5 class="mt-0 mb-1"><a th:id="${resource.resourceId}"
-                                                         th:text="${resource.fileName}"
-                                                         onclick="showBlog(this.id)"></a></h5>
+                                                         th:text="${resource.fileName}"></a></h5>
                                 <p th:text="${resource.info}"></p>
                                 <ul>
                                     <li class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a th:href="@{/resource/user(userId=${resource.user.userId})}"><i class="el-user"></i>
+                                        <a th:href="@{/resource/user(userId=${resource.user.userId})}"><i
+                                                class="el-user"></i>
                                             <span th:text="${resource.user.username}"></span></a></li>
-                                    <li>所需积分：<span th:text="${resource.downScore}"></span></li>
-                                    <li>文件大小：<span th:text="${resource.fileSize}"></span></li>
-                                    <li>下载次数：<span th:text="${resource.downNum}"></span></li>
-                                    <li th:if="${session.sessionUser} ne null" class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a th:href="${resource.downUrl}" download ><i
-                                                class="el-download-alt"></i>下载</span></a>
+                                    <li>所需积分：<span th:id="'downScore' + ${resource.resourceId}"
+                                                   th:text="${resource.downScore}"></span></li>
+
+                                    <li>下载次数：<span th:id="'downNum'+${resource.resourceId}" th:text="${resource.downNum}"></span></li>
+                                    <li th:if="${session.sessionUser} ne null"
+                                        class="d-none d-sm-none d-md-none d-lg-block">
+                                        <a href="javascript:void(0)" th:id="${resource.resourceId}"
+                                           onclick="downloadFile(this)">
+                                            <i class="el-download-alt"></i>下载</span></a>
                                     </li>
-                                    <li th:if="${session.sessionUser} eq null" class="d-none d-sm-none d-md-none d-lg-block">
-                                        <a href="/to/login" ><span style="color: #0066cc">登录</span></a>后下载
+                                    <li th:if="${session.sessionUser} eq null"
+                                        class="d-none d-sm-none d-md-none d-lg-block">
+                                        <a href="/to/login"><span style="color: #0066cc">登录</span></a>后下载
                                     </li>
                                 </ul>
                             </div>
@@ -174,6 +183,8 @@
 </div>
 
 <!--隐藏的input-->
+<input type="hidden" id="userId" th:if="${session.sessionUser} ne null" th:value="${session.sessionUser.userId}">
+<input type="hidden" id="userScore" th:if="${session.sessionUser} ne null" th:value="${session.sessionUser.score}">
 <input type="hidden" id="page" th:value="${resourcePage.page}">
 <input type="hidden" id="pageSize" th:value="${resourcePage.pageSize}">
 <input type="hidden" id="totalElements" th:value="${resourcePage.totalElements}">
@@ -186,13 +197,51 @@
 <script src="/blog/lib/jquery/jquery.js"></script>
 <script src="/blog/lib/bootstrap/js/bootstrap.js"></script>
 <script src="/blog/js/wow.js"></script>
+<script src="/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript">
 
+    //添加弹出层
+    layui.use(['layer'], function () {
+        $ = layui.jquery;//jquery
+        layer = layui.layer;//弹出层
+
+    });
+
     /**
-     * 展示某博客
+     * 下载
      */
-    function showBlog(id) {
-        window.open("/blog/show?blogId=" + id, "_self");
+    function downloadFile(obj) {
+        var userScore = $("#userScore").val();
+        var downScore = document.getElementById("downScore" + obj.id).innerHTML;
+        if (Number(userScore) < Number(downScore)) {
+            layer.msg('您的积分不足!', {icon: 5, time: 1000});
+
+        } else {
+            var userId = $("#userId").val();
+            $.ajax({
+                type: "POST",
+                url: "/resource/download",
+                data: {
+                    'userId': userId,
+                    'resourceId': obj.id,
+                },
+                dataType: "text", //return dataType: text or json
+                success: function (json) {
+                    if (json != "fail") {
+                        //接收返回的下载地址，进行下载
+                        window.open(json, "_blank");
+                        //更新页面
+                        location.reload()
+                    } else {
+                        layer.msg('下载失败，请检查网络!', {icon: 5, time: 1000});
+                    }
+                },
+                error: function (json) {
+                    layer.msg('下载失败，请检查网络!', {icon: 5, time: 1000});
+
+                }
+            });
+        }
     }
 
     /**
@@ -216,10 +265,10 @@
                     json = eval('(' + json + ')');
                     var content = json.content;
                     var page = json.page;
-                    if (content.length == 0){
+                    if (content.length == 0) {
                         var totalElements = Number($("#totalElements").val());
                         var pageSize = Number($("#pageSize").val());
-                        if(Math.ceil(totalElements/pageSize) == page){
+                        if (Math.ceil(totalElements / pageSize) == page) {
                             //底部代码
                             var htmlStr = "<div class='col-md-12 bgc'>" +
                                 "                        <div class='new'>" +
@@ -233,7 +282,7 @@
                     //拼接html
                     var htmlUl1 = "<ul class='list-unstyled art-list' style='width: 100%'>";
                     var htmlUl2 = "</ul>";
-                    for (var i = 0; i < content.length; i+=2) {
+                    for (var i = 0; i < content.length; i += 2) {
                         var htmlStr = "                        <li class='media wow bounceInLeft' data-wow-duration='1s' data-wow-delay='0.5s'>" +
                             "                            <div class='art-img'>" +
                             "                                <img class='mr-3' src=" + content[i].coverImgUrl + " alt='Generic placeholder image'>" +
@@ -257,21 +306,21 @@
                         if (i + 1 < content.length) {
                             htmlStr += "                        <li class='media wow bounceInRight' data-wow-duration='1s' data-wow-delay='0.5s'>" +
                                 "                            <div class='art-img'>" +
-                                "                                <img class='mr-3' src=" + content[i+1].coverImgUrl + " alt='Generic placeholder image'>" +
+                                "                                <img class='mr-3' src=" + content[i + 1].coverImgUrl + " alt='Generic placeholder image'>" +
                                 "                            </div>" +
                                 "                            <div class='media-body art-content'>" +
-                                "                                <h5 class='mt-0 mb-1'><a href='#' id='" + content[i+1].blogId + "' onclick='showBlog(this.id)'>" + content[i+1].title + "</a></h5>" +
-                                "                                <p>" + content[i+1].text + "</p>" +
+                                "                                <h5 class='mt-0 mb-1'><a href='#' id='" + content[i + 1].blogId + "' onclick='showBlog(this.id)'>" + content[i + 1].title + "</a></h5>" +
+                                "                                <p>" + content[i + 1].text + "</p>" +
                                 "                                <ul>" +
-                                "                                    <li><a><i class='el-time'></i><span>" + content[i+1].createTime + "</span></a></li>" +
+                                "                                    <li><a><i class='el-time'></i><span>" + content[i + 1].createTime + "</span></a></li>" +
                                 "                                    <li class='d-none d-sm-none d-md-none d-lg-block'>" +
                                 "                                        <a href='#'><i class='el-user'></i>" +
-                                "                                            <span>" + content[i+1].username + "</span></a></li>" +
-                                "                                    <li><a><i class='el-heart'></i><span>" + content[i+1].zanNum + "</span></a></li>" +
-                                "                                    <li><a><i class='el-eye-open'></i><span>" + content[i+1].viewNum + "</span></a></li>" +
+                                "                                            <span>" + content[i + 1].username + "</span></a></li>" +
+                                "                                    <li><a><i class='el-heart'></i><span>" + content[i + 1].zanNum + "</span></a></li>" +
+                                "                                    <li><a><i class='el-eye-open'></i><span>" + content[i + 1].viewNum + "</span></a></li>" +
                                 "                                    <li class='d-none d-sm-none d-md-none d-lg-block'>" +
                                 "                                        <a href='#' title='查看分类'><i" +
-                                "                                                class='el-th-list'></i><span>" + content[i+1].tag + "</span></a></li>" +
+                                "                                                class='el-th-list'></i><span>" + content[i + 1].tag + "</span></a></li>" +
                                 "                                </ul>" +
                                 "                            </div>" +
                                 "                        </li>"

@@ -5,6 +5,7 @@ import com.zlw.common.po.IcoInfo;
 import com.zlw.common.po.Resource;
 import com.zlw.common.po.User;
 import com.zlw.common.utils.FastDFSUtils;
+import com.zlw.common.utils.SessionUtils;
 import com.zlw.common.vo.Page;
 import com.zlw.desk.service.BlogService;
 import com.zlw.desk.service.IcoInfoService;
@@ -56,9 +57,9 @@ public class ResourceController {
 
 
     @GetMapping("/resource/list")
-    public String toResourceList(HttpSession session,Model model,
+    public String toResourceList(HttpSession session, Model model,
                                  @RequestParam(required = false, defaultValue = "0") Integer page,
-                                 @RequestParam(required = false, defaultValue = "") String search){
+                                 @RequestParam(required = false, defaultValue = "") String search) {
 
         //获取资源列表
         Page<Resource> resourcePage = resourceService.findResourceByPageAndSearch(page, search);
@@ -124,6 +125,7 @@ public class ResourceController {
 
     /**
      * 上传资源
+     *
      * @param resource
      * @param userId
      * @return
@@ -131,12 +133,12 @@ public class ResourceController {
     @PostMapping("/resource/save")
     @ResponseBody
     public String saveResource(Resource resource, Integer userId) {
-        if (userId == null || resource == null ||resource.getDownUrl() == null) {
+        if (userId == null || resource == null || resource.getDownUrl() == null) {
             return "fail";
-        }else {
+        } else {
             //判断资源文件的图标
             String[] split = resource.getDownUrl().split("\\.");
-            String suf = split[split.length-1];
+            String suf = split[split.length - 1];
             System.out.println("suf = " + suf);
             String icoUrl = icoInfoService.findIcoInfoByIcoName(suf);
             resource.setCoverImgUrl(icoUrl);
@@ -145,6 +147,33 @@ public class ResourceController {
             //保存资源
             resourceService.saveResource(resource, user);
             return "success";
+        }
+    }
+
+    @PostMapping("/resource/download")
+    @ResponseBody
+    public String downloadResource(Integer resourceId, Integer userId,
+                                   HttpSession session) {
+        if (resourceId == null || userId == null) {
+            return "fail";
+        } else {
+            Resource resource = resourceService.findResourceById(resourceId);
+            //下载次数+1
+            resource.setDownNum(resource.getDownNum() + 1);
+            resourceService.saveResource(resource);
+
+            //为资源提供者加积分
+            User resourceUser = resource.getUser();
+            resourceUser.setScore(resourceUser.getScore() + resource.getDownScore());
+            userServiceManager.saveUser(resourceUser);
+            //为下载者减积分
+            User downUser = userServiceManager.findUserById(userId);
+            downUser.setScore(downUser.getScore() - resource.getDownScore());
+            userServiceManager.saveUser(downUser);
+            //更新sessionUser
+            SessionUtils.userToSessionUser(session, downUser);
+
+            return resource.getDownUrl();
         }
     }
 

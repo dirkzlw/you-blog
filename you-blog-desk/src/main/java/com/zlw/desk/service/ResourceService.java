@@ -12,4 +12,8 @@ public interface ResourceService {
     void saveResource(Resource resource, User user);
 
     Page<Resource> findResourceByPageAndSearch(Integer page, String search);
+
+    Resource findResourceById(Integer resourceId);
+
+    void saveResource(Resource resource);
 }
