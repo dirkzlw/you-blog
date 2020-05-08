@@ -26,4 +26,8 @@ public interface UserService {
     void yesUser(Integer userId);
 
     User findUserById(Integer userId);
+
+    Page<User> findUser2ByStatusAndSearchAndPage(int status, String search, Integer page);
+
+    Page<User> findUserNoByStatusAndSearchAndPage(int status, String search, Integer page);
 }

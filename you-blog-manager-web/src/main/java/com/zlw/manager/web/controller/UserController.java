@@ -27,7 +27,7 @@ public class UserController {
     private StaffService staffService;
 
     /**
-     * 获取用户管理界面
+     * 获取内部员工管理界面
      *
      * @return
      */
@@ -41,6 +41,22 @@ public class UserController {
         model.addAttribute("search", search);
 
         return "user/user-list";
+    }
+    /**
+     * 获取普通用户管理界面
+     *
+     * @return
+     */
+    @GetMapping("/user2-list")
+    public String toUser2List(@RequestParam(required = false, defaultValue = "") String search,
+                             @RequestParam(required = false, defaultValue = "0") Integer page,
+                             Model model) {
+
+        Page<User> userPage = userService.findUser2ByStatusAndSearchAndPage(1, search, page);
+        model.addAttribute("userPage", userPage);
+        model.addAttribute("search", search);
+
+        return "user/user2-list";
     }
 
     /**
@@ -168,7 +184,7 @@ public class UserController {
                                @RequestParam(required = false, defaultValue = "0") Integer page,
                                Model model) {
 
-        Page<User> userPage = userService.findUserByStatusAndSearchAndPage(2, search, page);
+        Page<User> userPage = userService.findUserNoByStatusAndSearchAndPage(2, search, page);
         model.addAttribute("userPage", userPage);
         model.addAttribute("search", search);
 

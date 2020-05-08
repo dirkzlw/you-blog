@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 分页查询可用用户
+     * 分页查询可用内部员工用户
      *
      * @param page
      * @param search
@@ -90,6 +90,42 @@ public class UserServiceImpl implements UserService {
 
         List<User> userList = userRepository.findUserByStatusAndSearchAndPage(status, search, page * PAGE_SIZE, PAGE_SIZE);
         int totalElements = userRepository.countUserByStatusAndSearch(status, search);
+        int totalPages = (int) Math.ceil(totalElements * 1.0 / PAGE_SIZE);
+        Page<User> userPage = new Page<>(userList, page, totalPages, totalElements, PAGE_SIZE);
+
+        return userPage;
+    }
+
+    /**
+     * 分页查询可用普通用户
+     * @param status
+     * @param search
+     * @param page
+     * @return
+     */
+    @Override
+    public Page<User> findUser2ByStatusAndSearchAndPage(int status, String search, Integer page) {
+
+        List<User> userList = userRepository.findUser2ByStatusAndSearchAndPage(status, search, page * PAGE_SIZE, PAGE_SIZE);
+        int totalElements = userRepository.countUser2ByStatusAndSearch(status, search);
+        int totalPages = (int) Math.ceil(totalElements * 1.0 / PAGE_SIZE);
+        Page<User> userPage = new Page<>(userList, page, totalPages, totalElements, PAGE_SIZE);
+
+        return userPage;
+
+    }
+
+    /**
+     * 分页查询用户禁用列表
+     * @param status
+     * @param search
+     * @param page
+     * @return
+     */
+    @Override
+    public Page<User> findUserNoByStatusAndSearchAndPage(int status, String search, Integer page) {
+        List<User> userList = userRepository.findUserNoByStatusAndSearchAndPage(status, search, page * PAGE_SIZE, PAGE_SIZE);
+        int totalElements = userRepository.countUserNoByStatusAndSearch(status, search);
         int totalPages = (int) Math.ceil(totalElements * 1.0 / PAGE_SIZE);
         Page<User> userPage = new Page<>(userList, page, totalPages, totalElements, PAGE_SIZE);
 

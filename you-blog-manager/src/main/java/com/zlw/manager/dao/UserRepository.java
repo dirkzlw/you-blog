@@ -34,4 +34,36 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "AND (u.username LIKE CONCAT('%',?2,'%') OR s.staff_no LIKE CONCAT('%',?2,'%') OR s.realname LIKE CONCAT('%',?2,'%'))")
     Integer countUserByStatusAndSearch(Integer status,String search);
 
+
+    //自定义检索并分页
+    @Query(nativeQuery = true,value = "SELECT u.* " +
+            "FROM t_user AS u " +
+            "WHERE u.status=?1 " +
+            "AND u.staff_id is null " +
+            "AND u.username LIKE CONCAT('%',?2,'%') " +
+            "LIMIT ?3,?4 ;")
+    List<User> findUser2ByStatusAndSearchAndPage(Integer status,String search, Integer start, Integer pageSize);
+
+    //根据用户状态和关键字统计个数
+    @Query(nativeQuery = true,value = "SELECT count(*) " +
+            "FROM t_user AS u " +
+            "WHERE u.status=?1 " +
+            "AND u.staff_id is null " +
+            "AND u.username LIKE CONCAT('%',?2,'%') ;")
+    Integer countUser2ByStatusAndSearch(Integer status,String search);
+
+    //自定义检索并分页
+    @Query(nativeQuery = true,value = "SELECT u.* " +
+            "FROM t_user AS u " +
+            "WHERE u.status=?1 " +
+            "AND u.username LIKE CONCAT('%',?2,'%') " +
+            "LIMIT ?3,?4 ;")
+    List<User> findUserNoByStatusAndSearchAndPage(Integer status,String search, Integer start, Integer pageSize);
+
+    //根据用户状态和关键字统计个数
+    @Query(nativeQuery = true,value = "SELECT count(*) " +
+            "FROM t_user AS u " +
+            "WHERE u.status=?1 " +
+            "AND u.username LIKE CONCAT('%',?2,'%') ;")
+    Integer countUserNoByStatusAndSearch(Integer status,String search);
 }
